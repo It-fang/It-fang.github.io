@@ -217,26 +217,23 @@
 <li><p>二级缓存：它指的是mybatis中SqlSessionFactory对象的缓存。由同一个SqlSessionFactory对象创建的SqlSession共享其缓存。且<strong>二级缓存中存储的是数据而不是对象</strong>  </p>
 <ol>
 <li><p>二级缓存的使用步骤:</p>
-<ol start="2">
+<ol>
 <li><p>让mybatis框架支持二级缓存（在SqlMapConfig.xml中配置）</p>
 <pre><code>&lt;settings&gt;
     &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;
 &lt;/settings&gt;    </code></pre></li>
+<li><p>让当前的映射文件支持二级缓存（在IUserDao.xml中配置） </p>
+<pre><code>&lt;cache/&gt;</code></pre></li>
+<li><p>让当前的操作支持二级缓存（在select标签中配置）</p>
+<pre><code>&lt;select id=&quot;findAll&quot; resultType=&quot;User&quot; useCache=&quot;true&quot;&gt;
+    select * from user
+&lt;/select&gt;</code></pre></li>
 </ol>
 </li>
 </ol>
 </li>
 </ul>
-<pre><code>1. 让当前的映射文件支持二级缓存（在IUserDao.xml中配置） 
-
-        &lt;cache/&gt;
-
-
-1. 让当前的操作支持二级缓存（在select标签中配置）
-
-        &lt;select id=&quot;findAll&quot; resultType=&quot;User&quot; useCache=&quot;true&quot;&gt;
-            select * from user
-        &lt;/select&gt;</code></pre><h3 id="十四，mybatis注解开发"><a href="#十四，mybatis注解开发" class="headerlink" title="十四，mybatis注解开发"></a>十四，mybatis注解开发</h3><ul>
+<h3 id="十四，mybatis注解开发"><a href="#十四，mybatis注解开发" class="headerlink" title="十四，mybatis注解开发"></a>十四，mybatis注解开发</h3><ul>
 <li>当使用注解的同时，在配置文件的相应路径下仍有相应的xml，则会报错。</li>
 </ul>
 
