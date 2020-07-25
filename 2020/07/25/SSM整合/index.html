@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>SSM整合 | It-fang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="导入依赖pom.xml &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;  &lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot; xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSM整合">
+<meta property="og:url" content="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/index.html">
+<meta property="og:site_name" content="It-fang">
+<meta property="og:description" content="导入依赖pom.xml &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;  &lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot; xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance">
+<meta property="article:published_time" content="2020-07-25T09:07:18.000Z">
+<meta property="article:modified_time" content="2020-07-25T09:10:45.788Z">
+<meta property="article:author" content="It-fang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="It-fang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">It-fang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">It-fang</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SSM整合" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/25/SSM%E6%95%B4%E5%90%88/" class="article-date">
+  <time datetime="2020-07-25T09:07:18.000Z" itemprop="datePublished">2020-07-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SSM整合
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p><strong>导入依赖pom.xml</strong></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+  &lt;groupId&gt;com.itfang&lt;/groupId&gt;
+  &lt;artifactId&gt;ssm&lt;/artifactId&gt;
+  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+  &lt;packaging&gt;war&lt;/packaging&gt;
+
+  &lt;name&gt;ssm Maven Webapp&lt;/name&gt;
+  &lt;!-- FIXME change it to the project&apos;s website --&gt;
+  &lt;url&gt;http://www.example.com&lt;/url&gt;
+
+  &lt;properties&gt;
+    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
+    &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
+  &lt;/properties&gt;
+
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;4.11&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;4.12&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!--spring全家桶--&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+      &lt;version&gt;5.2.6.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;
+      &lt;version&gt;5.2.6.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
+      &lt;version&gt;5.2.6.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;
+      &lt;version&gt;5.2.6.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;
+      &lt;version&gt;5.2.6.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-orm&lt;/artifactId&gt;
+      &lt;version&gt;5.2.6.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
+      &lt;version&gt;5.2.6.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-test&lt;/artifactId&gt;
+      &lt;version&gt;5.2.6.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;!--aspect--&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+      &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+      &lt;version&gt;1.9.5&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;!--mybatis--&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+      &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+      &lt;version&gt;3.5.5&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;mysql&lt;/groupId&gt;
+      &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+      &lt;version&gt;8.0.20&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;!--mybatis整合spring--&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+      &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;
+      &lt;version&gt;1.3.2&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;!--commons-dbcp io--&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;com.mchange&lt;/groupId&gt;
+      &lt;artifactId&gt;c3p0&lt;/artifactId&gt;
+      &lt;version&gt;0.9.5.2&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;commons-dbcp&lt;/groupId&gt;
+      &lt;artifactId&gt;commons-dbcp&lt;/artifactId&gt;
+      &lt;version&gt;1.2.2&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;commons-pool&lt;/groupId&gt;
+      &lt;artifactId&gt;commons-pool&lt;/artifactId&gt;
+      &lt;version&gt;1.5.4&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;!--servlet--&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+      &lt;artifactId&gt;jstl&lt;/artifactId&gt;
+      &lt;version&gt;1.2&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;javax.servlet.jsp&lt;/groupId&gt;
+      &lt;artifactId&gt;javax.servlet.jsp-api&lt;/artifactId&gt;
+      &lt;version&gt;2.3.3&lt;/version&gt;
+      &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+      &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+      &lt;version&gt;3.1.0&lt;/version&gt;
+      &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!--el表达式--&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;taglibs&lt;/groupId&gt;
+      &lt;artifactId&gt;standard&lt;/artifactId&gt;
+      &lt;version&gt;1.1.2&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;!--日志管理--&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;log4j&lt;/groupId&gt;
+      &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+      &lt;version&gt;1.2.17&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+      &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+      &lt;version&gt;1.7.30&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+      &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+      &lt;version&gt;1.7.30&lt;/version&gt;
+    &lt;/dependency&gt;
+
+  &lt;/dependencies&gt;
+
+  &lt;build&gt;
+    &lt;finalName&gt;ssm&lt;/finalName&gt;
+    &lt;pluginManagement&gt;&lt;!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) --&gt;
+      &lt;plugins&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-clean-plugin&lt;/artifactId&gt;
+          &lt;version&gt;3.1.0&lt;/version&gt;
+        &lt;/plugin&gt;
+        &lt;!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging --&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+          &lt;version&gt;3.0.2&lt;/version&gt;
+        &lt;/plugin&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+          &lt;version&gt;3.8.0&lt;/version&gt;
+        &lt;/plugin&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+          &lt;version&gt;2.22.1&lt;/version&gt;
+        &lt;/plugin&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+          &lt;version&gt;3.2.2&lt;/version&gt;
+        &lt;/plugin&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-install-plugin&lt;/artifactId&gt;
+          &lt;version&gt;2.5.2&lt;/version&gt;
+        &lt;/plugin&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-deploy-plugin&lt;/artifactId&gt;
+          &lt;version&gt;2.8.2&lt;/version&gt;
+        &lt;/plugin&gt;
+      &lt;/plugins&gt;
+    &lt;/pluginManagement&gt;
+  &lt;/build&gt;
+&lt;/project&gt;</code></pre></li>
+<li><p><strong>导入约束和名称空间</strong></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;
+       xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;
+       xsi:schemaLocation=&quot;
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd&quot;&gt;
+&lt;/beans&gt;</code></pre></li>
+<li><p><strong>开启spring框架扫描包，并写好各个类的注解</strong></p>
+<pre><code>&lt;!--    开启spring的注解扫描,并排除扫描到Controller--&gt;
+    &lt;context:component-scan base-package=&quot;com.itfang.www&quot;&gt;
+&lt;!--        配置哪些注解不扫描--&gt;
+        &lt;context:exclude-filter type=&quot;annotation&quot; expression=&quot;org.springframework.stereotype.Controller&quot;/&gt;
+    &lt;/context:component-scan&gt;</code></pre></li>
+<li><p><strong>配置springMVC的配置文件</strong></p>
+<pre><code>&lt;!--    开启注解扫描,只扫描Controller--&gt;
+    &lt;context:component-scan base-package=&quot;com.itfang.www&quot;&gt;
+&lt;!--        配置只扫描哪些注解--&gt;
+        &lt;context:include-filter type=&quot;annotation&quot; expression=&quot;org.springframework.stereotype.Controller&quot;/&gt;
+    &lt;/context:component-scan&gt;
+
+&lt;!--    配置视图解析器--&gt;
+    &lt;bean id=&quot;internalResourceViewResolver&quot; class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;
+        &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/pagas&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+&lt;!--    过滤静态资源--&gt;
+    &lt;mvc:resources mapping=&quot;/css/**&quot; location=&quot;/css/&quot;&gt;&lt;/mvc:resources&gt;
+    &lt;mvc:resources mapping=&quot;/images/**&quot; location=&quot;/images/&quot;&gt;&lt;/mvc:resources&gt;
+    &lt;mvc:resources mapping=&quot;/js/**&quot; location=&quot;/js/&quot;&gt;&lt;/mvc:resources&gt;
+
+&lt;!--    开启springMVC注解的支持--&gt;
+    &lt;mvc:annotation-driven&gt;&lt;/mvc:annotation-driven&gt;</code></pre></li>
+<li><p><strong>在web.xml配置文件中配置前端控制器和解决中文乱码的过滤器，并加载springMVC的配置文件，并配置spring的监听器监听使用spring的IOC容器</strong></p>
+<pre><code>&lt;!DOCTYPE web-app PUBLIC
+ &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;
+ &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot; &gt;
+
+&lt;web-app&gt;
+  &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
+&lt;!--  解决post请求中文乱码--&gt;
+  &lt;filter&gt;
+    &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;
+    &lt;init-param&gt;
+      &lt;param-name&gt;encoding&lt;/param-name&gt;
+      &lt;param-value&gt;UTF-8&lt;/param-value&gt;
+    &lt;/init-param&gt;
+  &lt;/filter&gt;
+  &lt;filter-mapping&gt;
+    &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+  &lt;/filter-mapping&gt;
+&lt;!--  配置前端控制器--&gt;
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;dispatcherServlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+      &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+      &lt;param-value&gt;classpath*:springMVC.xml&lt;/param-value&gt;
+    &lt;/init-param&gt;
+  &lt;/servlet&gt;
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;dispatcherServlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;
+  &lt;!--  配置spring的监听器,默认只加载WEB-INF目录下的配置文件,否则需要自己设置配置文件路径--&gt;
+  &lt;listener&gt;
+    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+  &lt;/listener&gt;
+  &lt;!--  设置配置文件路径--&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;classpath*:applicationContext.xml  &lt;/param-value&gt;
+  &lt;/context-param&gt;
+&lt;/web-app&gt;</code></pre></li>
+<li><p><strong>在spring配置文件中配置spring整合mybatis,并配置spring的声明式事务管理</strong></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;
+       xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;
+       xsi:schemaLocation=&quot;
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd&quot;&gt;
+
+&lt;!--    开启spring的注解扫描,并排除扫描到Controller--&gt;
+    &lt;context:component-scan base-package=&quot;com.itfang.www&quot;&gt;
+&lt;!--        配置哪些注解不扫描--&gt;
+        &lt;context:exclude-filter type=&quot;annotation&quot; expression=&quot;org.springframework.stereotype.Controller&quot;/&gt;
+    &lt;/context:component-scan&gt;
+
+&lt;!--    spring整合mybatis--&gt;
+&lt;!--    配置连接池--&gt;
+    &lt;bean id=&quot;dataSource&quot; class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;&gt;
+        &lt;property name=&quot;driverClass&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;jdbcUrl&quot; value=&quot;jdbc:mysql://127.0.0.1:3306/study?serverTimezone=UTC&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;user&quot; value=&quot;it-fang&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;password&quot; value=&quot;123456&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+&lt;!--    配置SqlSessionFactory工厂--&gt;
+    &lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;
+        &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+&lt;!--    配置AccountDao接口所在包--&gt;
+    &lt;bean id=&quot;mapperScanner&quot; class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;
+        &lt;property name=&quot;basePackage&quot; value=&quot;com.itfang.www.dao&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+&lt;!--    配置spring的声明式事务管理--&gt;
+&lt;!--    配置事务管理器--&gt;
+    &lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;&gt;
+        &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+&lt;!--    配置事务通知--&gt;
+    &lt;tx:advice id=&quot;txAdvice&quot; transaction-manager=&quot;transactionManager&quot;&gt;
+        &lt;tx:attributes&gt;
+            &lt;tx:method name=&quot;find*&quot; read-only=&quot;true&quot;/&gt;
+            &lt;tx:method name=&quot;*&quot; isolation=&quot;DEFAULT&quot;&gt;&lt;/tx:method&gt;
+        &lt;/tx:attributes&gt;
+    &lt;/tx:advice&gt;
+
+&lt;!--    配置AOP增强--&gt;
+    &lt;aop:config&gt;
+        &lt;aop:pointcut id=&quot;pt&quot; expression=&quot;execution(* com.itfang.www.service.impl.*ServiceImpl.*(..))&quot;/&gt;
+        &lt;aop:advisor advice-ref=&quot;txAdvice&quot; pointcut-ref=&quot;pt&quot;&gt;&lt;/aop:advisor&gt;
+    &lt;/aop:config&gt;
+&lt;/beans&gt;</code></pre></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="ckd1fogl90000g0ua5f2jexwb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/25/SpringMVC/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">SpringMVC</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/25/SSM%E6%95%B4%E5%90%88/">SSM整合</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/25/SpringMVC/">SpringMVC</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/24/%E7%AC%AC%E5%8D%81%E4%BA%8C%E5%A4%A9/">第十二天</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/23/%E7%AC%AC%E5%8D%81%E4%B8%80%E5%A4%A9/">第十一天</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/22/%E7%AC%AC%E5%8D%81%E5%A4%A9/">第十天</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 It-fang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
