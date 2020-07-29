@@ -283,7 +283,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/SpringBoot/" data-id="ckd76j2kn0001dkua7mc46n4t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/SpringBoot/" data-id="ckd76xqxi0002aoua0ck45r84" class="article-share-link">Share</a>
       
       
     </footer>
@@ -418,72 +418,52 @@
 </ul>
 <h5 id="六，Redis的持久化"><a href="#六，Redis的持久化" class="headerlink" title="六，Redis的持久化"></a><strong>六，Redis的持久化</strong></h5><ol>
 <li><p>redis的持久化机制：默认方式</p>
-</li>
-<li><ol>
+<ol>
 <li><p><strong>RDB：</strong>在一定的间隔时间中，检测key的变化情况，然后持久化数据</p>
-</li>
-<li><ol>
-<li>编辑redis.conf文件</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
+<ol>
+<li><p>编辑redis.conf文件</p>
 <ul>
-<li><ul>
-<li><ul>
-<li><ul>
-<li>save 900 1： after 900 sec (15 min) if at least 1 key changed</li>
-<li>save 300 10：after 300 sec (5 min) if at least 10 keys changed</li>
-<li>save 60 10000：after 60 sec if at least 10000 keys changed</li>
-</ul>
+<li><p>save 900 1： after 900 sec (15 min) if at least 1 key changed</p>
+</li>
+<li><p>save 300 10：after 300 sec (5 min) if at least 10 keys changed</p>
+</li>
+<li><p>save 60 10000：after 60 sec if at least 10000 keys changed</p>
 </li>
 </ul>
 </li>
-</ul>
-</li>
-<li><ul>
-<li><ol start="2">
-<li>重新启动Redis服务器，并指定配置文件名称<ul>
+</ol>
+<ol start="2">
+<li><p>重新启动Redis服务器，并指定配置文件名称</p>
+<ul>
 <li>../redis-service.exe redis.conf    </li>
 </ul>
 </li>
 </ol>
 </li>
-</ul>
-</li>
-<li><ol start="2">
-<li><strong>AOF：</strong>日志记录 ，可以记录每一条命令的操作。可以每一次命令操作后，持久化数据</li>
-</ol>
-</li>
-<li><ol>
-<li><ol>
+<li><p><strong>AOF：</strong>日志记录 ，可以记录每一条命令的操作。可以每一次命令操作后，持久化数据</p>
+<ol>
 <li>编辑redis.conf文件<ul>
 <li>appendonly no(关闭AOF)  —&gt;   appendonly yes（开启AOF）</li>
 <li>appendfsync everysec：每隔一秒进行一次持久化</li>
 <li>appendfsync always：每一次操作都进行持久化</li>
 <li>appendfsync no：不进行持久化</li>
 </ul>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><ul>
-<li><ol start="2">
+<ol start="2">
 <li>重新启动Redis服务器，并指定配置文件名称<ul>
-<li>../redis-service.exe redis.conf    </li>
+<li>​    ../redis-service.exe redis.conf    </li>
 </ul>
 </li>
 </ol>
 </li>
-</ul>
+</ol>
 </li>
-</ul>
+</ol>
+</li>
+</ol>
 <h5 id="七，Jedis的入门"><a href="#七，Jedis的入门" class="headerlink" title="七，Jedis的入门"></a><strong>七，Jedis的入门</strong></h5><ol>
 <li><strong>导入依赖</strong></li>
 </ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-pool2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.7.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-pool2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.7.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <ol start="2">
 <li><strong>编写Jedis程序</strong></li>
@@ -545,7 +525,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/Redis/" data-id="ckd76j2ke0000dkuaauyr0x5q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/Redis/" data-id="ckd76xqx90000aoua4q6ec5bj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -931,7 +911,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="ckd76j2kq0002dkua9jbja7y2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="ckd76xqxg0001aoua6tpi6q9c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1457,7 +1437,7 @@ public User testAjax(@RequestBody User user){//需要导入json的jar包,spring�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/SpringMVC/" data-id="ckd76j2kt0004dkuacby9a150" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/SpringMVC/" data-id="ckd76xqxk0003aouacdzo02pe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1940,7 +1920,7 @@ public class Logger {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/21/spring/" data-id="ckd76j2kv0006dkua794b5q47" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/21/spring/" data-id="ckd76xqxn0006aoua1hs0cbtc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2121,7 +2101,7 @@ public class Logger {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/17/mybatis/" data-id="ckd76j2ku0005dkuaeurkhuxn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/17/mybatis/" data-id="ckd76xqxm0005aouadaf8g3yw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2188,7 +2168,7 @@ public class Logger {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/17/maven/" data-id="ckd76j2ks0003dkuagtwi7t8d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/17/maven/" data-id="ckd76xqxl0004aoua721f5f2i" class="article-share-link">Share</a>
       
       
     </footer>
