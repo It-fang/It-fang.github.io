@@ -145,38 +145,39 @@
 </ol>
 <h5 id="四，多个yml配置文件"><a href="#四，多个yml配置文件" class="headerlink" title="四，多个yml配置文件"></a><strong>四，多个yml配置文件</strong></h5><ol>
 <li><p>yml配置文件的特征</p>
-</li>
-<li><ol>
+<ol>
 <li><p>树状层级结构展示配置项</p>
 </li>
 <li><p>配置项之间如果有关系的话需要分行空两格</p>
 </li>
 <li><p>配置项如果有值的话，那么需要在：之后空一格再写配置项值；</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jdbc:</span></span><br><span class="line">  <span class="attr">driverClassName:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">jdbc:mysql://127.0.0.1:3306/study?serverTimezone=UTC</span></span><br><span class="line">  <span class="attr">username:</span> <span class="string">it-fang</span></span><br><span class="line">  <span class="attr">password:</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jdbc:</span></span><br><span class="line">  <span class="attr">driverClassName:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">jdbc:mysql://127.0.0.1:3306/study?serverTimezone=UTC</span></span><br><span class="line">  <span class="attr">username:</span> <span class="string">it-fang</span></span><br><span class="line">  <span class="attr">password:</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure>
+
+
 </li>
-<li><p>多个yml配置文件：在SpringBoot中是被允许的，这些配置文件的名称必须为application-xxx.yml，并且这些配置文件必须要在application.yml配置文件中激活之后才可以使用 。</p>
-</li>
+</ol>
+<ol start="2">
+<li>多个yml配置文件：在SpringBoot中是被允许的，这些配置文件的名称必须为application-xxx.yml，并且这些配置文件必须要在application.yml配置文件中激活之后才可以使用 。</li>
 </ol>
 <p><strong>application.yml:</strong></p>
-<ol start="2">
-<li><pre><code class="yaml"><span class="attr">jdbc:</span>
-  <span class="attr">dirver:</span> <span class="string">com.mysql.cj.jdbc.Driver</span>
-  <span class="string">url=jdbc:</span> <span class="string">mysql://127.0.0.1:3306/study?serverTimezone=UTC</span>
-  <span class="attr">username:</span> <span class="string">it-fang</span>
-  <span class="attr">password:</span> <span class="number">123456</span>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jdbc:</span></span><br><span class="line">  <span class="attr">dirver:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">  <span class="string">url=jdbc:</span> <span class="string">mysql://127.0.0.1:3306/study?serverTimezone=UTC</span></span><br><span class="line">  <span class="attr">username:</span> <span class="string">it-fang</span></span><br><span class="line">  <span class="attr">password:</span> <span class="number">123456</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#激活配置文件,需要指定其它配置文件的名称,def为指向application-def.yml文件</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">def</span></span><br></pre></td></tr></table></figure>
 
-<span class="comment">#激活配置文件,需要指定其它配置文件的名称,def为指向application-def.yml文件</span>
-<span class="attr">spring:</span>
-  <span class="attr">profiles:</span>
-    <span class="attr">active:</span> <span class="string">def</span>
-<span class="string"><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. 如果properties和yml配置文件同时存在SpringBoot项目中，那么这两类配置文件都有效。在两个配置文件中如果存在同名的配置项的话以properties文件的为主。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">##### **五，lombok的使用**</span><br><span class="line"></span><br><span class="line">- @Data：自动提供getter和setter，hashcode，equals，toString等方法</span><br><span class="line">- @Getter：自动提供getter方法</span><br><span class="line">- @Setter：自动提供setter方法</span><br><span class="line">- @Slf4j：自动在bean中提供log变量，其实用的是slf4j的日志功能</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">##### **六，springboot修改Tomcat端口**</span><br><span class="line"></span><br><span class="line">**application.yml**</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;yaml</span><br><span class="line">#修改Tomcat的端口</span><br><span class="line">server:</span><br><span class="line">  port: 8090</span><br></pre></td></tr></table></figure></span>
-
-
-</code></pre>
-</li>
+<ol start="3">
+<li>如果properties和yml配置文件同时存在SpringBoot项目中，那么这两类配置文件都有效。在两个配置文件中如果存在同名的配置项的话以properties文件的为主。</li>
 </ol>
+<h5 id="五，lombok的使用"><a href="#五，lombok的使用" class="headerlink" title="五，lombok的使用"></a><strong>五，lombok的使用</strong></h5><ul>
+<li>@Data：自动提供getter和setter，hashcode，equals，toString等方法</li>
+<li>@Getter：自动提供getter方法</li>
+<li>@Setter：自动提供setter方法</li>
+<li>@Slf4j：自动在bean中提供log变量，其实用的是slf4j的日志功能</li>
+</ul>
+<h5 id="六，springboot修改Tomcat端口"><a href="#六，springboot修改Tomcat端口" class="headerlink" title="六，springboot修改Tomcat端口"></a><strong>六，springboot修改Tomcat端口</strong></h5><p><strong>application.yml</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#修改Tomcat的端口</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8090</span></span><br></pre></td></tr></table></figure>
+
+
+
 <h5 id="七，springboot静态资源路径："><a href="#七，springboot静态资源路径：" class="headerlink" title="七，springboot静态资源路径："></a><strong>七，springboot静态资源路径：</strong></h5><ul>
 <li>classpath:/META-INF/resources/    </li>
 <li>classpath:/resources/</li>
@@ -282,7 +283,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/SpringBoot/" data-id="ckd76bi360002poua97y6hmy0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/SpringBoot/" data-id="ckd76j2kn0001dkua7mc46n4t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -544,7 +545,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/Redis/" data-id="ckd76bi2w0000poua4aaj7kmx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/Redis/" data-id="ckd76j2ke0000dkuaauyr0x5q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -930,7 +931,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="ckd76bi340001poua3kzahfe1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="ckd76j2kq0002dkua9jbja7y2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1456,7 +1457,7 @@ public User testAjax(@RequestBody User user){//需要导入json的jar包,spring�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/SpringMVC/" data-id="ckd76bi360003poua7hkgdkne" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/SpringMVC/" data-id="ckd76j2kt0004dkuacby9a150" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1939,7 +1940,7 @@ public class Logger {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/21/spring/" data-id="ckd76bi3i0006pouahsrtcw6x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/21/spring/" data-id="ckd76j2kv0006dkua794b5q47" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2120,7 +2121,7 @@ public class Logger {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/17/mybatis/" data-id="ckd76bi3f0004pouaf2y6d4q3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/17/mybatis/" data-id="ckd76j2ku0005dkuaeurkhuxn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2187,7 +2188,7 @@ public class Logger {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/17/maven/" data-id="ckd76bi3h0005pouadghqhf1z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/17/maven/" data-id="ckd76j2ks0003dkuagtwi7t8d" class="article-share-link">Share</a>
       
       
     </footer>
