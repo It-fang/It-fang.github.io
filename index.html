@@ -433,7 +433,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/09/Linux/" data-id="ckdn4krce00019cua0u4o5l2g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/09/Linux/" data-id="ckebgjlmg00020sua0n62e00r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -694,7 +694,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/06/MybatisPlus/" data-id="ckdn4krcg00029cuaf5oveux1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/06/MybatisPlus/" data-id="ckebgjlmi00040suaady1gu96" class="article-share-link">Share</a>
       
       
     </footer>
@@ -808,7 +808,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/" data-id="ckdn4krch00039cua8enghri5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/" data-id="ckebgjlma00000suaa9xlaghz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1137,10 +1137,23 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroConfig</span> </span>&#123;</span><br><span class="line"><span class="comment">//    1. 创建realm对象,需要自定义xxxRealm对象</span></span><br><span class="line">    <span class="meta">@Bean</span>(name = <span class="string">"userRealm"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserRealm <span class="title">getUserRealm</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserRealm();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    2. 返回DefaultWebSecurityManager</span></span><br><span class="line">    <span class="meta">@Bean</span>(name = <span class="string">"securityManager"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> DefaultWebSecurityManager <span class="title">getDefaultWebSecurityManager</span><span class="params">(@Qualifier(<span class="string">"userRealm"</span>)</span>UserRealm userRealm)</span>&#123;</span><br><span class="line">        DefaultWebSecurityManager securityManager = <span class="keyword">new</span> DefaultWebSecurityManager();</span><br><span class="line"><span class="comment">//        关联userRealm</span></span><br><span class="line">        securityManager.setRealm(userRealm);</span><br><span class="line">        <span class="keyword">return</span> securityManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    3.返回ShiroFilterFactoryBean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ShiroFilterFactoryBean <span class="title">getShiroFilterFactoryBean</span><span class="params">(@Qualifier(<span class="string">"securityManager"</span>)</span> DefaultWebSecurityManager securityManager)</span>&#123;</span><br><span class="line">        ShiroFilterFactoryBean filterFactoryBean = <span class="keyword">new</span> ShiroFilterFactoryBean();</span><br><span class="line"><span class="comment">//        设置安全管理器</span></span><br><span class="line">        filterFactoryBean.setSecurityManager(securityManager);</span><br><span class="line"><span class="comment">//        添加shiro内置的拦截器</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            anon：无需认证就可以访问</span></span><br><span class="line"><span class="comment">            authc：必须认证才可以访问</span></span><br><span class="line"><span class="comment">            user：必须拥有“记住我”功能才能用</span></span><br><span class="line"><span class="comment">            perms：拥有对某个资源的权限才能用</span></span><br><span class="line"><span class="comment">            role：拥有某个角色才可以访问</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        Map&lt;String ,String&gt; filterMap = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line"><span class="comment">//        filterMap.put("/user/*","anon");</span></span><br><span class="line">        filterMap.put(<span class="string">"/user/add"</span>,<span class="string">"perms[user:add]"</span>);</span><br><span class="line">        filterMap.put(<span class="string">"/user/update"</span>,<span class="string">"perms[user:update]"</span>);</span><br><span class="line">        filterFactoryBean.setFilterChainDefinitionMap(filterMap);</span><br><span class="line"><span class="comment">//        设置登陆的请求</span></span><br><span class="line">        filterFactoryBean.setLoginUrl(<span class="string">"/toLogin"</span>);</span><br><span class="line"><span class="comment">//        设置未授权页面</span></span><br><span class="line">        filterFactoryBean.setUnauthorizedUrl(<span class="string">"/noauth"</span>);</span><br><span class="line">        <span class="keyword">return</span> filterFactoryBean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
+</li>
+</ol>
+<p><a href></a></p>
+<h5 id="二十二，springboot基于Shiro的跨域配置"><a href="#二十二，springboot基于Shiro的跨域配置" class="headerlink" title="二十二，springboot基于Shiro的跨域配置"></a><strong>二十二，springboot基于Shiro的跨域配置</strong></h5><ol>
+<li><p><strong>配置请求拦截器</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CorsFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CorsFilter<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest req, ServletResponse res, FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        System.err.println(<span class="string">"CorsFilter"</span>);</span><br><span class="line">        HttpServletResponse response = (HttpServletResponse) res;</span><br><span class="line">        HttpServletRequest request = (HttpServletRequest) req;</span><br><span class="line">        <span class="comment">//跨域设置,谁来都放行,与设置成*效果相同,但是这里设置成*行不通,因此用该方法代替</span></span><br><span class="line">        response.setHeader(<span class="string">"Access-Control-Allow-Origin"</span>, request.getHeader(<span class="string">"Origin"</span>));</span><br><span class="line">        response.setHeader(<span class="string">"Access-Control-Allow-Credentials"</span>, <span class="string">"true"</span>);</span><br><span class="line">        <span class="comment">//不能设置成*,否则跨域请求会失败</span></span><br><span class="line">        response.setHeader(<span class="string">"Access-Control-Allow-Methods"</span>, <span class="string">"POST,PUT, GET, OPTIONS, DELETE"</span>);</span><br><span class="line">        response.setHeader(<span class="string">"Access-Control-Max-Age"</span>, <span class="string">"3600"</span>);</span><br><span class="line">        <span class="comment">//我这里需要放行这三个header头部字段</span></span><br><span class="line">        response.setHeader(<span class="string">"Access-Control-Allow-Headers"</span>, <span class="string">"content-type,x-requested-with,token"</span>);</span><br><span class="line">        response.setHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/json;charset=UTF-8"</span>);</span><br><span class="line">        response.setStatus(HttpStatus.OK.value());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            chain.doFilter(request, response);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//            System.err.println("CrosFilter Error start");</span></span><br><span class="line"><span class="comment">//            e.printStackTrace();</span></span><br><span class="line"><span class="comment">//            System.err.println("CrosFilter Error end");</span></span><br><span class="line"><span class="comment">//            if((e.getCause()+"").contains("UnauthorizedException"))&#123;</span></span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>加入shiro的过滤请求拦截链中</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Filter&gt; filters = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">5</span>);</span><br><span class="line">filters.put(<span class="string">"authc"</span>,<span class="keyword">new</span> CorsFilter());</span><br><span class="line">filterFactoryBean.setFilters(filters);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在前端的ajax请求中将withCredentials设置为true</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">jQuery.ajax(&#123;</span><br><span class="line">    url: <span class="string">'http://localhost:8080/duty/sign'</span>,</span><br><span class="line">    xhrFields: &#123;</span><br><span class="line">        withCredentials:<span class="literal">true</span>,</span><br><span class="line">        useDefaultXhrHeader:<span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
-<h5 id="二十二，springboot整合swagger"><a href="#二十二，springboot整合swagger" class="headerlink" title="二十二，springboot整合swagger"></a><strong>二十二，springboot整合swagger</strong></h5><ol>
+<p><a href="https://blog.csdn.net/qq_39743373/article/details/103895320" target="_blank" rel="noopener">解决shiro用户登陆问题</a></p>
+<h5 id="二十三，springboot整合swagger"><a href="#二十三，springboot整合swagger" class="headerlink" title="二十三，springboot整合swagger"></a><strong>二十三，springboot整合swagger</strong></h5><ol>
 <li><p><strong>导入依赖</strong></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -1159,7 +1172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/SpringBoot/" data-id="ckdn4krcm00079cua55g03qek" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/SpringBoot/" data-id="ckebgjlmh00030sua35g46fay" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1401,7 +1414,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/Redis/" data-id="ckdn4krc900009cua8j4weg8v" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/Redis/" data-id="ckebgjlmf00010suaainsbco4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1787,7 +1800,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="ckdn4krcj00049cuaeo4u7gcu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="ckebgjlmj00050sua59h070do" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2313,7 +2326,7 @@ public User testAjax(@RequestBody User user){//需要导入json的jar包,spring�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/SpringMVC/" data-id="ckdn4krcl00069cua4w5c7jqf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/SpringMVC/" data-id="ckebgjlmo00080sua538u93wj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2754,7 +2767,7 @@ public User testAjax(@RequestBody User user){//需要导入json的jar包,spring�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/21/spring/" data-id="ckdn4krd100099cua9wws5seg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/21/spring/" data-id="ckebgjlmp00090sua2x9yhqih" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2954,7 +2967,7 @@ public User testAjax(@RequestBody User user){//需要导入json的jar包,spring�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/17/mybatis/" data-id="ckdn4krcn00089cua0zpp4q3x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/17/mybatis/" data-id="ckebgjlmm00070suacc5cfp88" class="article-share-link">Share</a>
       
       
     </footer>
@@ -3021,7 +3034,7 @@ public User testAjax(@RequestBody User user){//需要导入json的jar包,spring�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/17/maven/" data-id="ckdn4krck00059cuabv8554ws" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/17/maven/" data-id="ckebgjlml00060sua4yiwer53" class="article-share-link">Share</a>
       
       
     </footer>
