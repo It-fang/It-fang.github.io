@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Nginx | It-fang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Nginx一，概述：Nginx是一款高性能的http服务器&#x2F;反向代理服务器及电子邮件（IMAP&#x2F;POP3）代理服务器。由俄罗斯的程序设计师伊戈尔.西索夫所开发，官方测试nginx能够支撑5万并发链接，并且CPU，内存等资源消耗却非常低，运行非常稳定。 二，Nginx应用场景 http服务器：Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。 虚拟主机：可以实现在一台服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx">
+<meta property="og:url" content="http://yoursite.com/2020/09/07/Nginx/index.html">
+<meta property="og:site_name" content="It-fang">
+<meta property="og:description" content="Nginx一，概述：Nginx是一款高性能的http服务器&#x2F;反向代理服务器及电子邮件（IMAP&#x2F;POP3）代理服务器。由俄罗斯的程序设计师伊戈尔.西索夫所开发，官方测试nginx能够支撑5万并发链接，并且CPU，内存等资源消耗却非常低，运行非常稳定。 二，Nginx应用场景 http服务器：Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。 虚拟主机：可以实现在一台服务器">
+<meta property="article:published_time" content="2020-09-07T14:02:09.629Z">
+<meta property="article:modified_time" content="2020-09-06T08:08:50.230Z">
+<meta property="article:author" content="It-fang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="It-fang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">It-fang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">It-fang</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Nginx" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/07/Nginx/" class="article-date">
+  <time datetime="2020-09-07T14:02:09.629Z" itemprop="datePublished">2020-09-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Nginx
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><h2 id="一，概述："><a href="#一，概述：" class="headerlink" title="一，概述："></a>一，概述：</h2><p>Nginx是一款高性能的http服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器。由俄罗斯的程序设计师伊戈尔.西索夫所开发，官方测试nginx能够支撑5万并发链接，并且CPU，内存等资源消耗却非常低，运行非常稳定。</p>
+<h2 id="二，Nginx应用场景"><a href="#二，Nginx应用场景" class="headerlink" title="二，Nginx应用场景"></a>二，Nginx应用场景</h2><ul>
+<li><strong>http服务器</strong>：Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。</li>
+<li><strong>虚拟主机</strong>：可以实现在一台服务器虚拟出多个网站。例如个人网站使用的虚拟主机</li>
+<li><strong>反向代理，负载均衡</strong>：当网站的访问量达到一定程度后，单台服务器不能满足用户的请求时，需要用多台服务器集群可以使用nginx做反向代理。并且多台服务器可以平均分担负载，不会因为某台服务器负载高宕机而某台服务器闲置的情况。</li>
+</ul>
+<h2 id="三，nginx的配置文件组成"><a href="#三，nginx的配置文件组成" class="headerlink" title="三，nginx的配置文件组成"></a>三，nginx的配置文件组成</h2><ol>
+<li><strong>第一部分：全局块</strong>：</li>
+</ol>
+<ul>
+<li>从配置文件开始到events快之间的内容，主要会设置一些影响nginx服务器整体运行的配置指令，主要包括配置运行nginx服务器的用户（组），允许生成的worker process数，进程PID存放路径，日志存放路径和类型以及配置文件的引入等：比如：          worker_processes 1;worker_processes 的值越大，可以支持的并发处理量也越多，但是会受到硬件，软件等设备的制约。</li>
+</ul>
+<ol start="2">
+<li><strong>第二部分：events块</strong>：</li>
+</ol>
+<ul>
+<li>events块涉及的指令主要影响nginx服务器与用户的网络连接，常用的设置包括是否开启对多work process下的网络连接进行序列化，是否允许同时接收多个网络连接，选取哪种事件驱动模型来处理连接请求，每个word process可以同时支持的最大连接数等。比如：worker_connections  1024;就表示每个work process支持的最大连接数为1024。</li>
+</ul>
+<ol start="3">
+<li><strong>第三部分：http块</strong>：代理，缓存和日志定义等绝大多数功能和第三方模块的配置都在这里，其包括http全局块，server块；每个http块可以包括多个server块，而每个server块就相当于一个虚拟主机。<ol>
+<li><strong>http全局块</strong>：<ul>
+<li>http全局块配置的指令包括文件引入，MIME-TYPE定义，日志自定义，连接超时时间，单链接请求数上限等。</li>
+</ul>
+</li>
+<li><strong>server块</strong>：每个server块也分为全局server块，以及可以同时包含多个location块。<ul>
+<li>这块和虚拟主机有密切关系，虚拟主机从用户角度看，和一台独立的硬件主机是完全一样的，该技术的产生是为了节省互联网服务器硬件成本。</li>
+</ul>
+<ol>
+<li><strong>全局server块：</strong><ul>
+<li>最常见的配置是本虚拟机主机的监听配置和本虚拟主机的名称或IP配置。    </li>
+</ul>
+</li>
+<li><strong>location块</strong>：<ul>
+<li>这块的主要作用是基于nginx服务器接收到的请求字符串（例如server_name/uri-string），对虚拟主机名称（也可以是IP别名）之外的字符串（例如前面的/uri-string）进行匹配，对特定的请求进行处理，地址定向，数据缓存和应答控制等功能，还有许多第三方模块的配置也在这里进行。</li>
+<li><strong>location指令说明</strong>：该指令用于匹配URL<ul>
+<li><strong>=</strong> ：用于不含正则表达式的uri前，要求请求字符串与uri严格匹配，如果匹配成功，就停止继续向下搜索并立即处理该请求。</li>
+<li><strong>~</strong>：用于表示uri包含正则表达式，并且区分大小写</li>
+<li><strong>~*</strong>：用于表示uri包含正则表达式，并且不区分大小写</li>
+<li><strong>^~</strong>：用于不含正则表达式的uri前，要求nginx服务器找到标识uri和请求字符串匹配度最高的location后，立即使用此location处理请求，而不再使用location块中的正则uri和请求字符串做匹配。</li>
+<li>注意：如果uri包含正则表达式，则必须要有 <strong>~</strong> 或者 <strong>~*</strong> 标识。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location [&#x3D; | ~ | ~* | ^~] uri&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四，Nginx的常用命令-需要在-usr-local-nginx-sbin目录下使用"><a href="#四，Nginx的常用命令-需要在-usr-local-nginx-sbin目录下使用" class="headerlink" title="四，Nginx的常用命令:需要在/usr/local/nginx/sbin目录下使用"></a>四，Nginx的常用命令:需要在/usr/local/nginx/sbin目录下使用</h2><ul>
+<li>开启：./nginx</li>
+<li>关闭：</li>
+<li>./nginx -s stop（杀死进程，非正常退出）</li>
+<li>./nginx -s quit（保存配置后在退出，正常退出）</li>
+<li>重新加载：./nginx -s reload</li>
+<li>查看版本号：./nginx -v</li>
+</ul>
+<h2 id="五，静态资源的部署"><a href="#五，静态资源的部署" class="headerlink" title="五，静态资源的部署"></a>五，静态资源的部署</h2><ul>
+<li>修改/usr/local/nginx/conf目录下的nginx.conf配置文件<ul>
+<li>listen：为访问的端口</li>
+<li>server_name：为访问nginx的域名或IP地址</li>
+<li>root：为nginx访问静态资源的目录。</li>
+<li>index：为访问的资源名称</li>
+</ul>
+</li>
+</ul>
+<h2 id="六，nginx的反向代理和负载均衡"><a href="#六，nginx的反向代理和负载均衡" class="headerlink" title="六，nginx的反向代理和负载均衡"></a>六，nginx的反向代理和负载均衡</h2><ol>
+<li><strong>反向代理的概念</strong>：反向代理方式是指以代理服务器来接受Internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给Internet上请求连接给的客户端，此时代理服务器对外就表现为一个反向代理服务器。正向代理是针对你的客户端，而反向代理是针对服务器的</li>
+<li><strong>反向代理的配置</strong>：在nginx.conf中配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat-travel&#123;</span><br><span class="line">	server 47.92.139.26:8080;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">	listen 80; #默认端口号</span><br><span class="line">	server_name 47.92.139.26; #访问nginx的域名或端口号</span><br><span class="line">	location&#x2F;&#123;</span><br><span class="line">		#root index; #默认访问资源的目录</span><br><span class="line">		proxy_pass http:&#x2F;&#x2F;tomcat-travel;</span><br><span class="line">		index index.html index.html; #默认访问资源名称</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>负载均衡</strong>：nginx提供了几种分配方式（策略）</li>
+</ol>
+<ul>
+<li><strong>轮询（默认）</strong>：每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器dwon掉，能自动剔除。</li>
+<li><strong>weight</strong>：weight代表权重，默认为1，权重越高被分配的客户端越多，指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat-travel&#123;</span><br><span class="line">	server 47.92.139.26:8080 weight&#x3D;2;</span><br><span class="line">	server 192.168.177.129:8080;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">	listen 80; #默认端口号</span><br><span class="line">	server_name 47.92.139.26; #访问nginx的域名或端口号</span><br><span class="line">	location&#x2F;&#123;</span><br><span class="line">		#root index; #默认访问资源的目录</span><br><span class="line">		proxy_pass http:&#x2F;&#x2F;tomcat-travel;</span><br><span class="line">		index index.html index.html; #默认访问资源名称</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>ip_hash</strong>：每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat-travel&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line"> 	server 47.92.139.26:8080;</span><br><span class="line">	server 192.168.177.129:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>fair（第三方）</strong>：按后端服务器的响应时间分配，响应时间短的优先分配。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat-travel&#123;</span><br><span class="line">    server 47.92.139.26:8080;</span><br><span class="line">    server 192.168.177.129:8080;</span><br><span class="line">    fair;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="七，nginx的动静分离"><a href="#七，nginx的动静分离" class="headerlink" title="七，nginx的动静分离"></a>七，nginx的动静分离</h2><ol>
+<li>动静分离的概念理解：严格意义上说应该是动态请求和静态请求分开，可以理解成使用nginx来处理静态页面，Tomcat来处理动态页面；</li>
+<li>动静分离从目前实现角度来讲大致可以分为两种：<ol>
+<li>一种是纯粹把静态文件独立成单独的域名，放在独立的服务器上，也是目前主流推崇的方案；</li>
+<li>另一种方法就是动态跟静态文件混合在一起发布，通过nginx来分开。</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/09/07/Nginx/" data-id="ckeslmmme0001fsuad8cgb07b" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/09/07/RabbitMQ/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">RabbitMQ</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/07/Nginx/">Nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/07/RabbitMQ/">RabbitMQ</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/09/Linux/">Linux</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/06/MybatisPlus/">MybatisPlus</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/">IDEA快捷键</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 It-fang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
