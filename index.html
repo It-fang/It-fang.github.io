@@ -194,7 +194,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/07/Nginx/" data-id="ckeslmmme0001fsuad8cgb07b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/09/07/Nginx/" data-id="cketgz2bv0004psuacbzchm8w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -287,10 +287,10 @@
 
 
 
-<h2 id="六，RabbitMQ的基础架构"><a href="#六，RabbitMQ的基础架构" class="headerlink" title="六，RabbitMQ的基础架构"></a>六，RabbitMQ的基础架构</h2><p><img src="/2020/09/07/RabbitMQ/C:%5CUsers%5C92540%5CDesktop%5CmyselfBlog%5Chexo%5Csource_posts%5CRabbitMQ%5CRabbitMQ%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84.png" alt="RabbitMQ基本架构"></p>
+<h2 id="六，RabbitMQ的基础架构"><a href="#六，RabbitMQ的基础架构" class="headerlink" title="六，RabbitMQ的基础架构"></a>六，RabbitMQ的基础架构</h2><p><img src="/2020/09/07/RabbitMQ/RabbitMQ%5CRabbitMQ%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84.png" alt="RabbitMQ基本架构"></p>
 <h2 id="七，RabbitMQ提供了6种工作模式："><a href="#七，RabbitMQ提供了6种工作模式：" class="headerlink" title="七，RabbitMQ提供了6种工作模式："></a>七，RabbitMQ提供了6种工作模式：</h2><ul>
 <li><p><strong>简单模式</strong></p>
-<p>  <img src="/2020/09/07/RabbitMQ/C:%5CUsers%5C92540%5CDesktop%5CmyselfBlog%5Chexo%5Csource_posts%5CRabbitMQ%5C%E7%AE%80%E5%8D%95%E6%A8%A1%E5%BC%8F.png" alt="简单模式"></p>
+<p>  <img src="/2020/09/07/RabbitMQ/RabbitMQ%5C%E7%AE%80%E5%8D%95%E6%A8%A1%E5%BC%8F.png" alt="简单模式"></p>
 <ul>
 <li><p>P：生产者，也就是要发送消息的程序</p>
   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, TimeoutException </span>&#123;</span><br><span class="line">        <span class="comment">//1. 创建连接工厂</span></span><br><span class="line">        ConnectionFactory factory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">        <span class="comment">//2. 设置参数</span></span><br><span class="line">        factory.setHost(<span class="string">"47.92.139.26"</span>);    <span class="comment">//设置IP地址,默认localhost</span></span><br><span class="line">        factory.setPort(<span class="number">5672</span>);  <span class="comment">// 端口  默认值 5672</span></span><br><span class="line">        factory.setVirtualHost(<span class="string">"/nightwatch"</span>);  <span class="comment">// 虚拟机 默认值/</span></span><br><span class="line">        factory.setUsername(<span class="string">"itfang"</span>); <span class="comment">// 用户名  默认值guest</span></span><br><span class="line">        factory.setPassword(<span class="string">"123456"</span>);  <span class="comment">// 密码  默认值guest</span></span><br><span class="line">        <span class="comment">//3. 创建连接</span></span><br><span class="line">        Connection connection = factory.newConnection();</span><br><span class="line">        <span class="comment">//4. 创建Channel</span></span><br><span class="line">        Channel channel = connection.createChannel();</span><br><span class="line">        <span class="comment">//5. 创建队列Queue</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        queueDeclare(String queue, boolean durable, boolean exclusive, boolean autoDelete, Map&lt;String, Object&gt; arguments)</span></span><br><span class="line"><span class="comment">        参数:</span></span><br><span class="line"><span class="comment">            1. queue:队列名称</span></span><br><span class="line"><span class="comment">            2. durable:是否持久化,当mq重启之后还在</span></span><br><span class="line"><span class="comment">            3. exclusive:</span></span><br><span class="line"><span class="comment">                * 是否独占,只能有一个消费者监听这个队列</span></span><br><span class="line"><span class="comment">                * 当Connection关闭时,是否删除队列</span></span><br><span class="line"><span class="comment">            4. autoDelete:是否自动删除,当没有Consumer时,自动删除</span></span><br><span class="line"><span class="comment">            5. arguments:参数。</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="comment">//如果没有一个名字叫hello_world的队列,则会创建该队列,如果有则不会创建</span></span><br><span class="line">        channel.queueDeclare(<span class="string">"hello_world"</span>,<span class="keyword">true</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//6. 发送消息</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        basicPublish(String exchange, String routingKey, BasicProperties props, byte[] body)</span></span><br><span class="line"><span class="comment">        参数:</span></span><br><span class="line"><span class="comment">            1. exchange:交换机名称,简单模式下交换机会使用默认的""</span></span><br><span class="line"><span class="comment">            2. routingKey:路由名称</span></span><br><span class="line"><span class="comment">            3. props:配置信息</span></span><br><span class="line"><span class="comment">            4. body:发送消息数据</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        String body = <span class="string">"hello_rabbitmq"</span>;</span><br><span class="line">        channel.basicPublish(<span class="string">""</span>,<span class="string">"hello_world"</span>,<span class="keyword">null</span>,body.getBytes());</span><br><span class="line">        <span class="comment">//7. 释放资源</span></span><br><span class="line">        channel.close();</span><br><span class="line">        connection.close();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -309,7 +309,7 @@
 
 - queue：消息队列，类似一个邮箱，可以缓存消息；生产者其中投递消息，消费者从其中取出消息。</code></pre><ul>
 <li><p><strong>work queues</strong> </p>
-<p>  <img src="/2020/09/07/RabbitMQ/C:%5CUsers%5C92540%5CDesktop%5CmyselfBlog%5Chexo%5Csource_posts%5CRabbitMQ%5Cworkqueue.png" alt="workqueue"></p>
+<p>  <img src="/2020/09/07/RabbitMQ/RabbitMQ%5Cworkqueue.png" alt="workqueue"></p>
 <ul>
 <li>与简单模式相比，多了一个或一些消费端，多个消费端共同消费同一个队列中的消息。</li>
 <li>在一个队列中如果有多个消费者，那么消费者之间对于同一个消息的关系是竞争的关系。</li>
@@ -317,7 +317,7 @@
 </ul>
 </li>
 <li><p><strong>Publish/Subscribe发布与订阅模式</strong></p>
-<p>  <img src="/2020/09/07/RabbitMQ/C:%5CUsers%5C92540%5CDesktop%5CmyselfBlog%5Chexo%5Csource_posts%5CRabbitMQ%5C%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F.png" alt="订阅模式"></p>
+<p>  <img src="/2020/09/07/RabbitMQ/RabbitMQ%5C%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F.png" alt="订阅模式"></p>
 <ul>
 <li><p>P：生产者，也就是要发送消息的程序，但是不再发送到队列中，而是发给X（交换机）</p>
   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer_PubSub</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, TimeoutException </span>&#123;</span><br><span class="line">        <span class="comment">//1. 创建连接工厂</span></span><br><span class="line">        ConnectionFactory factory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">        <span class="comment">//2. 设置参数</span></span><br><span class="line">        factory.setHost(<span class="string">"47.92.139.26"</span>);    <span class="comment">//设置IP地址,默认localhost</span></span><br><span class="line">        factory.setPort(<span class="number">5672</span>);  <span class="comment">// 端口  默认值 5672</span></span><br><span class="line">        factory.setVirtualHost(<span class="string">"/nightwatch"</span>);  <span class="comment">// 虚拟机 默认值/</span></span><br><span class="line">        factory.setUsername(<span class="string">"itfang"</span>); <span class="comment">// 用户名  默认值guest</span></span><br><span class="line">        factory.setPassword(<span class="string">"123456"</span>);  <span class="comment">// 密码  默认值guest</span></span><br><span class="line">        <span class="comment">//3. 创建连接</span></span><br><span class="line">        Connection connection = factory.newConnection();</span><br><span class="line">        <span class="comment">//4. 创建Channel</span></span><br><span class="line">        Channel channel = connection.createChannel();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        exchangeDeclare(String exchange, BuiltinExchangeType type, boolean durable, boolean autoDelete, boolean internal, Map&lt;String, Object&gt; arguments)</span></span><br><span class="line"><span class="comment">        参数：</span></span><br><span class="line"><span class="comment">            1. exchange：交换机的名称</span></span><br><span class="line"><span class="comment">            2. type：交换机的类型</span></span><br><span class="line"><span class="comment">                DIRECT("direct"),：定向</span></span><br><span class="line"><span class="comment">                FANOUT("fanout"),：扇形（广播),发送消息到每一个与之绑定队列</span></span><br><span class="line"><span class="comment">                TOPIC("topic"),：通配符的方式</span></span><br><span class="line"><span class="comment">                HEADERS("headers");：参数匹配</span></span><br><span class="line"><span class="comment">            3. durable：是否持久化</span></span><br><span class="line"><span class="comment">            4. autoDelete：自动删除</span></span><br><span class="line"><span class="comment">            5. internal：内部使用。一般false</span></span><br><span class="line"><span class="comment">            6. arguments：参数</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="comment">//5. 创建交换机</span></span><br><span class="line">        String exchangeName = <span class="string">"test_fanout"</span>;</span><br><span class="line">        channel.exchangeDeclare(exchangeName, BuiltinExchangeType.FANOUT,<span class="keyword">true</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//6. 创建队列</span></span><br><span class="line">        String queue1Name = <span class="string">"test_fanout_queue1"</span>;</span><br><span class="line">        String queue2Name = <span class="string">"test_fanout_queue2"</span>;</span><br><span class="line">        channel.queueDeclare(queue1Name,<span class="keyword">true</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line">        channel.queueDeclare(queue2Name,<span class="keyword">true</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//7. 绑定队列和交换机</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        queueBind(String queue, String exchange, String routingKey, Map&lt;String, Object&gt; arguments)</span></span><br><span class="line"><span class="comment">        参数：</span></span><br><span class="line"><span class="comment">            1. queue：队列名称</span></span><br><span class="line"><span class="comment">            2. exchange：交换机名称</span></span><br><span class="line"><span class="comment">            3. routingKey：路由键,绑定规则</span></span><br><span class="line"><span class="comment">                如果交换机的类型为fanout,routingKey设置为""</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        channel.queueBind(queue1Name,exchangeName,<span class="string">""</span>);</span><br><span class="line">        channel.queueBind(queue2Name,exchangeName,<span class="string">""</span>);</span><br><span class="line">        <span class="comment">//8. 发送消息</span></span><br><span class="line">        String body = <span class="string">"日志信息：11111111111111111"</span>;</span><br><span class="line">        channel.basicPublish(exchangeName,<span class="string">""</span>,<span class="keyword">null</span>,body.getBytes());</span><br><span class="line">        <span class="comment">//9. 释放资源</span></span><br><span class="line">        channel.close();</span><br><span class="line">        connection.close();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -340,7 +340,7 @@
 
 &gt; Exchange（交换机）只负责转发消息，不具备存储消息的能力，因此如果没有任何队列与Exchange绑定，或者没有符合路由规则的队列，那么消息会丢失！</code></pre><ul>
 <li><p><strong>Routing路由模式</strong></p>
-<p>  <img src="/2020/09/07/RabbitMQ/C:%5CUsers%5C92540%5CDesktop%5CmyselfBlog%5Chexo%5Csource_posts%5CRabbitMQ%5CRouting.png" alt="Routing"></p>
+<p>  <img src="/2020/09/07/RabbitMQ/RabbitMQ%5CRouting.png" alt="Routing"></p>
 <ul>
 <li><p>P：生产者，向Exchange发送消息，发送消息时，会指定一个routingKey</p>
 </li>
@@ -367,7 +367,7 @@
 </blockquote>
 <ul>
 <li><p><strong>Topics主题模式</strong></p>
-<p>  <img src="/2020/09/07/RabbitMQ/C:%5CUsers%5C92540%5CDesktop%5CmyselfBlog%5Chexo%5Csource_posts%5CRabbitMQ%5Ctopic.png" alt="topic"></p>
+<p>  <img src="/2020/09/07/RabbitMQ/RabbitMQ%5Ctopic.png" alt="topic"></p>
 <ul>
 <li><p>*：通配一个单词；#：通配0个或多个单词</p>
 <blockquote>
@@ -383,7 +383,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/07/RabbitMQ/" data-id="ckeslmmmi0004fsua2dwl7d8a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/09/07/RabbitMQ/" data-id="cketgz2bs0003psua2f9c5ink" class="article-share-link">Share</a>
       
       
     </footer>
@@ -757,7 +757,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/09/Linux/" data-id="ckeslmmmh0003fsuagcdl38ud" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/09/Linux/" data-id="cketgz2bq0002psuab9a22gs1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1206,7 +1206,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/06/MybatisPlus/" data-id="ckeslmmmg0002fsua3atmeaxe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/06/MybatisPlus/" data-id="cketgz2bn0001psuab8pdey5g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1320,7 +1320,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/" data-id="ckeslmmm40000fsuaffqa7p7w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/" data-id="cketgz2b70000psua3v355c9m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1684,7 +1684,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/SpringBoot/" data-id="ckeslmmmu0008fsua3rfl91gm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/SpringBoot/" data-id="cketgz2c10007psua9cre6ynq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1926,7 +1926,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/Redis/" data-id="ckeslmmmr0005fsua8yx52jdu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/Redis/" data-id="cketgz2bx0005psua55kbeecn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2312,7 +2312,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="ckeslmmmt0007fsuah7ym9m3h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="cketgz2bz0006psua7zai0bl8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2838,7 +2838,7 @@ public User testAjax(@RequestBody User user){//需要导入json的jar包,spring�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/SpringMVC/" data-id="ckeslmmmv0009fsua86wdc19h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/SpringMVC/" data-id="cketgz2c30008psua5ssc5q42" class="article-share-link">Share</a>
       
       
     </footer>
@@ -3279,7 +3279,7 @@ public User testAjax(@RequestBody User user){//需要导入json的jar包,spring�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/21/spring/" data-id="ckeslmmnc000bfsua5jwubv0i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/21/spring/" data-id="cketgz2db000bpsua624jcuu9" class="article-share-link">Share</a>
       
       
     </footer>
