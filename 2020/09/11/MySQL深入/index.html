@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>MySQL深入 | It-fang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MySQL深入一，MySQL支持的日期和时间类型  如果要用来表示年月日，通常用 DATE 来表示 如果要用来表示年月日时分秒，通常用 DATETIME 表示。 如果只用来表示时分秒，通常用 TIME 来表示 如果需要经常插入或者更新日期为当前系统时间，则通常使用 TIMESTAMP 来表示。TIMESTAMP 值返回后显示为“YYYY-MM-DD HH:MM:SS”格式的字符串，显示宽度固定为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL深入">
+<meta property="og:url" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/index.html">
+<meta property="og:site_name" content="It-fang">
+<meta property="og:description" content="MySQL深入一，MySQL支持的日期和时间类型  如果要用来表示年月日，通常用 DATE 来表示 如果要用来表示年月日时分秒，通常用 DATETIME 表示。 如果只用来表示时分秒，通常用 TIME 来表示 如果需要经常插入或者更新日期为当前系统时间，则通常使用 TIMESTAMP 来表示。TIMESTAMP 值返回后显示为“YYYY-MM-DD HH:MM:SS”格式的字符串，显示宽度固定为">
+<meta property="og:image" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E6%94%AF%E6%8C%81%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E7%B1%BB%E5%9E%8B.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E6%94%AF%E6%8C%81%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E6%94%AF%E6%8C%81%E7%9A%84%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E6%94%AF%E6%8C%81%E7%9A%84%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E5%B8%B8%E7%94%A8%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/sql_mode.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/sql_mode%E7%BB%84%E5%90%88.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/C:%5CUsers%5C92540%5CDesktop%5CmyselfBlog%5Chexo%5Csource_posts%5CMySQL%E6%B7%B1%E5%85%A5%5C%E9%94%81%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7.png">
+<meta property="article:published_time" content="2020-09-11T12:36:13.629Z">
+<meta property="article:modified_time" content="2020-09-25T12:17:42.842Z">
+<meta property="article:author" content="It-fang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E6%94%AF%E6%8C%81%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E7%B1%BB%E5%9E%8B.png">
+  
+    <link rel="alternate" href="/atom.xml" title="It-fang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">It-fang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">It-fang</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MySQL深入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/" class="article-date">
+  <time datetime="2020-09-11T12:36:13.629Z" itemprop="datePublished">2020-09-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL深入
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MySQL深入"><a href="#MySQL深入" class="headerlink" title="MySQL深入"></a>MySQL深入</h1><h3 id="一，MySQL支持的日期和时间类型"><a href="#一，MySQL支持的日期和时间类型" class="headerlink" title="一，MySQL支持的日期和时间类型"></a>一，MySQL支持的日期和时间类型</h3><p><img src="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E6%94%AF%E6%8C%81%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E7%B1%BB%E5%9E%8B.png" alt="mysql支持日期和时间类型"></p>
+<ul>
+<li>如果要用来表示年月日，通常用 DATE 来表示</li>
+<li>如果要用来表示年月日时分秒，通常用 DATETIME 表示。</li>
+<li>如果只用来表示时分秒，通常用 TIME 来表示</li>
+<li>如果需要经常插入或者更新日期为当前系统时间，则通常使用 TIMESTAMP 来表示。<br>TIMESTAMP 值返回后显示为“YYYY-MM-DD HH:MM:SS”格式的字符串，显示宽度固定<br>为 19 个字符。如果想要获得数字值，应在 TIMESTAMP 列添加+0。TIMESTAMP还有一个重要特点，就是和时区相关。当插入日期时，会先转换为本地时区后存放；而从数据库里面取出时，也同样需要将日期转换为本地时区后显示。</li>
+<li>如果只是表示年份，可以用 YEAR 来表示，它比 DATE 占用更少的空间。YEAR 有 2 位或<br>4 位格式的年。默认是 4 位格式。在 4 位格式中，允许的值是 1901～2155 和 0000。在<br>2 位格式中，允许的值是 70～69，表示从 1970～2069 年。MySQL 以 YYYY 格式显示 YEAR<br>值。</li>
+<li>TIMESTAMP和DATETIME的区别：<ul>
+<li>TIMESTAMP支持的时间范围较小，其取值范围从19700101080001到2038年的某个<br>时间，而DATETIME是从1000-01-01 00:00:00到9999-12-31 23:59:59，范围更大。</li>
+<li>表中的第一个TIMESTAMP列自动设置为系统时间。如果在一个TIMESTAMP列中插入<br>NULL，则该列值将自动设置为当前的日期和时间。在插入或更新一行但不明确给<br>TIMESTAMP列赋值时也会自动设置该列的值为当前的日期和时间，当插入的值超出<br>取值范围时，MySQL认为该值溢出，使用“0000-00-00 00:00:00”进行填补</li>
+<li>TIMESTAMP的插入和查询都受当地时区的影响，更能反应出实际的日期。而<br>DATETIME则只能反应出插入时当地的时区，其他时区的人查看数据必然会有误差<br>的</li>
+</ul>
+</li>
+</ul>
+<h3 id="二，MySQL支持的字符串类型"><a href="#二，MySQL支持的字符串类型" class="headerlink" title="二，MySQL支持的字符串类型"></a>二，MySQL支持的字符串类型</h3><p><img src="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E6%94%AF%E6%8C%81%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B.png" alt="mysql支持的字符串类型"></p>
+<ul>
+<li><p>CHAR和VARCHAR类型的区别：</p>
+<ul>
+<li>主要区别在于<strong>存储方式</strong>的不同：CHAR 列的长度固定为创建表时声明的长度，长度可以为从 0～255 的任何值；而 VARCHAR 列中的值为可变长字符串，长度可以指定为 0～255（5.0.3 以前）或者65535（5.0.3以后）之间的值。<strong>在检索的时候，CHAR 列删除了尾部的空格，而 VARCHAR 则保留这些空格</strong></li>
+</ul>
+</li>
+<li><p>ENUM类型：</p>
+<ul>
+<li>出 ENUM 类型是忽略大小写的，对’M’、’f’在存储的时候将它们都转<br>成了大写，还可以看出对于插入不在 ENUM 指定范围内的值时，并没有返回警告，而是插<br>入了 enum(‘M’,’F’)的第一值’M’</li>
+<li>ENUM 类型只允许从值集合中选取单个值，而不能一次取多个值</li>
+</ul>
+</li>
+<li><p>SET类型：</p>
+<ul>
+<li>SET 类型可以从允许值集合中选择任意 1 个或多个元素进行组合，所以对于输入的值只要是<br>在允许值的组合范围内，都可以正确地注入到 SET 类型的列中。</li>
+<li>对于超出允许值范围的值例如（’a,d,f’）将不允许注入到上面例子中设置的 SET 类型列中，而对于（’a,d,a’）这样包含重复成员的集合将只取一次，写入后的结果为“a,d”。</li>
+</ul>
+</li>
+</ul>
+<h3 id="三，MySQL支持的比较运算符"><a href="#三，MySQL支持的比较运算符" class="headerlink" title="三，MySQL支持的比较运算符"></a>三，MySQL支持的比较运算符</h3><p><img src="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E6%94%AF%E6%8C%81%E7%9A%84%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6.png" alt="mysql支持的比较运算符"></p>
+<ul>
+<li>“=”运算符，用于比较运算符两侧的操作数是否相等，如果两侧操作数相等返回值为 1，<br>否则为 0。注意 NULL 不能用于“=”比较。</li>
+<li>“&lt;&gt;”运算符，和“=”相反，如果两侧操作数不等，则值为 1，否则为 0。NULL 不能用于“&lt;&gt;”比较</li>
+<li>“&lt;=&gt;”安全的等于运算符，和“=”类似，在操作数相等时值为 1，不同之处在于即使<br>操作的值为 NULL 也可以正确比较。</li>
+<li>“BETWEEN”运算符的使用格式为“a BETWEEN min AND max”，当 a 大于等于 min 并<br>且小于等于 max，则返回值为 1，否则返回 0；当操作数 a、min、max 类型相同时，此<br>表达式等价于（a&gt;=min and a&lt;=max），当操作数类型不同时，比较时会遵循类型转换原<br>则进行转换后，再进行比较运算。</li>
+<li>“IN”运算符的使用格式为“a IN (value1,value2,…)”,当 a 的值存在于列表中时，则整<br>个比较表达式返回的值为 1，否则返回 0。</li>
+<li>“REGEXP”运算符的使用格式为“str REGEXP str_pat”,当 str 字符串中含有 str_pat<br>相匹配的字符串时，则返回值为 1，否则返回 0。</li>
+</ul>
+<h3 id="四，MySQL支持的逻辑运算符"><a href="#四，MySQL支持的逻辑运算符" class="headerlink" title="四，MySQL支持的逻辑运算符"></a>四，MySQL支持的逻辑运算符</h3><p><img src="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E6%94%AF%E6%8C%81%E7%9A%84%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6.png" alt="mysql支持的逻辑运算符"></p>
+<ul>
+<li>““NOT”或“！”表示逻辑非。返回和操作数相反的结果：当操作数为 0（假），则返回<br>值为 1，否则值为 0。但是有一点除外，那就是 NOT NULL 的返回值为 NULL。</li>
+<li>““AND”或“&amp;&amp;”表示逻辑与运算。当所有操作数均为非零值并且不为 NULL 时，计<br>算所得结果为 1，当一个或多个操作数为 0 时，所得结果为 0，操作数中有任何一个为<br>NULL 则返回值为 NULL。</li>
+<li>“OR”或“||”表示逻辑或运算。当两个操作数均为非 NULL 值时，如有任意一个操作<br>数为非零值，则结果为 1，否则结果为 0。当有一个操作数为 NULL 时，如另一个操作<br>数为非零值，则结果为 1，否则结果为 NULL。假如两个操作数均为 NULL，则所得结果<br>为 NULL。</li>
+<li>“XOR”表示逻辑异或。当任意一个操作数为 NULL 时，返回值为 NULL。对于非 NULL 的<br>操作数，如果两个的逻辑真假值相异，则返回结果 1；否则返回 0。</li>
+</ul>
+<h3 id="五，MySQL常用的存储引擎"><a href="#五，MySQL常用的存储引擎" class="headerlink" title="五，MySQL常用的存储引擎"></a>五，MySQL常用的存储引擎</h3><p><img src="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/mysql%E5%B8%B8%E7%94%A8%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E.png" alt="mysql常用存储引擎"></p>
+<ul>
+<li><strong>MyISAM（支持全文搜索）</strong>：是MySQL的默认存储引擎，MyISAM不支持事务，也不支持外键；<ul>
+<li>优势：访问的速度快，对事务完整性没有要求或者以 SELECT、INSERT 为主的应用基本上都可以使用这个引擎来创建表</li>
+<li>MyISAM 类型的表提供修复的工具，可以用 CHECK TABLE 语句来检查 MyISAM 表的健康，并用 REPAIR TABLE 语句修复一个损坏的 MyISAM 表</li>
+<li>要指定索引文件和数据文件的路径，需要在创建表的时候通过 DATA DIRECTORY 和 INDEX<br>DIRECTORY 语句指定，也就是说不同 MyISAM 表的索引文件和数据文件可以放置到不同的路<br>径下。文件路径需要是绝对路径，并且具有访问权限。</li>
+<li><strong>MyISAM 的表支持 3 种不同的存储格式</strong>：<ul>
+<li><strong>静态（固定长度）表</strong>：静态表是默认的存储格式。静态表中的字段都是非变长字段，这样每个记录都是固定长度的，这种存储方式的优点是存储非常迅速，容易缓存，出现故障容易恢复；缺点是占用的空间通常比动态表多。静态表的数据在存储的时候会按照列的宽度定义补足空格，但是在应用访问的时候并不会得到这些空格，这些空格在返回给应用之前已经去掉。</li>
+<li><strong>动态表</strong>：动态表中包含变长字段，记录不是固定长度的，这样存储的优点是占用的空间相对较少，但是频繁地更新删除记录会产生碎片，需要定期执行 OPTIMIZE TABLE 语句或 myisamchk -r 命令来改善性能，并且出现故障的时候恢复相对比较困难</li>
+<li><strong>压缩表</strong>：压缩表由 myisampack 工具创建，占据非常小的磁盘空间。因为每个记录是被单独压缩的，所以只有非常小的访问开支</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>InnoDB（支持事务）</strong>：InnoDB 存储引擎提供了具有提交、回滚和崩溃恢复能力的事务安全<ul>
+<li>MySQL 支持外键的存储引擎只有 InnoDB，在创建外键的时候，要求父表必须有对应的<br>索引，子表在创建外键的时候也会自动创建对应的索引</li>
+<li><strong>InnoDB 存储表和索引有以下两种方式</strong>：<ul>
+<li>使用共享表空间存储，这种方式创建的表的表结构保存在.frm 文件中，数据和索引<br>保存在 innodb_data_home_dir 和 innodb_data_file_path 定义的表空间中，可以是<br>多个文件。</li>
+<li>使用多表空间存储，这种方式创建的表的表结构仍然保存在.frm 文件中，但是每个<br>表的数据和索引单独保存在.ibd 中。如果是个分区表，则每个分区对应单独的.ibd<br>文件，文件名是“表名+分区名”，可以在创建分区的时候指定每个分区的数据文件<br>的位置，以此来将表的 IO 均匀分布在多个磁盘上。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>InnoDB和MyISAM的区别</strong>：<ul>
+<li>对于 InnoDB 表，自动增长列必须是索引。如果是组合索引，也必须是组合索引的第一<br>列，但是对于 MyISAM 表，自动增长列可以是组合索引的其他列，这样插入记录后，自动增<br>长列是按照组合索引的前面几列进行排序后递增的</li>
+<li>对比 MyISAM的存储引擎，InnoDB 写的处理效率差一些并且会占用更多的磁盘空间以保留数据和索引。</li>
+</ul>
+</li>
+</ul>
+<h3 id="六，MySQL的事务控制"><a href="#六，MySQL的事务控制" class="headerlink" title="六，MySQL的事务控制"></a>六，MySQL的事务控制</h3><ul>
+<li><strong>MySQL</strong> 是自动提交（Autocommit）的，如果需要通过明确的 Commit 和<br>Rollback 来提交和回滚事务，那么需要通过明确的事务控制命令来开始事务<ul>
+<li><strong>START TRANSACTION</strong> 或 <strong>BEGIN</strong> 语句可以开始一项新的事务。如果在锁表期间，用 start transaction 命令开始一个新事务，会造成一个隐含的 unlock<br>tables 被执行</li>
+<li><strong>COMMIT</strong> 和 <strong>ROLLBACK</strong> 用来提交或者回滚事务</li>
+<li><strong>CHAIN</strong> 和 <strong>RELEASE</strong> 子句分别用来定义在事务提交或者回滚之后的操作，CHAIN 会立<br>即启动一个新事务，并且和刚才的事务具有相同的隔离级别，RELEASE 则会断开和客户端的<br>连接</li>
+<li><strong>SET AUTOCOMMIT</strong> 可以修改当前连接的提交方式，如果设置了 SET AUTOCOMMIT=0，<br>则设置之后的所有事务都需要通过明确的命令进行提交或者回滚。</li>
+</ul>
+</li>
+</ul>
+<h3 id="七，LOCK-TABLE-和-UNLOCK-TABLE"><a href="#七，LOCK-TABLE-和-UNLOCK-TABLE" class="headerlink" title="七，LOCK TABLE 和 UNLOCK TABLE"></a>七，LOCK TABLE 和 UNLOCK TABLE</h3><ul>
+<li><strong>LOCK TABLE</strong>：LOCK TABLES 可以锁定用于当前线程的表。如果表被其他线程锁定，则当前线程会等待，直<br>到可以获取所有锁定为止</li>
+<li><strong>UNLOCK TABLE</strong>：UNLOCK TABLES 可以释放当前线程获得的任何锁定。当前线程执行另一个 LOCK TABLES 时，或当与服务器的连接被关闭时，所有由当前线程锁定的表被隐含地解锁；</li>
+</ul>
+<h3 id="八，MySQL的分布式事务"><a href="#八，MySQL的分布式事务" class="headerlink" title="八，MySQL的分布式事务"></a>八，MySQL的分布式事务</h3><ul>
+<li><p>MySQL 从 5.0.3 开始支持分布式事务，当前分布式事务只支持 InnoDB 存储引擎</p>
+</li>
+<li><p>使用分布式事务的应用程序涉及一个或多个资源管理器和一个事务管理<br>器：</p>
+<ul>
+<li><strong>资源管理器（RM）</strong>用于提供通向事务资源的途径。数据库服务器是一种资源管理器。<br>该管理器必须可以提交或回滚由 RM 管理的事务。例如，多台 MySQL 数据库作为多台资源<br>管理器或者几台 Mysql 服务器和几台 Oracle 服务器作为资源管理器</li>
+<li><strong>事务管理器（TM）</strong>用于协调作为一个分布式事务一部分的事务。TM 与管理每个事务<br>的 RMs 进行通讯。一个分布式事务中各个单个事务均是分布式事务的“分支事务”。分布式<br>事务和各分支通过一种命名方法进行标识</li>
+</ul>
+</li>
+<li><p>用于执行分布式事务的过程使用两个阶段提交，发生时间在由分布式事务的各个分支需要进行的行动已经被执行之后</p>
+<ul>
+<li>在第一阶段，所有的分支被预备好。即它们被TM告知哟啊准备提交。通常 ，这意味着用于管理分支的每个RM会记录对于被稳定保存的分支的行动。分支指示是否它们可以这么做。这些结果被用于第二阶段。</li>
+<li>在第二阶段，TM 告知 RMs 是否要提交或回滚。如果在预备分支时，所有的分支指<br>示它们将能够提交，则所有的分支被告知要提交。如果在预备时，有任何分支指示它将不能<br>提交，则所有分支被告知回滚。</li>
+</ul>
+</li>
+<li><p>分布式事务（XA事务）的SQL语法主要包括：</p>
+<p><code>XA {START|BEGOM} xid [JOIN|RESUME]</code></p>
+<ul>
+<li><p>XA START xid用于启动一个带给定xid值的XA事务。每个XA事务必须有一个唯一的xid值，因此该值当前不能被其他的XA事务使用</p>
+</li>
+<li><p>xid是一个XA事务标识符，用来唯一标识一个分布式事务。xid值由客户端提供，或由MySQL服务器生成。</p>
+</li>
+<li><p>xid值包括1~3个部分：</p>
+<p><code>xid:gtrid [, bqual [, formatID ]]</code></p>
+<ul>
+<li><strong>gtrid</strong>是一个分布式事务标识符，相同的分布式事务应该使用相同的 gtrid，这样可以明确知道 xa 事务属于哪个分布式事务</li>
+<li><strong>bqual</strong> 是一个分支限定符，默认值是空串。对于一个分布式事务中的每个分支事务，bqual 值必须是唯一的。</li>
+<li><strong>formatID</strong> 是一个数字 ，用于标识由 gtrid 和 bqual 值使用的格式，默认值是 1。</li>
+</ul>
+</li>
+<li><p>下面其他XA语法中用到的xid值，都必须和START操作使用的xid值相同，也就是表示对这个启动的XA事务进行操作</p>
+<p><code>XA EMD xid [SUSPEND [FOR MIGRATE]]</code></p>
+</li>
+<li><p>使事务进入PREPARE状态，也就是两阶段提交的第一个提交阶段</p>
+<p><code>XA PREPARE xid</code></p>
+</li>
+<li><p>这两个命令用来提交或者回滚具体的分支事务。也就是两阶段提交的第二个提交阶段，分支事务被实际的提交或者回滚</p>
+<p><code>XA COMMIT xid [ONE PHASE]</code></p>
+<p><code>XA ROLLBACK xid</code></p>
+</li>
+<li><p>XA RECOVER 返回当前数据库中处于 PREPARE 状态的分支事务的详细信息。</p>
+<p><code>XA RECOVER</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="九，SQL注入"><a href="#九，SQL注入" class="headerlink" title="九，SQL注入"></a>九，SQL注入</h3><ul>
+<li>简介：<ul>
+<li>SQL Injection就是利用某些数据库的外部接口将用户数据插入到实际的数据库操作语言（SQL）当中，从而达到入侵数据库乃至操作系统给的目的。它的产生主要是由于程序对用户输入的数据没有进行严格的过滤，导致非法数据库查询语句的执行。</li>
+</ul>
+</li>
+<li>应用开发中可以采取的应对措施：<ul>
+<li><strong>PrepareStatement+Bind-variable</strong>：对于Java,JSP开发的应用，可以使用PrepareStatement+Bind-variable来防止SQL注入，而尽量不要使用拼接的SQL</li>
+<li><strong>使用应用程序提供的转换函数</strong>：很多应用程序接口都提供了对特殊字符进行转换的函数，恰当地使用这些函数，可以防止应用程序用户输入使应用程序生成不期望的语句。</li>
+<li><strong>自己定义函数进行校验</strong>：<ul>
+<li>输入验证的途径可以分为以下几种：<ul>
+<li>整理数据使之变得有</li>
+<li>拒绝已知的非法输入；</li>
+<li>只接受已知的合法输入</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>已知非法符：<code>“’”、“;”、“=”、“(”、“)”、“/*”、“*/”、“%”、“+”、“”、“&gt;”、“&lt;”、“--”、“[”、“]”</code><ul>
+<li>只需要过滤非法的符号组合就可以阻止已知形式的攻击，并且如果发现更新的攻<br>击符号组合，也可以将这些符号组合增添进来，继续防范新的攻击。特别是空格符号和与其产生相同作用的分隔关键字的符号，例如“/**/”，如果能成功过滤这种符号，那么有很多注入攻击将不能发生，并且同时也要过滤它们的十六进制表示“％XX”。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="十，SQL-Mode-SQL-模式"><a href="#十，SQL-Mode-SQL-模式" class="headerlink" title="十，SQL Mode(SQL 模式)"></a>十，SQL Mode(SQL 模式)</h3><ul>
+<li><p>SQL Mode常用来解决下面几类问题：</p>
+<ul>
+<li>通过设置SQL Mode，可以完成不同严格程序的数据校验，有效地保障数据准确性。</li>
+<li>通过设置SQL Mode为ANSI模式，来保证大多数SQL符合标准的SQL语法，这样应用在不同数据库之间进行迁移时，则不需要对业务SQL进行较大的修改。</li>
+<li>在不同数据库之间进行数据迁移之前，通过设置SQL Mode可以使MySQL上的数据更方便地迁移到目标数据库中。</li>
+</ul>
+</li>
+<li><p>SQL Mode的命令：</p>
+<ul>
+<li>查看默认SQL Mode的命令：<code>select @@sql_mode;</code></li>
+<li>sql_mode的一种修改方法：<code>SET [SESSION|GLOBAL] sql_mode=&#39;modes&#39;</code>其中SEESION选项表示只在本次连接中生效；而GLOBAL选项表示在本次连接中并不生效，而对于新的连接则生效</li>
+<li>sql_mode的另一种修改方法：通过使用<code>--sql-mode=&quot;mode&quot;</code>选项，在MYSQL启动时设置sql_mode</li>
+</ul>
+</li>
+<li><p>SQL Mode的常见功能：</p>
+<ul>
+<li><strong>校验日期数据合法性</strong>：在ANSI模式下，非法日期可以插入，但是插入值却变为“0000-00-00 00：00：00”，并且系统给出了warning；而在TRADITIONAL模式下，在直接提示日期非法，拒绝插入；</li>
+<li><strong>在INSERT或UPDATE过程中，如果SQL MODE处于TRADITIONAL模式，运行MOD(X,0)会产生错误</strong>：因为TRADITIONAL也属于严格模式，在非严格模式下MOD(X,0)返回的结果是NULL，所以在含有MOD的运算中要根据实际情况设定好sql_mode。</li>
+<li><strong>启用NO_BACKSLASH_ESCAPES模式，使反斜杠成为普通字符</strong>。在导入数据时，如果数据中含有反斜线字符，启用NO_BACKSLASH_ESCAPES模式保证数据的正确性，是个不错的选择。</li>
+<li><strong>启用PIPES_AS_CONCAT模式。将“||”视为字符串连接操作符</strong>，在Oracle等数据库中，“||”被视为字符串的连接操作符，所以，在其他数据库中含有“||”操作符的SQL 在MySQL中将无法执行，为了解决这个问题，MySQL提供了PIPES_AS_CONCAT模式。ANSI模式中包含了PIPES_AS_CONCAT模式，所以默认情况下MySQL新版本支持将“||”视为字符串连接操作符。</li>
+</ul>
+<p><img src="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/sql_mode.png" alt="sql_mode"></p>
+<ul>
+<li>表格中第一列SQL Mode的值其实都是一些原子模式的组合，类似于角色和权限的关系。这样当实际应用时，只需要设置一个模式组合，就可以设置很多的原子模式，大大方便了用户的工作。</li>
+</ul>
+<p><img src="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/sql_mode%E7%BB%84%E5%90%88.png" alt="sql_mode组合"></p>
+<ul>
+<li>如果MySQL与其他异构数据库之间有数据迁移的需求的话，那么MySQL中提供的数据库组合模式则会对数据迁移过程中有所帮助。这些模式组合是由很多小的sql_mode组合而成，在异构数据库之间迁移数据时可以尝试使用这些模式来导出适合于目标数据库格式的数据，这样就使得导出数据更容易导入目标数据库。</li>
+</ul>
+</li>
+</ul>
+<h3 id="十一，常用SQL技巧和常见问题"><a href="#十一，常用SQL技巧和常见问题" class="headerlink" title="十一，常用SQL技巧和常见问题"></a>十一，常用SQL技巧和常见问题</h3><ul>
+<li><p><strong>正则表达式的使用</strong></p>
+<p>​    <img src="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" alt="正则表达式"></p>
+<ul>
+<li>“^”在字符串的开始处进行匹配，返回结果为 1 表示匹配，返回结果为 0 表示不匹配。</li>
+<li>“$”在字符串的末尾处进行匹配。</li>
+<li>“.”匹配任意单个字符，包括换行符。</li>
+<li>“[…]”匹配出括号内的任意字符。</li>
+<li>“[ ^.. ]”匹配不出括号内的任意字符。和“[…]”刚好相反。</li>
+</ul>
+</li>
+<li><p><strong>巧用 RAND()提取随机行</strong></p>
+<ul>
+<li>在MySQL中，产生随机数的方法是RAND()函数。可以利用这个函数与ORDER BY子句一起完成随机抽取某些行的功能。它的原理其实就是ORDER BY RAND()能够把数据随机排序。随机抽取样本对总体的统计具有十分重要的意义，因此这个函数非常有用。</li>
+</ul>
+</li>
+<li><p><strong>利用GROUP BY的WITH ROLLUP子句做统计</strong></p>
+<ul>
+<li><p>在SQL语句中，使用GROUP BY的WITH ROLLUP字句可以检索出更多的分组聚合信息，它不仅仅能像一般的GROUP BY语句那样检索出各组的聚合信息，还能检索出本组类的整体聚合信息。</p>
+<blockquote>
+<p>1、当使用 ROLLUP 时, 不能同时使用 ORDER BY 子句进行结果排序。换言之， ROLLUP<br>和 ORDER BY 是互相排斥的</p>
+</blockquote>
+<blockquote>
+<p>2、LIMIT 用在 ROLLUP 后面</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>用 BIT GROUP FUNCTIONS 做统计</strong></p>
+<ul>
+<li><p>需求：假设该超市只有面包，牛奶，饼干，啤酒4种商品，现只需要记录用户所购买的商品种类，而不需要知道所购买的商品的详细信息。</p>
+</li>
+<li><p>用一个字段表示顾客购买商品的信息，但是这个字段是数值型的而不是字符型的，该字段存储一个十进制数字，当它转换成二进制的时候，那么每一位代表一种商品，而且如果所在位是“1”那么表示顾客购买了该种商品，“0”表示没有购买该种商品。比如规定数值的第1位代表面包，第2位代表牛奶，第3位代表饼干，第4位代表啤酒</p>
+<p>用户购物表</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>customer_id</th>
+<th>kind</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p>其中customerid是顾客编号，kind是所购买的商品；</p>
+<p>1号顾客购买的商品数值是5和4，转化为二进制分别为0101，0100，表示第一次购买了牛奶和啤酒，第二次购买了牛奶；</p>
+<p>2 号顾客购买的商品数值是3和4，转化为二进制分别为0011，0100，表示第一次购买了饼干和啤酒，第二次购买了牛奶。</p>
+</li>
+<li><p>下面用BIT_OR()函数与GROUP BY子句联合起来，统计这两个顾客在这个超市一共都购买过什么商品</p>
+<blockquote>
+<p>mysql&gt;select customer_id,bit_or(kind) from order_rab group by customer_id;</p>
+<table>
+<thead>
+<tr>
+<th>customer_id</th>
+<th>bit_or(kind)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>7</td>
+</tr>
+</tbody></table>
+</blockquote>
+<p>1号顾客的BIT_OR()结果是5即0101，表示这个顾客在本超市购买过牛奶和啤酒；</p>
+<p>2号顾客的BIT_OR()结果是7即0111，表示这个顾客在本超市购买过牛奶，饼干，啤酒。    </p>
+</li>
+<li><p>可以用BIT_AND()统计每个顾客每次来本超市都会购买的商品</p>
+<blockquote>
+<p>mysql&gt;select customer_id,bit_and(kind) from order_rab group by customer_id;</p>
+<table>
+<thead>
+<tr>
+<th>customer_id</th>
+<th>bit_and(kind)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+</tr>
+</tbody></table>
+</blockquote>
+<p>1号顾客的BIT_AND()结果是4即0100，表示1号顾客每次来本超市都会购买牛奶；</p>
+<p>2号顾客的BIT_AND()结果是0即0000，表示2号顾客没有每次来本超市都会购买的商品。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>数据库名、表名大小写问题</strong></p>
+<ul>
+<li>在大多数 UNIX 环境中，由于操作系统对大小写的敏感性导致了数据库名和表名对大小写敏感性，所以一般<strong>总是用小写创建并引用数据库名和表名</strong></li>
+</ul>
+</li>
+<li><p><strong>使用外键需要注意的问题</strong></p>
+<ul>
+<li>在 MySQL 中，InnoDB 存储引擎支持对外部关键字约束条件的检查。而对于其他类型存储引擎的表，当使用 REFERENCES tbl_name(col_name)子句定义列时可以使用外部关键字，但是该子句没有实际的效果，只作为备忘录或注释来提醒用户目前正定义的列指向另一个表中的一个列。</li>
+</ul>
+</li>
+</ul>
+<h3 id="十二，优化SQL语句的一般步骤"><a href="#十二，优化SQL语句的一般步骤" class="headerlink" title="十二，优化SQL语句的一般步骤"></a>十二，优化SQL语句的一般步骤</h3><ol>
+<li><p><strong>通过show status命令了解各种SQL的执行效率</strong></p>
+<p><code>show [session|global] status</code></p>
+<ul>
+<li><p>通过<code>show [session|global] status</code>命令可以提供服务器状态信息</p>
+</li>
+<li><p>在操作系统上使用mysqladmin extended-status命令获得服务器状态消息</p>
+<blockquote>
+<p>show status like “Com_%”</p>
+<table>
+<thead>
+<tr>
+<th>Variable_name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Com_admin_commands</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Com_alter_db</td>
+<td>0</td>
+</tr>
+<tr>
+<td>……..</td>
+<td></td>
+</tr>
+</tbody></table>
+</blockquote>
+</li>
+<li><p>Com_xxx表示每个xxx语句执行的次数，我们通常比较关心的是以下几个统计参数：</p>
+<ul>
+<li><p>Com_select：执行select操作的次数，一次查询只累加1；</p>
+</li>
+<li><p>Com_insert：执行insert操作的次数，对于批量插入的insert操作，只累加一次。</p>
+</li>
+<li><p>Com_update：执行update操作的次数。</p>
+</li>
+<li><p>Com_delete：执行delete操作的次数。</p>
+<p>上面这些参数对于所有存储引擎的表操作都会进行累计。下面这几个参数只是针对InnoDB存储引擎的。累加的算法也略有不同；</p>
+</li>
+<li><p>Innodb_rows_read：select 查询返回的行数</p>
+</li>
+<li><p>Innodb_rows_inserted：执行 insert操作插入的行数。</p>
+</li>
+<li><p>__Innodb_rows_updated：执行 UPDATE 操作更新的行数</p>
+</li>
+<li><p>Innodb_rows_deleted：执行 DELETE 操作删除的行数操作更新的行数</p>
+</li>
+<li><p>Connections：试图连接 MySQL 服务器的次数</p>
+</li>
+<li><p>Uptime：服务器工作时间</p>
+</li>
+<li><p>Slow_queries：慢查询的次数</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>定位执行效率较低的 SQL 语句</strong></p>
+<ul>
+<li>通过慢查询日志定位那些执行效率较低的 SQL 语句，用–log-slow-queries[=file_name]选项启动时，mysqld 写一个包含所有执行时间超过 long_query_time 秒的 SQL 语句的日志文件。</li>
+<li>慢查询日志在查询结束以后才纪录，所以在应用反映执行效率出现问题的时候查询慢查询日志并不能定位问题，可以使用show processlist命令查看当前MySQL在进行的线程，包括线程的状态、是否锁表等，可以实时地查看 SQL 的执行情况，同时对一些锁表操作进行优化</li>
+</ul>
+</li>
+<li><p><strong>通过 EXPLAIN 分析低效 SQL 的执行计划</strong></p>
+<ul>
+<li><p>​    通过以上步骤查询到效率低的 SQL 语句后，可以通过 EXPLAIN 或者 DESC 命令获取 MySQL<br>如何执行 SELECT 语句的信息，包括在 SELECT 语句执行过程中表如何连接和连接的顺序</p>
+<blockquote>
+<p>计算 2006 年所有公司的销售额，需要关联 sales 表和 company 表，并且对 moneys 字段<br>做求和（sum）操作，相应 SQL 的执行计划如下：</p>
+<p>mysql&gt; explain select sum(moneys) from sales a,company b where a.company_id = b.id and a.year<br>= 2006\G;</p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>*****</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>1.row<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>****</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>​                    id:1</p>
+<p>​    select_type:SIMPLE</p>
+<p>​                table:a</p>
+<p>​                type:ALL</p>
+<p>possible_keys:NULL</p>
+<p>​                  key:NULL        </p>
+<p>​           key_len:NULL</p>
+<p>​                    ref:NULL</p>
+<p>​                rows:1000</p>
+<p>​                Extra:Using where</p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>*****</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>2.row<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>****</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<pre><code>                 id: 1
+select_type: SIMPLE
+            table: b
+            type: ref</code></pre><p>  possible_keys: ind_company_id</p>
+<pre><code>        key: ind_company_id
+key_len: 5
+        ref: sakila.a.company_id
+    rows: 1
+    Extra: Using where; Using index</code></pre><p>2 rows in set (0.00 sec)</p>
+</blockquote>
+<ul>
+<li>select_type：表示 SELECT 的类型，常见的取值有 SIMPLE（简单表，即不使用表连接或者子查询）、PRIMARY（主查询，即外层的查询）、UNION（UNION 中的第二个或者后面的查询语句）、SUBQUERY（子查询中的第一个 SELECT）等</li>
+<li>table：输出结果集的表。</li>
+<li>type：表示表的连接类型，性能由好到差的连接类型为 system（表中仅有一行，即常量表）、const（单表中最多有一个匹配行，例如 primary key 或者 unique index）、eq_ref（对于前面的一行，在此表中只查询一条记录，简单来说，就是多表连接中使用primary key或者unique index）、ref（与eq_ref类似，区别在于不是使用primary key 或者 unique index，而是使用普通的索引）、ref_or_null（与 ref 类似，区别在于条件中包含对 NULL 的查询）、index_merge(索引合并优化)、unique_subquery（in的后面是一个查询主键字段的子查询）、index_subquery（与 unique_subquery 类似，区别在于 in 的后面是查询非唯一索引字段的子查询）、range（单表中的范围查询）、index（对于前面的每一行，都通过查询索引来得到数据）、all（对于前面的每一行，都通过全表扫描来得到数据）。</li>
+<li>possible_keys：表示查询时，可能使用的索引。</li>
+<li>key：表示实际使用的索引。</li>
+<li>key_len：索引字段的长度。</li>
+<li>rows：扫描行的数量。</li>
+<li>Extra：执行情况的说明和描述</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>确定问题并采取相应的优化措施</strong></p>
+<ul>
+<li><p>在上面的例子中，已经可以确认是对 a 表的全表扫描导致效率的不理想，那么对 a 表的year 字段创建索引，具体如下：</p>
+<blockquote>
+<p>mysql&gt; create index ind_sales2_year on sales2(year);</p>
+<p>mysql&gt; explain select sum(moneys) from sales2 a,company2 b where a.company_id = b.id and<br>a.year = 2006\G;<br><strong><strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong></strong> 1. row <strong><strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong></strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>a</td>
+<td>ref</td>
+<td>ind_sales2_year</td>
+<td>ind_sales2_year</td>
+<td>2</td>
+<td>const</td>
+<td>1</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p><strong><strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong></strong> 2. row <strong><strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong></strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>b</td>
+<td>ref</td>
+<td>ind_company2_id</td>
+<td>ind_company2_id</td>
+<td>5</td>
+<td>sakila.a.company_id</td>
+<td>1</td>
+<td>Using where; Using index</td>
+</tr>
+</tbody></table>
+<p>2 rows in set (0.00 sec)</p>
+</blockquote>
+<ul>
+<li>发现建立索引后对 a 表需要扫描的行数明显减少（从 1000 行减少到 1 行），可见索引的<br>使用可以大大提高数据库的访问速度，尤其在表很庞大的时候这种优势更为明显。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="索引的使用以及常见问题"><a href="#索引的使用以及常见问题" class="headerlink" title="索引的使用以及常见问题"></a>索引的使用以及常见问题</h2><h3 id="十三，设计索引的原则"><a href="#十三，设计索引的原则" class="headerlink" title="十三，设计索引的原则"></a>十三，设计索引的原则</h3><ul>
+<li>​    搜索的索引列，不一定是所要选择的列。换句话说，最适合索引的列是出现在 WHERE<br>子句中的列，或连接子句中指定的列，而不是出现在 SELECT 关键字后的选择列表中的列。</li>
+<li>使用惟一索引。考虑某列中值的分布。索引的列的基数越大，索引的效果越好。例<br>如，存放出生日期的列具有不同值，很容易区分各行。而用来记录性别的列，只含有“ M”<br>和“F”，则对此列进行索引没有多大用处，因为不管搜索哪个值，都会得出大约一半的行。</li>
+<li>使用短索引。如果对字符串列进行索引，应该指定一个前缀长度，只要有可能就应<br>该这样做。例如，如果有一个 CHAR(200)列，如果在前 10 个或 20 个字符内，多数值是惟一<br>的，那么就不要对整个列进行索引。对前10个或20个字符进行索引能够节省大量索引空间，<br>也可能会使查询更快。较小的索引涉及的磁盘 IO 较少，较短的值比较起来更快。更为重要<br>的是，对于较短的键值，索引高速缓存中的块能容纳更多的键值，因此，MySQL 也可以在<br>内存中容纳更多的值。这样就增加了找到行而不用读取索引中较多块的可能性。</li>
+<li>利用最左前缀。在创建一个 n 列的索引时，实际是创建了 MySQL 可利用的 n 个索引。<br>多列索引可起几个索引的作用，因为可利用索引中最左边的列集来匹配行。这样的列集称为<br>最左前缀。</li>
+<li>不要过度索引。不要以为索引“越多越好”，什么东西都用索引是错误的。每个额<br>外的索引都要占用额外的磁盘空间，并降低写操作的性能。在修改表的内容时，索引必须进<br>行更新，有时可能需要重构，因此，索引越多，所花的时间越长。如果有一个索引很少利用<br>或从不使用，那么会不必要地减缓表的修改速度。此外，MySQL 在生成一个执行计划时，<br>要考虑各个索引，这也要花费时间。创建多余的索引给查询优化带来了更多的工作。索引太<br>多，也可能会使 MySQL 选择不到所要使用的最好索引。只保持所需的索引有利于查询优化。</li>
+<li>对于 InnoDB 存储引擎的表，记录默认会按照一定的顺序保存，如果有明确定义的主<br>键，则按照主键顺序保存。如果没有主键，但是有唯一索引，那么就是按照唯一索引的顺序<br>保存。如果既没有主键又没有唯一索引，那么表中会自动生成一个内部列，按照这个列的顺<br>序保存。按照主键或者内部列进行的访问是最快的，所以 InnoDB 表尽量自己指定主键，当<br>表中同时有几个列都是唯一的，都可以作为主键的时候，要选择最常作为访问条件的列作为<br>主键，提高查询的效率。另外，还需要注意，InnoDB 表的普通索引都会保存主键的键值，<br>所以主键要尽可能选择较短的数据类型，可以有效地减少索引的磁盘占用，提高索引的缓存<br>效果。</li>
+</ul>
+<h3 id="十四，索引的存储分类"><a href="#十四，索引的存储分类" class="headerlink" title="十四，索引的存储分类"></a>十四，索引的存储分类</h3><ul>
+<li><p>MySAM存储引擎的表的数据和索引是自动分开存储的各自是独立的一个文件；</p>
+</li>
+<li><p>InnoDB存储引擎的表的数据和索引是存储在同一个表空间里面，但可以有多个文件组成</p>
+</li>
+<li><p>MySQL 中索引的存储类型:</p>
+<ul>
+<li>BTREE ：MyISAM 和 InnoDB 存储引擎都只支持 BTREE 索引；</li>
+<li>HASH：MEMORY/HEAP 存储引擎可以支持 HASH和 BTREE 索引。</li>
+</ul>
+</li>
+</ul>
+<h3 id="十五，使用索引"><a href="#十五，使用索引" class="headerlink" title="十五，使用索引"></a>十五，使用索引</h3><ul>
+<li><p>需要使用到索引的几种情况：</p>
+<ul>
+<li><p>对于创建的多列索引，只要查询的条件中用到了最左边的列，索引一般就会被使用，举例说明如下</p>
+<blockquote>
+<p>mysql&gt; create index ind_sales2_companyid_moneys on sales2(company_id,moneys);</p>
+<p>mysql&gt; explain select * from sales2 where company_id = 2006;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>sales2</td>
+<td>ref</td>
+<td>ind_sales2_companyid_moneys</td>
+<td>ind_sales2_companyid_moneys</td>
+<td>5</td>
+<td>const</td>
+<td>1</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>可以发现即便 where 条件中不是用的 company_id 与 moneys 的组合条件，索引仍然能<br>用到，这就是索引的前缀特性。但是如果只按 moneys 条件查询表，那么索引就不会<br>被用到</p>
+</blockquote>
+</li>
+<li><p>对于使用 like 的查询，后面如果是常量并且只有％号不在第一个字符，索引才可能会被使用，来看下面两个执行计划：</p>
+<blockquote>
+<p>mysql&gt; explain select * from company2 where name like ‘%3’;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>company2</td>
+<td>ALL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>1000</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>mysql&gt; explain select * from company2 where name like ‘3%’;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>company2</td>
+<td>range</td>
+<td>ind_company2_name</td>
+<td>ind_company2_name</td>
+<td>11</td>
+<td>NULL</td>
+<td>103</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>可以发现第一个例子没有使用索引，而第二例子就能够使用索引，区别就在于“%”的位置<br>不同，前者把“%”放到第一位就不能用到索引，而后者没有放到第一位就使用了索引。<br>另外，如果如果 like 后面跟的是一个列的名字，那么索引也不会被使用。</p>
+</blockquote>
+</li>
+<li><p>如果对大的文本进行搜索，使用全文索引而不用使用 like ‘%…%’</p>
+</li>
+<li><p>如果列名是索引，使用 column_name is null 将使用索引。如下例中查询 name 为 null的记录就用到了索引：</p>
+<blockquote>
+<p>mysql&gt; explain select * from company2 where name is null;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>company2</td>
+<td>ref</td>
+<td>ind_company2_name</td>
+<td>ind_company2_name</td>
+<td>11</td>
+<td>const</td>
+<td>1</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="十六，存在索引但不使用索引"><a href="#十六，存在索引但不使用索引" class="headerlink" title="十六，存在索引但不使用索引"></a>十六，存在索引但不使用索引</h3><ul>
+<li><p>在下列情况，虽然存在索引，但是MySQL并不会使用相应的索引：</p>
+<ul>
+<li><p>如果MySQL估计使用索引比全表扫描更慢，则不使用索引。例如如果列key_part1均匀分布在1和100之间，下列查询中使用索引就不是很好：</p>
+<blockquote>
+<p>SELECT * FROM table_name where key_part1 &gt; 1 and key_part1 &lt; 90;</p>
+</blockquote>
+</li>
+<li><p>如果使用MEMORY/HEAP表并且where条件中不使用“=”进行索引列，那么不会用到索引。heap表只有在“=”的条件下才会使用索引。</p>
+</li>
+<li><p>用or分割开的条件，如果or前的条件中的列有索引，而后面的列中没有索引，那么涉及到索引都不会被用到。例如</p>
+<blockquote>
+<p>mysql&gt; explain select * from sales where year = 2001 or country = ‘China’;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>sales</td>
+<td>ALL</td>
+<td>ind_sales_year</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>12</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+<p>可见虽然在year这个列上存在索引ind_sales_year，但是这个SQL语句并没有用到这个索引，<br>原因就是 or 中有一个条件中的列没有索引。</p>
+</blockquote>
+</li>
+<li><p>如果不是索引列的第一部分，如下例子：</p>
+<blockquote>
+<p>mysql&gt; explain select * from sales2 where moneys = 1;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>sales2</td>
+<td>ALL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>1000</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+<p>可见虽然在 money 上面建有复合索引，但是由于 money 不是索引的第一列，那么在查询中<br>这个索引也不会被 MySQL 采用。</p>
+</blockquote>
+</li>
+<li><p>如果like是以%开始，例如：</p>
+<blockquote>
+<p>mysql&gt; explain select * from company2 where name like ‘%3’;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>company2</td>
+<td>ALL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>1000</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+<p>可见虽然在 name 上建有索引，但是由于 where 条件中 like 的值的“%”在第一位了，那么<br>MySQL 也不会采用这个索引。</p>
+</blockquote>
+</li>
+<li><p>如果列类型是字符串，那么一定记得在where条件中把字符常量值用引号引起来，否则的话即便这个列上有索引。如下面的例子中company2表中国的name字段是字符型的，但是SQL语句中的条件值294是一个数值型值，因此即便在name上有索引，MySQL也不能正确地用上索引，而是继续进行全表扫描</p>
+<blockquote>
+<p>mysql&gt; explain select * from company2 where name = 294;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>company2</td>
+<td>ALL</td>
+<td>ind_company2_name</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>1000</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>mysql&gt; explain select * from company2 where name = ‘294’;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>company2</td>
+<td>ref</td>
+<td>ind_company2_name</td>
+<td>ind_company2_name</td>
+<td>23</td>
+<td>const</td>
+<td>1</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+<p>从上面的例子中可以看到，第一个 SQL 语句中把一个数值型常量赋值给了一个字符型的列<br>name，那么虽然在 name 列上有索引，但是也没有用到；而第二个 SQL 语句就可以正确使<br>用索引。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="十七，查看索引使用情况"><a href="#十七，查看索引使用情况" class="headerlink" title="十七，查看索引使用情况"></a>十七，查看索引使用情况</h3><ul>
+<li><p>如果索引正在工作，<strong>Handler_read_key</strong>的值将很高，这个值代表了一个行被索引值读的次数，很低的值表明增加索引得到的性能改善不高，因为索引并不经常使用。</p>
+</li>
+<li><p><strong>Handler_read_rnd_next</strong>的值高则意味着查询运行低效，并且应该建立索引补救。这个值的含义是在数据文件中毒下一行的请求数。如果正进行大量的表扫描，<strong>Handler_read_rnd_next</strong>的值较高，则通常说明表索引不正确或写入的查询没有利用索引，具体如下：</p>
+<blockquote>
+<p>mysql&gt; show status like ‘Handler_read%’;</p>
+<table>
+<thead>
+<tr>
+<th>Variable_name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Handler_read_first</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Handler_read_key</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Handler_read_next</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Handler_read_prev</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Handler_read_rnd</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Handler_read_rnd_next</td>
+<td>2055</td>
+</tr>
+</tbody></table>
+<p>6 rows in set (0.00 sec)</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="SQL语句的优化"><a href="#SQL语句的优化" class="headerlink" title="SQL语句的优化"></a>SQL语句的优化</h2><h3 id="十八，两个简单实用的优化方法"><a href="#十八，两个简单实用的优化方法" class="headerlink" title="十八，两个简单实用的优化方法"></a>十八，两个简单实用的优化方法</h3><ul>
+<li><p>定期分析表和检查表</p>
+<ul>
+<li><p>分析表的语法如下：</p>
+<blockquote>
+<p>ANALYZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE tbl_name [, tbl_name] ..</p>
+<p>本语句用于分析和存储表的关键字分布，分析的结果将可以使得系统得到准确的统计信息，使得SQL能够生成正确的执行计划。如果用户感觉实际执行计划并不是预期的执行计划，执行一次分析表可能会解决问题。在分析期间，使用一个读取锁定对表进行锁定。这对 MyISAM, BDB 和 InnoDB 表有作用。对于 MyISAM 表，本语句与使用 myisamchk -a 相当，下例中对表 sales 做了表分析：</p>
+<p>mysql&gt; analyze table sales;</p>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Op</th>
+<th>Msg_type</th>
+<th>Msg_text</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sakila.sales</td>
+<td>analyze</td>
+<td>status</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+</blockquote>
+</li>
+<li><p>检查表的语法如下：</p>
+<blockquote>
+<p>CHECK TABLE tbl_name [, tbl_name] … [option] … option = {QUICK | FAST | MEDIUM | EXTENDED | CHANGED} </p>
+<p>检查表的作用是检查一个或多个表是否有错误。CHECK TABLE对MyISAM和InnoDB表有作用。对于MyISAM表，关键字统计数据被更新。例如：</p>
+<p>mysql&gt; check table sales;</p>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Op</th>
+<th>Msg_type</th>
+<th>Msg_text</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sakila.sales</td>
+<td>check</td>
+<td>status</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+</blockquote>
+</li>
+<li><p>CHECK TABLE 也可以检查视图是否有错误，比如在视图定义中被引用的表已不存在，举例如下。</p>
+<blockquote>
+<p>（1）首先我们创建一个视图。</p>
+<p>mysql&gt; create view sales_view3 as select * from sales3;<br>Query OK, 0 rows affected (0.00 sec)</p>
+<p>（2）然后 CHECK 一下该视图，发现没有问题.</p>
+<p>mysql&gt; check table sales_view3;</p>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Op</th>
+<th>Msg_type</th>
+<th>Msg_text</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sakila.sales_view3</td>
+<td>check</td>
+<td>status</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+<p>（3）现在删除掉视图依赖的表。</p>
+<p>mysql&gt; drop table sales3;<br>Query OK, 0 rows affected (0.00 sec)</p>
+<p>（4）再来 CHECK 一下刚才的视图，发现报错了。</p>
+<p>mysql&gt; check table salesview3;</p>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Op</th>
+<th>Msg_type</th>
+<th>Msg_text</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sakila.sales_view3</td>
+<td>check</td>
+<td>error</td>
+<td>View ‘sakila.sales_view3’ references invalid table(s) or column(s) or function(s) <br>or definer/invoker of view lack rights to use them</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>定期优化表</p>
+<ul>
+<li><p>优化表的语法如下:</p>
+<blockquote>
+<p>OPTIMIZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE tbl_name [, tbl_name] …</p>
+<p>如果已经删除了表的一大部分，或者如果已经对含有可变的长度的表（含有VARCHAR,BLOR或TEXT列的表）进行了很多的更改，则应使用OPTIMIZE TABLE命令来进行表优化。这个命令可以将表中的空间碎片进行合并，并且可以消除由于删除或者更新造成的空间浪费，但OPTIMIZE TABLE命令只对MyISAM,BDB和InnoDB表起作用。</p>
+<p>以下例子显示了优化表sales的过程：</p>
+<p>mysql&gt; optimize table sales;</p>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Op</th>
+<th>Msg_type</th>
+<th>Msg_text</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sakila.sales</td>
+<td>optimize</td>
+<td>status</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+<p>注意：ANALYZE、CHECK、OPTIMIZE 执行期间将对表进行锁定，因此一定注意要在数据库不<br>繁忙的时候执行相关的操作。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="十九，常用的SQL的优化"><a href="#十九，常用的SQL的优化" class="headerlink" title="十九，常用的SQL的优化"></a>十九，常用的SQL的优化</h3><ul>
+<li><p><strong>大批量插入数据</strong></p>
+<ul>
+<li><p>当用load命令导入数据的时候，适当的设置可以提高导入速度</p>
+</li>
+<li><p>对于 MyISAM 存储引擎的表，可以通过以下方式快速的导入大量的数据</p>
+<blockquote>
+<p>ALTER TABLE tbl_name DISABLE KEYS;<br>loading the data<br>ALTER TABLE tbl_name ENABLE KEYS;</p>
+<p>DISABLE KEYS 和 ENABLE KEYS 用来打开或者关闭 MyISAM 表非唯一索引的更新。在导入大量的数据到一个非空的 MyISAM 表时，通过设置这两个命令，可以提高导入的效率。对于导入大量数据到一个空的 MyISAM 表，默认就是先导入数据然后才创建索引的，所以不用进行设置。</p>
+</blockquote>
+</li>
+<li><p>以下几种方式提高InnoDB表的导入效率</p>
+<ul>
+<li>因为 InnoDB 类型的表是按照主键的顺序保存的，所以将导入的数据按照主键的顺序排列，可以有效地提高导入数据的效率。</li>
+<li>在导入数据前执行 SET UNIQUE_CHECKS=0，关闭唯一性校验，在导入结束后执行SETUNIQUE_CHECKS=1，恢复唯一性校验，可以提高导入的效率。</li>
+<li>如果应用使用自动提交的方式，建议在导入前执行 SET AUTOCOMMIT=0，关闭自动提交，导入结束后再执行 SET AUTOCOMMIT=1，打开自动提交，也可以提高导入的效率。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>优化 INSERT 语句</strong></p>
+<ul>
+<li><p>如果同时从同一客户插入很多行，尽量使用多个值表的 INSERT 语句，这种方式将大大缩减客户端与数据库之间的连接、关闭等消耗，使得效率比分开执行的单个 INSERT 语句快(在一些情况中几倍)。下面是一次插入多值的一个例子：</p>
+<blockquote>
+<p>insert into test values(1,2),(1,3),(1,4)…</p>
+</blockquote>
+</li>
+<li><p>如果从不同客户插入很多行，能通过使用 INSERT DELAYED 语句得到更高的速度。DELAYED 的含义是让 INSERT 语句马上执行，其实数据都被放在内存的队列中，并没有真正写入磁盘，这比每条语句分别插入要快的多；LOW_PRIORITY 刚好相反，在所有其他用户对表的读写完后才进行插入；</p>
+</li>
+<li><p>将索引文件和数据文件分在不同的磁盘上存放（利用建表中的选项）；</p>
+</li>
+<li><p>如果进行批量插入，可以增加 bulk_insert_buffer_size 变量值的方法来提高速度，但是，这只能对 MyISAM 表使用；</p>
+</li>
+<li><p>当从一个文本文件装载一个表时，使用 LOAD DATA INFILE。这通常比使用很多 INSERT 语句快 20 倍。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>优化 GROUP BY 语句</strong></p>
+<ul>
+<li><p>如果查询包括 GROUP BY 但用户想要避免排序结果的消耗，则可以指定 ORDER BY NULL禁止排序，如下面的例子：</p>
+<blockquote>
+<p>mysql&gt; explain select id,sum(moneys) from sales2 group by id;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>sales2</td>
+<td>ALL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>1000</td>
+<td>Using temporary; Using filesort</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+<p>mysql&gt; explain select id,sum(moneys) from sales2 group by id order by null;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>sales2</td>
+<td>ALL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>1000</td>
+<td>Using temporary</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>优化ORDER BY语句</strong></p>
+<ul>
+<li><p>在某些情况中，MySQL 可以使用一个索引来满足 ORDER BY 子句，而不需要额外的排序。WHERE 条件和 ORDER BY 使用相同的索引，并且 ORDER BY 的顺序和索引顺序相同，并且ORDER BY 的字段都是升序或者都是降序。</p>
+<blockquote>
+<p>下列 SQL 可以使用索引</p>
+<p>SELECT * FROM t1 ORDER BY key_part1,key_part2,… ;<br>SELECT * FROM t1 WHERE key_part1=1 ORDER BY key_part1 DESC, key_part2 DESC;<br>SELECT * FROM t1 ORDER BY key_part1 DESC, key_part2 DESC;</p>
+<p>但是在以下几种情况下则不使用索引：</p>
+<p>SELECT * FROM t1 ORDER BY key_part1 DESC, key_part2 ASC；<br>–order by 的字段混合 ASC 和 DESC<br>SELECT * FROM t1 WHERE key2=constant ORDER BY key1；<br>–用于查询行的关键字与 ORDER BY 中所使用的不相同<br>SELECT * FROM t1 ORDER BY key1, key2；<br>–对不同的关键字使用 ORDER BY：</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>优化嵌套查询</strong></p>
+<ul>
+<li>MySQL 4.1 开始支持 SQL 的子查询。这个技术可以使用 SELECT 语句来创建一个单列的查询结果，然后把这个结果作为过滤条件用在另一个查询中。使用子查询可以一次性地完成很多逻辑上需要多个步骤才能完成的 SQL 操作，同时也可以避免事务或者表锁死，并且写起来也很容易。但是，有些情况下，子查询可以被更有效率的连接（JOIN）替代。连接（JOIN）之所以更有效率一些，是因为 MySQL 不需要在内存中创建临时表来完成这个逻辑上的需要两个步骤的查询工作。</li>
+</ul>
+</li>
+<li><p><strong>优化 OR 条件</strong></p>
+<ul>
+<li><p>对于含有 OR 的查询子句，如果要利用索引，则 OR 之间的每个条件列都必须用到索引；如果没有索引，则应该考虑增加索引。</p>
+<blockquote>
+<p>例如，首先使用 show index 命令查看表 sales2 的索引，可知它有 3 个索引，在 id、year两个字段上分别有 1 个独立的索引，在 company_id 和 year 字段上有 1 个复合索引。可以发现查询正确的用到了索引，并且从执行计划的描述中，发现 MySQL 在处理含有 OR字句的查询时，实际是对 OR 的各个字段分别查询后的结果进行了 UNION。但是当在建有复合索引的列 company_id 和 moneys 上面做 OR 操作的时候，却不能用到索引。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>使用 SQL 提示</strong></p>
+<ul>
+<li><p>SQL 提示（SQL HINT）是优化数据库的一个重要手段，简单来说就是在 SQL 语句中加入一些<br>人为的提示来达到优化操作的目的。<br>下面是一个使用 SQL 提示的例子：</p>
+<blockquote>
+<p>SELECT SQL_BUFFER_RESULTS * FROM…</p>
+<p>这个语句将强制 MySQL 生成一个临时结果集。只要临时结果集生成后，所有表上的锁<br>定均被释放。这能在遇到表锁定问题时或要花很长时间将结果传给客户端时有所帮助，因为<br>可以尽快释放锁资源。</p>
+</blockquote>
+</li>
+<li><p><strong>USE INDEX</strong></p>
+<blockquote>
+<p>在查询语句中表名的后面，添加 USE INDEX 来提供希望 MySQL 去参考的索引列表，就可以让 MySQL 不再考虑其他可用的索引。</p>
+<p>mysql&gt; explain select * from sales2 use index (ind_sales2_id) where id = 3;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>selcet_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>sales2</td>
+<td>ref</td>
+<td>ind_sales2_id</td>
+<td>ind_sales2_id</td>
+<td>5</td>
+<td>const</td>
+<td>1</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec).</p>
+</blockquote>
+</li>
+<li><p><strong>IGNORE INDEX</strong></p>
+<blockquote>
+<p>mysql&gt; explain select * from sales2 ignore index (ind_sales2_id) where id = 3;</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>selcet_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>sales2</td>
+<td>ALL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>NULL</td>
+<td>1000</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.00 sec)</p>
+<p>从执行计划可以看出，系统忽略了指定的索引，而使用了全表扫描。</p>
+</blockquote>
+</li>
+<li><p><strong>FORCE INDEX</strong></p>
+<ul>
+<li><p>为强制 MySQL 使用一个特定的索引，可在查询中使用 FORCE INDEX 作为 HINT。例如，当不强制使用索引的时候，因为 id 的值都是大于 0 的，因此 MySQL 会默认进行全表扫描，而不使用索引，但是，当使用 FORCE INDEX 进行提示时，即便使用索引的效率不是最高，MySQL 还是选择使用了索引，这是 MySQL 留给用户的一个自行选择执行计划的权力。加入 FORCE INDEX 提示后再次执行上面的 SQL：</p>
+<blockquote>
+<p>explain select * from sales2 force index (ind_sales2_id) where id &gt; 0 ;</p>
+<table>
+<thead>
+<tr>
+<th align="center">id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>possible_keys</th>
+<th>key</th>
+<th>key_len</th>
+<th>ref</th>
+<th>rows</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td>SIMPLE</td>
+<td>sales2</td>
+<td>range</td>
+<td>ind_sales2_id</td>
+<td>ind_sales2_id</td>
+<td>5</td>
+<td>NULL</td>
+<td>1000</td>
+<td>Using where</td>
+</tr>
+</tbody></table>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="数据库表对象的优化"><a href="#数据库表对象的优化" class="headerlink" title="数据库表对象的优化"></a>数据库表对象的优化</h2><h3 id="二十，优化数据库对象"><a href="#二十，优化数据库对象" class="headerlink" title="二十，优化数据库对象"></a>二十，优化数据库对象</h3><ul>
+<li><p><strong>优化表的数据类型</strong></p>
+<ul>
+<li><p>在 MySQL 中，可以使用函数 PROCEDURE ANALYSE()对当前应用的表进行分析，该函数可<br>以对数据表中列的数据类型提出优化建议，用户可以根据应用的实际情况酌情考虑是否实施<br>优化。</p>
+<blockquote>
+<p>以下是函数 PROCEDURE ANALYSE()的使用方法：</p>
+<p>SELECT * FROM tbl_name PROCEDURE ANALYSE();</p>
+<p>SELECT * FROM tbl_name PROCEDURE ANALYSE(16,256);</p>
+<p>输出的每一列信息都会对数据表中的列的数据类型提出优化建议。以上第二个语句告诉PROCEDURE ANALYSE()不要为那些包含的值多于16个或者256字节的ENUM类型提出建议。如果没有这样的限制，输出信息可能很长；ENUM 定义通常很难阅读。</p>
+<p>根据 PROCEDURE ANALYSE()函数的输出信息，用户可能会发现，一些表中的字段可以修改为效率更高的数据类型。如果决定改变某个字段的类型，则需要使用 ALTER TABLE 语句，</p>
+<p>（1）首先创建测试表 duck_cust，duck_cust 表中记录了客户的一些基本信息：</p>
+<p>CREATE TABLE duck_cust(<br>cust_num MEDIUMINT AUTO_INCREMENT, –客户编号<br>cust_title TINYINT, –客户标题号</p>
+<p>cust_last CHAR(20) NOT NULL, –客户姓氏<br>cust_first CHAR(15) NOT NULL, –客户名<br>cust_suffix ENUM(‘Jr.’, ‘II’, ‘III’,’IV’, ‘V’, ‘M.D.’,’PhD’), –附加码<br>cust_add1 CHAR(30) NOT NULL, –客户地址<br>cust_add2 CHAR(10), –客户地址<br>cust_city CHAR(18) NOT NULL, –客户所在城市<br>cust_state CHAR(2) NOT NULL, –客户所在州<br>cust_zip1 CHAR(5)NOT NULL, –客户邮编<br>cust_zip2 CHAR(4), –客户邮编<br>cust_duckname CHAR(25) NOT NULL, –客户名称<br>cust_duckbday DATE, –客户生日<br>PRIMARY KEY (cust_num)<br>)TYPE=MyISAM; </p>
+<p>（2）然后生成一些测试数据：</p>
+<p>INSERT INTO duck_cust VALUES(NULL, 1, ‘Irishlord’, ‘Red’, ‘III’, ‘1022 N.E. Sea of Rye’,<br>‘A207’, ‘Seacouver’, ‘WA’, ‘98601’, ‘3464’, ‘Netrek Rules’, ‘1967:10:21’);<br>INSERT INTO duck_cust VALUES(NULL, 4, ‘Thegreat’, ‘Vicki’, 0, ‘2004 Singleton Dr.’, 0,<br>‘Freedom’, ‘KS’, ‘67209’, ‘4321’, ‘Frida Kahlo de Tomayo’, ‘1948:03:21’);<br>INSERT INTO duck_cust VALUES(NULL, 9, ‘Montgomery’, ‘Chantel’, 0, ‘1567 Terra Cotta Way’,<br>0, ‘Chicago’, ‘IL’, ‘89129’, ‘4444’, ‘Bianca’, ‘1971:07:29’);<br>INSERT INTO duck_cust VALUES(NULL, 7, ‘Robert’, ‘David’, ‘Sr.’, ‘20113 Open Road Highway’,<br>‘#6’, ‘Blacktop’, ‘AZ’, ‘00606’, ‘1952’, ‘Harley’, ‘1949:08:00’);<br>INSERT INTO duck_cust VALUES(NULL, 5, ‘Kazui’, ‘Wonko’, ‘PhD’, ‘42 Cube Farm Lane’,<br>‘Gatehouse’, ‘Vlimpt’, ‘CA’, ‘45362’, 0, ‘Fitzwhistle’, ‘1961:12:04’);<br>INSERT INTO duck_cust VALUES(NULL, 6, ‘Gashlycrumb’, ‘Karen’, 0, ‘3113 Picket Fence Lane’,<br>0, ‘Fedora’, ‘VT’, ‘41927’, ‘5698’, ‘Tess D’’urberville’, ‘1948:08:19’);</p>
+<p>desc duck_cust;</p>
+<p>+———————-+———————————————-+——–+——-+———-+———+</p>
+<p>| Field | Type | Null | Key | Default | Extra |</p>
+<p>+———————-+———————————————-+——–+——-+———-+———+| </p>
+<p>cust_num | mediumint(9) | | MUL | 0 | || </p>
+<p>cust_title | tinyint(4) | YES | | NULL | || cust_last | char(20) | | | | || </p>
+<p>cust_first | char(15) | | | | || </p>
+<p>cust_suffix | enum(‘Jr.’,’II’,’III’,’IV’,’V’,’M.D.’,’PhD’) | YES | | NULL | || </p>
+<p>cust_add1 | char(30) | | | | || cust_add2 | char(10) | YES | | NULL | || </p>
+<p>cust_city | char(18) | | | | || </p>
+<p>cust_state | char(2) | | | | || </p>
+<p>cust_zip1 | char(5) | | | | || </p>
+<p>cust_zip2 | char(4) | YES | | NULL | || </p>
+<p>cust_duckname | char(25) | | | | |</p>
+<p>cust_duckbday | date | YES | | NULL | </p>
+<p>+———————-+———————————————-+——–+——-+———-+——–</p>
+<p>（3）使用 PROCEDURE ANALYSE()函数确定要优化的列：</p>
+<p>mysql&gt;SELECT * FROM duck_cust PROCEDURE ANALYSE();</p>
+<table>
+<thead>
+<tr>
+<th>Field_name</th>
+<th>Min_value</th>
+<th>Max_value</th>
+<th>Min_length</th>
+<th>Max_length</th>
+<th>Empties_or_zeros</th>
+<th>Nulls</th>
+<th>Avg_value_or_avg_length</th>
+<th>Std</th>
+<th>Optimal_fieldtype:</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sakila.duck_cust.cust_num</td>
+<td>1</td>
+<td>6</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>3.5000</td>
+<td>1.7078</td>
+<td>ENUM(‘1’,’2’,’3’,’4’,’5’,’6’) NOT NULL</td>
+</tr>
+</tbody></table>
+<p>从结果中，可以看到 test.duck_cust.cust_num 列的 Min_length、Max_length、<br>Avg_value_or_avg_length，根据这些统计值,可以对列进行优化，例如，插入的数据最大长度和最小长度都是 1，所以，可以优化字段 cust_num 为 mediumint(2)；同时，上面的结果也给出了优化建议“Optimal_fieldtype: ENUM(‘1’,’2’,’3’,’4’,’5’,’6’) NOT NULL”。看到这个建议读者可能会觉得很奇怪，怎么给出了枚举类型？而不是我们预期的整型。因为这时分析的测试表记录数太少，使得 cust_name 的唯一值太少，因此函数觉得用枚举类型会更合理。如果是对一个大表进行分析，提出的建议会更准确。</p>
+<p>根据给出的统计信息和优化建议，可以使用如下语句进行字段类型的更改: </p>
+<p>mysql&gt; alter table duck_cust modify cust_num mediumint(2);<br>Query OK, 6 rows affected (0.03 sec)<br>Records: 6 Duplicates: 0 Warnings: 0</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>通过拆分提高表的访问效率</strong></p>
+<ul>
+<li><p>这里所说的”拆分”，是指对数据表进行拆分。如果针对MyISAM类型的表进行，那么有两种拆分方法。</p>
+<ul>
+<li><p>第一种方法是垂直拆分，即吧主码和一些列放到一个表，然后把主码和另外的列放到另一个表中。</p>
+<blockquote>
+<p>如果一个表中某些列常用，而另外一些列不常用，则可以采用垂直拆分，另外垂直拆分可以使得数据行变小，一个数据页就能存放更多的数据，在查询时就会减少I/O次数。其缺点是需要管理冗余列，查询所有数据需要联合（JOIN）操作。</p>
+</blockquote>
+</li>
+<li><p>第二种方法是水平拆分，即根据一列或多列数据的值把数据行放到两个独立的表中。水平拆分通常在以下几种情况下使用：</p>
+<ul>
+<li><p>表很大，分割后可以降低在查询时需要读的数据和索引的页数，同时也降低了索引的层数，提高查询速度。</p>
+</li>
+<li><p>表中的数据本来就有独立性，例如，表中分别记录各个地区的数据或不同时期的数据，特别是有些数据常用，而另外一些数据不常用。</p>
+</li>
+<li><p>需要把数据存放到多个介质上。</p>
+<blockquote>
+<p>例如，移动电话的账单表就可以分成两个表或多个表。最近 3 个月的账单数据存在一<br>个表中，3 个月前的历史账单存放在另外一个表中，超过 1 年的历史账单可以存储到<br>单独的存储介质上，这种拆分是最常使用的水平拆分方法。</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>水平拆分会给应用增加复杂度，它通常在查询时需要多个表名，查询所有数据需<br>要 UNION 操作。在许多数据库应用中，这种复杂性会超过它带来的优点，因为只要<br>索引关键字不大，则在索引用于查询时，表中增加 2 至 3 倍数据量，查询时也就增加<br>读一个索引层的磁盘次数，所以水平拆分要考虑数据量的增长速度，根据实际情况决<br>定是否需要对表进行水平拆分。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>逆规范化</strong></p>
+<ul>
+<li><p>因为规范化越高，那么产生的关系就越多，关系过多的直接结果就是导致表之间的连接操作越频繁，而表之间的连接操作是性能较低的操作，直接影响到查询的速度，所以对于查询较多的应用就需要根据实际情况运用逆规范化对数据进行设计，通过逆规范化来提高查询的性能。</p>
+<blockquote>
+<p>例如，移动电话的用户每月都会查询自己的账单，账单信息一般包含用户的名字和本月消费总金额，设想一下，如果用户的姓名和属性信息存放在一个表中，假设表名为 A，而用户的编号和他对应的账单信息存放在另外一张 B 表中，那么，用户每次查询自己的月账单时，数据库查询时都要进行表连接，因为账单表 B 中并不包含用户的名字，所以必须通过关联 A 表取过来，如果在数据库设计时考虑到这一点，就可以在 B 表增加一个冗余字段存放用户的名字，这样在查询账单时就不用再做表关联，可以使查询有更好的性能。</p>
+</blockquote>
+</li>
+<li><p>反规范的好处是降低连接操作的需求、降低外码和索引的数目，还可能减少表的数目，相应带来的问题是可能出现数据的完整性问题。加快查询速度，但会降低修改速度。因此决定做反规范时，一定要权衡利弊，仔细分析应用的数据存取需求和实际的性能特点，好的索引和其他方法经常能够解决性能问题，而不必采用反规范这种方法</p>
+</li>
+<li><p>在进行反规范操作之前，要充分考虑数据的存取需求、常用表的大小、一些特殊的计算（例如合计）、数据的物理存储位置等。常用的反规范技术有增加冗余列、增加派生列、重新组表和分割表。</p>
+<ul>
+<li>增加冗余列：指在多个表中具有相同的列，它常用来在查询时避免连接操作。</li>
+<li>增加派生列：指增加的列来自其他表中的数据，由其他表中的数据巾帼计算生成。增加的派生类起作用是在查询时减少连接连接操作，避免使用集函数。</li>
+<li>重新组表：指如果许多用户需要查看两个表连接出来的结果数据，则把这两个表重新组成一个表来减少连接而提高性能。</li>
+<li>分割表：垂直拆分和水平拆分</li>
+</ul>
+</li>
+<li><p>逆规范技术需要维护数据的完整性。无论使用何种反规范技术，都需要一定的管理来维护数据的完整性。常用的方法是批处理维护，应用逻辑和触发器。</p>
+<ul>
+<li>批处理维护是指对复制列或派生列的修改积累一定的时间后，运行一批处理作业或存储过程对复制或派生列进行修改，这只能在对实时性要求不高的情况下使用。</li>
+<li>数据的完整性也可由应用逻辑来实现，这就要求必须在同一事务中对所有涉及的表进行增，删，改操作。用应用逻辑来实现数据的完整性风险较大，因为同一逻辑必须在所有的应用中使用和维护，容易遗漏，特别是在需求变化时，不易于维护。</li>
+<li>另一种方式就是使用触发器，对数据的任何修改立即触发对复制列或派生列的相应修改。触发器是实时的，而且相应的处理逻辑只在一个地方出现，易于维护。一般来说，是解决这类问题比较好的办法。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>使用中间表提高统计查询速度。</strong></p>
+<ul>
+<li><p>对于数据量较大的表，在其上进行统计查询通常会效率很低，并且还要考虑统计查询是否会对在线的应用产生负面影响。通常在这种情况下，使用中间表可以提高统计查询的效率，下面通过对 session 表的统计来介绍中间表的使用：</p>
+<blockquote>
+<p>（1）session 表记录了客户每天的消费记录，表结构如下：</p>
+<p>CREATE TABLE session (<br>cust_id varchar(10) , –客户编号<br>cust_amount DECIMAL(16,2), –客户消费金额<br>cust_date DATE, –客户消费时间<br>cust_ip varchar(20) –客户 IP 地址<br>)</p>
+<p>（2）由于每天都会产生大量的客户消费记录,所以 session 表的数据量很大,现在业务部门有一具体的需求：希望了解最近一周客户的消费总金额和近一周每天不同时段用户的消费总金额。针对这一需求我们通过 2 种方法来得出业务部门想要的结果。</p>
+<p>方法1：在session表上直接进行统计，得出想要的结果。</p>
+<p>mysql&gt; select sum(cust_amount) from session where cust_date&gt;adddate(now(),-7);</p>
+<table>
+<thead>
+<tr>
+<th>sum(cust_amount)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>161699200.64</td>
+</tr>
+</tbody></table>
+<p>方法 2：创建中间表 tmp_session，表结构和源表结构完全相同。</p>
+<p>CREATE TABLE tmp_session (<br>cust_id varchar(10) , –客户编号<br>cust_amount DECIMAL(16,2), –客户消费金额<br>cust_date DATE, –客户消费时间<br>cust_ip varchar(20) –客户 IP 地址<br>) ;</p>
+<p>转移要统计的数据到中间表,然后在中间表上进行统计，得出想要的结果。</p>
+<p>mysql&gt; insert into tmp_session select * from session where cust_date&gt;adddate(now(),-7);<br>Query OK, 1573328 rows affected (6.67 sec)<br>Records: 1573328 Duplicates: 0 Warnings: 0</p>
+<p>mysql&gt; select sum(cust_amount) from tmp_session;</p>
+<table>
+<thead>
+<tr>
+<th>sum(cust_amount)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>161699200.64</td>
+</tr>
+</tbody></table>
+<p>1 row in set (0.73 sec)</p>
+<p>从上面的 2 种实现方法上看,在中间表中做统计花费的时间很少(这里不计算转移数据花费的时间)，另外，针对业务部门想了解“近一周每天不同时段用户的消费总金额”这一需求，在中间表上给出统计结果更为合适,原因是源数据表(session 表) cust_date 字段没有索引并且源表的数据量较大，所以在按时间进行分时段统计时效率很低，这时可以在中间表上对 cust_date 字段创建单独的索引来提高统计查询的速度。</p>
+</blockquote>
+</li>
+<li><p>中间表在统计查询中经常会用到，其优点如下：</p>
+<ul>
+<li>中间表复制源表部分数据，并且与源表相“隔离”，在中间表上做统计查询不会对在线应用产生负面影响。</li>
+<li>中间表上可以灵活的添加索引或增加临时用的新字段，从而达到提高统计查询效率和辅助统计查询作用。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="MySQL的锁"><a href="#MySQL的锁" class="headerlink" title="MySQL的锁"></a>MySQL的锁</h2><h3 id="二十一，MySQL锁概述"><a href="#二十一，MySQL锁概述" class="headerlink" title="二十一，MySQL锁概述"></a>二十一，MySQL锁概述</h3><ul>
+<li>相对其他数据库而言，MySQL的锁机制比较简单，其最显著的特点是不同的存储引擎支持不同的锁机制。比如，。比如，MyISAM和MEMORY存储引擎采用的是表级锁（table-level locking）；BDB存储引擎采用的是页面锁（page-level locking），但也支持表级锁；InnoDB存储引擎既支持行级锁（row-level locking），也支持表级锁，但默认情况下是采用行级锁。</li>
+<li>MySQL这3种锁的特性可大致归纳如下：<ul>
+<li>表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发送锁冲突的概率最高，并发度最低。</li>
+<li>行级锁：开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高。</li>
+<li>页面锁：开销和加锁时间介于表锁和行锁之间：会出现死锁；锁定粒度介于表锁和行锁之间，并发度一般。</li>
+<li>仅从锁的角度莱索：表级锁更适合于以查询为主，只有少量按索引条件更新数据的应用，如Web应用；而行级锁则更适合于有大量按索引条件并发更新少量不同数据，同时又有并发查询的应用，如一些在线事务处理（OLTP）系统。</li>
+</ul>
+</li>
+</ul>
+<h3 id="二十二，MyISAM表锁"><a href="#二十二，MyISAM表锁" class="headerlink" title="二十二，MyISAM表锁"></a>二十二，MyISAM表锁</h3><ul>
+<li><p>MyISAM 存储引擎只支持表锁，</p>
+</li>
+<li><p><strong>查询表级锁争用情况</strong></p>
+<blockquote>
+<p>可以通过检查table_locks_waited和table_lock_immediate状态变量来分析系统上的表锁定争夺：</p>
+<p>mysql&gt;show status like ‘table%’;</p>
+<table>
+<thead>
+<tr>
+<th>Variable_name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Table_locks_immediate</td>
+<td>2979</td>
+</tr>
+<tr>
+<td>Table_locks_waited</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>如果Table_locks_waited的值比较高，则说明存在着较严重的表级锁争用情况。</p>
+</blockquote>
+</li>
+<li><p><strong>MySQL表级锁的锁模式</strong>：表共享读锁（Table Read Lock）和表独占写锁（Table Write Lock）。</p>
+<ul>
+<li><p><img src="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/C:%5CUsers%5C92540%5CDesktop%5CmyselfBlog%5Chexo%5Csource_posts%5CMySQL%E6%B7%B1%E5%85%A5%5C%E9%94%81%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7.png" alt="锁模式的兼容性"></p>
+<blockquote>
+<p> 可见，对 MyISAM 表的读操作，不会阻塞其他用户对同一表的读请求，但会阻塞对同一表的写请求；对 MyISAM 表的写操作，则会阻塞其他用户对同一表的读和写操作；MyISAM 表的读操作与写操作之间，以及写操作之间是串行的！根据如表 20-2 所示的例子可以知道，当一个线程获得对一个表的写锁后，只有持有锁的线程可以对表进行更新操作。其他线程的读、写操作都会等待，直到锁被释放为止。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>如何加表级锁</strong></p>
+<ul>
+<li><p>MyISAN在执行查询语句（SELECT）前，会自动给涉及的所有表加读锁，在执行更行操作（UPDATE、DELETE、INNSERT等）前，会自动给设计的表加写锁，这个过程并不需要用户干预，因此，用户一般不需要直接用LOCK TABLE命令给MyISAM表显式加锁。</p>
+</li>
+<li><p>给 MyISAM 表显示加锁，一般是为了在一定程度模拟事务操作，实现对某一时间点多个表的一致性读取。</p>
+<blockquote>
+<p>例如，有一个订单表 orders，其中记录有各订单的总金额 total，同时还有一个订单明细表 order_detail，其中记录有各订单每一产品的金额小计 subtotal，假设我们需要检查这两个表的金额合计是否相符，可能就需要执行如下两条 SQL：</p>
+<p>Select sum(total) from orders;<br>Select sum(subtotal) from order_detail;</p>
+<p>这时，如果不先给两个表加锁，就可能产生错误的结果，因为第一条语句执行过程中，<br>order_detail 表可能已经发生了改变。因此，正确的方法应该是：</p>
+<p>Lock tables orders read local, order_detail read local;<br>Select sum(total) from orders;<br>Select sum(subtotal) from order_detail;<br>Unlock tables;</p>
+<p>要特别说明以下两点内容：</p>
+<ul>
+<li>上面的例子在LOCK TABLES时加了“local”选项，其作用就是在满足MyISAM表并发插入条件的情况下，允许其他用户在表尾并发插入记录。</li>
+<li>在用LOCK TABLES给表显式加表锁时，必须同时取得所有涉及到表的锁，并且MySQL不支持升级。也就是说，在执行LOCK TABLES后，只能访问显式加锁的这些表，不能访问未加锁的表；同时，如果加的是读锁，那么只能执行查询操作，而不能执行更新操作。其实，在自动加锁的情况下也基本如此，MyISAM总是一次获得SQL语句所需要的全部锁。这也正是MyISAM表不会出现死锁（Deadlock Free）的原因。</li>
+</ul>
+<p>当使用LOCK TABLES时，不仅需要一次锁定用到的所有表，而且，同一个表在SQL语句中出现多少次，就要通过与SQL语句中相同的别名表锁定多少次，否则也会出错！举例说明：</p>
+<p>（1）对 actor 表获得读锁：</p>
+<p>mysql&gt; lock table actor read;<br>Query OK, 0 rows affected (0.00 sec)</p>
+<p>（2）但是通过别名访问会提示错误：</p>
+<p>mysql&gt; select a.first_name,a.last_name,b.first_name,b.last_name from actor a,actor b where a.first_name = b.first_name and a.first_name = ‘Lisa’ and a.last_name = ‘Tom’ and a.last_name &lt;&gt; b.last_name;<br>ERROR 1100 (HY000): Table ‘a’ was not locked with LOCK TABLES</p>
+<p>（3）需要对别名分别锁定：</p>
+<p>mysql&gt; lock table actor as a read,actor as b read;<br>Query OK, 0 rows affected (0.00 sec)</p>
+<p>（4）按照别名的查询可以正确执行：</p>
+<p>mysql&gt; select a.first_name,a.last_name,b.first_name,b.last_name from actor a,actor b where<br>a.first_name = b.first_name and a.first_name = ‘Lisa’ and a.last_name = ‘Tom’ and a.last_name<br>&lt;&gt; b.last_name;</p>
+<table>
+<thead>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>first_name</th>
+<th>last_name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lisa</td>
+<td>Tom</td>
+<td>LISA</td>
+<td>MONROE\</td>
+</tr>
+</tbody></table>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>并发插入（Concurrent Inserts）</p>
+<ul>
+<li><p>在一定条件下，MyISAM表也支持查询和插入操作的并发进行。</p>
+</li>
+<li><p>MyISAM存储引擎有一个系统变量concurrent_insert，专门用以控制其并发插入的行为，其值分别可以为0，1或2.</p>
+<ul>
+<li>当concurrent_insert设置为0时，不允许并发插入。</li>
+<li>当concurrent_insert设置为1时，如果MyISAM表中没有空洞（即表的中间没有被删除的行），MyISAM允许在一个进程读表的同时，另一个进程从表尾插入记录。这也是MySQL的默认设置。</li>
+<li>当concurrent_insert设置为2时，无论MyISAM表中有没有空洞，都允许在表尾并发插入记录。</li>
+</ul>
+<blockquote>
+<p>可以利用MyISAM存储引擎的并发插入特性，来解决应用中对同一表查询和插入的锁争用。例如，将concurrent_insert系统变量设为2，总是允许并发插入；同时，通过定期在系统空闲时段执行OPTIMIZE TABLE语句来整理空间碎片，收回因删除记录而产生的中间空洞。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/" data-id="ckfi88wak000cbkua4kfiaifv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/09/07/Nginx/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Nginx</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/">MySQL深入</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/07/Nginx/">Nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/07/RabbitMQ/">RabbitMQ</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/09/Linux/">Linux</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/06/MybatisPlus/">MybatisPlus</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 It-fang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

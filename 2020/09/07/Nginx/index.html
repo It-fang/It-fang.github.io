@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="It-fang">
 <meta property="og:description" content="Nginx一，概述：Nginx是一款高性能的http服务器&#x2F;反向代理服务器及电子邮件（IMAP&#x2F;POP3）代理服务器。由俄罗斯的程序设计师伊戈尔.西索夫所开发，官方测试nginx能够支撑5万并发链接，并且CPU，内存等资源消耗却非常低，运行非常稳定。 二，Nginx应用场景 http服务器：Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。 虚拟主机：可以实现在一台服务器">
 <meta property="article:published_time" content="2020-09-07T14:02:09.629Z">
-<meta property="article:modified_time" content="2020-09-06T08:08:50.230Z">
+<meta property="article:modified_time" content="2020-09-13T11:58:31.316Z">
 <meta property="article:author" content="It-fang">
 <meta name="twitter:card" content="summary">
   
@@ -110,12 +110,15 @@
 <li>events块涉及的指令主要影响nginx服务器与用户的网络连接，常用的设置包括是否开启对多work process下的网络连接进行序列化，是否允许同时接收多个网络连接，选取哪种事件驱动模型来处理连接请求，每个word process可以同时支持的最大连接数等。比如：worker_connections  1024;就表示每个work process支持的最大连接数为1024。</li>
 </ul>
 <ol start="3">
-<li><strong>第三部分：http块</strong>：代理，缓存和日志定义等绝大多数功能和第三方模块的配置都在这里，其包括http全局块，server块；每个http块可以包括多个server块，而每个server块就相当于一个虚拟主机。<ol>
-<li><strong>http全局块</strong>：<ul>
+<li><p><strong>第三部分：http块</strong>：代理，缓存和日志定义等绝大多数功能和第三方模块的配置都在这里，其包括http全局块，server块；每个http块可以包括多个server块，而每个server块就相当于一个虚拟主机。</p>
+<ol>
+<li><p><strong>http全局块</strong>：</p>
+<ul>
 <li>http全局块配置的指令包括文件引入，MIME-TYPE定义，日志自定义，连接超时时间，单链接请求数上限等。</li>
 </ul>
 </li>
-<li><strong>server块</strong>：每个server块也分为全局server块，以及可以同时包含多个location块。<ul>
+<li><p><strong>server块</strong>：每个server块也分为全局server块，以及可以同时包含多个location块。</p>
+<ul>
 <li>这块和虚拟主机有密切关系，虚拟主机从用户角度看，和一台独立的硬件主机是完全一样的，该技术的产生是为了节省互联网服务器硬件成本。</li>
 </ul>
 <ol>
@@ -194,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/07/Nginx/" data-id="ckey7e1fq0003d4uahdydb8d5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/09/07/Nginx/" data-id="ckfi88wa10002bkua9jub1h5e" class="article-share-link">Share</a>
       
       
     </footer>
@@ -202,6 +205,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL深入
+        
+      </div>
+    </a>
   
   
     <a href="/2020/09/07/RabbitMQ/" id="article-nav-older" class="article-nav-link-wrap">
@@ -243,6 +255,10 @@
       <ul>
         
           <li>
+            <a href="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/">MySQL深入</a>
+          </li>
+        
+          <li>
             <a href="/2020/09/07/Nginx/">Nginx</a>
           </li>
         
@@ -256,10 +272,6 @@
         
           <li>
             <a href="/2020/08/06/MybatisPlus/">MybatisPlus</a>
-          </li>
-        
-          <li>
-            <a href="/2020/07/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/">IDEA快捷键</a>
           </li>
         
       </ul>
