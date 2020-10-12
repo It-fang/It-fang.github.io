@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>远程部署项目 | It-fang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="maven项目配置Tomcat远程部署项目 配置Linux的Tomcat的配置文件 1234567891011121314151617# 在tomcat目录中的conf目录下找到tomcat-users.xml配置文件，然后搜索tomcat-users，进行tomcat用户的角色和权限配置，如下：&lt;tomcat-users&gt;    &lt;role rolename&#x3D;&quot;manager-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="远程部署项目">
+<meta property="og:url" content="http://yoursite.com/2020/10/11/%E8%BF%9C%E7%A8%8B%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="It-fang">
+<meta property="og:description" content="maven项目配置Tomcat远程部署项目 配置Linux的Tomcat的配置文件 1234567891011121314151617# 在tomcat目录中的conf目录下找到tomcat-users.xml配置文件，然后搜索tomcat-users，进行tomcat用户的角色和权限配置，如下：&lt;tomcat-users&gt;    &lt;role rolename&#x3D;&quot;manager-">
+<meta property="article:published_time" content="2020-10-11T07:54:37.000Z">
+<meta property="article:modified_time" content="2020-10-11T08:07:11.127Z">
+<meta property="article:author" content="It-fang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="It-fang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">It-fang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">It-fang</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-远程部署项目" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/11/%E8%BF%9C%E7%A8%8B%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/" class="article-date">
+  <time datetime="2020-10-11T07:54:37.000Z" itemprop="datePublished">2020-10-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      远程部署项目
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="maven项目配置Tomcat远程部署项目"><a href="#maven项目配置Tomcat远程部署项目" class="headerlink" title="maven项目配置Tomcat远程部署项目"></a>maven项目配置Tomcat远程部署项目</h1><ol>
+<li><p><strong>配置Linux的Tomcat的配置文件</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 在tomcat目录中的conf目录下找到tomcat-users.xml配置文件，然后搜索tomcat-users，进行tomcat用户的角色和权限配置，如下：</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">tomcat-users</span>&gt;</span></span></span><br><span class="line"><span class="code">    &lt;role rolename="manager-script"/&gt;</span></span><br><span class="line"><span class="code">    &lt;role rolename="manager-jmx"/&gt;</span></span><br><span class="line"><span class="code">    &lt;role rolename="manager-status"/&gt;</span></span><br><span class="line"><span class="code">    &lt;role rolename="manager"/&gt;</span></span><br><span class="line"><span class="code">    &lt;role rolename="manager-gui"/&gt;</span></span><br><span class="line"><span class="code">    &lt;user username="username" password="password" roles="manager,manager-gui,manager-script,manager-jmx,manager-status"/&gt;  </span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">tomcat-users</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="section"># 配置说明：</span></span><br><span class="line">manager-gui：允许访问html接口(即URL路径为/manager/html/)</span><br><span class="line">manager-script：允许访问纯文本接口(即URL路径为/manager/text/)</span><br><span class="line">manager-jmx：允许访问JMX代理接口(即URL路径为/manager/jmxproxy/)</span><br><span class="line">manager-status：允许访问Tomcat只读状态页面(即URL路径为/manager/status/)</span><br><span class="line"></span><br><span class="line">从Tomcat Manager内部配置文件中可以得知，manager-gui、manager-script、manager-jmx均具备manager-status的权限，也就是说，manager-gui、manager-script、manager-jmx三种角色权限无需再额外添加manager-status权限，即可直接访问路径"/manager/status/*"。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>放开Tomcat对manager分支的调用权限</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 在/webapps/manager/META-INF目录中的context.xml文件中将&lt;context&gt;标签中的内容注释掉</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">antiResourceLocking</span>=<span class="string">"false"</span> <span class="attr">privileged</span>=<span class="string">"true"</span> &gt;</span></span></span><br><span class="line"> <span class="xml"><span class="comment">&lt;!--</span></span></span><br><span class="line"><span class="xml"> <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.RemoteAddrValve"</span></span></span></span><br><span class="line"><span class="xml">         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /&gt;</span></span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">Manager</span> <span class="attr">sessionAttributeValueClassNameFilter</span>=<span class="string">"java\.lang\.(?:Boolean|Integer|Long|Number|String)|org\.apache\.catalina\.filters\.CsrfPreventionFilter\$LruCache(?:\$1)?|java\.util\.(?:Linked)?HashMap"</span>/&gt;</span></span></span><br><span class="line">--&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>对maven进行配置</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 在Maven的安装路径找到conf目录下的setting.xml文件，在&lt;servers&gt;节点中添加tomcat7下配置的用户信息，如下：</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">server</span>&gt;</span></span></span><br><span class="line"><span class="code">        &lt;id&gt;develope&lt;/id&gt;</span></span><br><span class="line"><span class="code">        &lt;username&gt;username&lt;/username&gt;</span></span><br><span class="line"><span class="code">        &lt;password&gt;password&lt;/password&gt;</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">server</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="section"># 配置说明：</span></span><br><span class="line"><span class="code">	配置中的id可以任意填写，但username和password必须和步骤1一致</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在项目工程中的pom中配置Tomcat插件</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat.maven<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat7-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://xxx.xxx.xxx.xxx:8080/manager/text<span class="tag">&lt;/<span class="name">url</span>&gt;</span> <span class="comment">&lt;!-- tomcat管理路径,即ip端口等信息 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">server</span>&gt;</span>develope<span class="tag">&lt;/<span class="name">server</span>&gt;</span> <span class="comment">&lt;!-- 与settings.xml文件中Server的id相同 --&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">path</span>&gt;</span>/project<span class="tag">&lt;/<span class="name">path</span>&gt;</span> <span class="comment">&lt;!-- 应用的部署位置 --&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">update</span>&gt;</span>true<span class="tag">&lt;/<span class="name">update</span>&gt;</span> </span><br><span class="line">    <span class="comment">&lt;!-- &lt;username&gt;username&lt;/username&gt;--&gt;</span><span class="comment">&lt;!--可以省略--&gt;</span> </span><br><span class="line">    <span class="comment">&lt;!--&lt;password&gt;password&lt;/password&gt; --&gt;</span><span class="comment">&lt;!--可以省略--&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>配置完成，接下来只需要maven build，然后在Goals中填上tomcat:deploy就可以run起来了（必须事先启动tomcat服务器）</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">tomcat</span>:<span class="string">deploy 部署一个web war包 </span></span><br><span class="line"><span class="attr">tomcat</span>:<span class="string">reload 重新加载web war包 </span></span><br><span class="line"><span class="attr">tomcat</span>:<span class="string">start 启动tomcat </span></span><br><span class="line"><span class="attr">tomcat</span>:<span class="string">stop 停止tomcat </span></span><br><span class="line"><span class="attr">tomcat</span>:<span class="string">undeploy 停止一个war包 </span></span><br><span class="line"><span class="attr">tomcat</span>:<span class="string">run 启动嵌入式tomcat ，并运行当前项目</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/11/%E8%BF%9C%E7%A8%8B%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/" data-id="ckg66fq6c000fg0uaed2f1mal" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/10/11/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">RSA</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/10/11/%E8%BF%9C%E7%A8%8B%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/">远程部署项目</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/11/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">RSA</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/29/JWT/">JWT</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/28/EasyExcel/">EasyExcel</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/11/MySQL%E6%B7%B1%E5%85%A5/">MySQL深入</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 It-fang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
