@@ -5,12 +5,12 @@
   
 
   
-  <title>Archives: 2021/1 | It-fang</title>
+  <title>It-fang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="A blog for discussing Java background development, which will regularly publish some bloggers in the learning process of their own experience and confusion, I hope that we can learn from each other he">
 <meta property="og:type" content="website">
 <meta property="og:title" content="It-fang">
-<meta property="og:url" content="http://yoursite.com/archives/2021/01/index.html">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
 <meta property="og:site_name" content="It-fang">
 <meta property="og:description" content="A blog for discussing Java background development, which will regularly publish some bloggers in the learning process of their own experience and confusion, I hope that we can learn from each other he">
 <meta property="article:author" content="It-fang">
@@ -69,76 +69,90 @@
       <div class="outer">
         <section id="main">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/01/30/screen/" class="archive-article-date">
-  <time datetime="2021-01-29T16:13:02.000Z" itemprop="datePublished">Jan 30</time>
+    <article id="post-maven" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/17/maven/" class="article-date">
+  <time datetime="2020-07-17T02:16:48.000Z" itemprop="datePublished">2020-07-17</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/30/screen/">screen</a>
+      <a class="article-title" href="/2020/07/17/maven/">maven</a>
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/01/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  <time datetime="2021-01-24T11:55:02.000Z" itemprop="datePublished">Jan 24</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-    </h1>
-  
+        <h2 id="一，jar包冲突的解决方式"><a href="#一，jar包冲突的解决方式" class="headerlink" title="一，jar包冲突的解决方式"></a>一，jar包冲突的解决方式</h2><ol>
+<li>Maven导入jar包的相关概念：  <ul>
+<li>直接依赖：项目中直接导入的jar包，就是该项目的直接依赖包。  </li>
+<li>传递依赖：项目中没有直接导入的jar包，可通过项目直接依赖jar包传递到项目中。  </li>
+</ul>
+</li>
+</ol>
+<ol>
+<li>第一声明优先原则：哪个jar包的坐标在靠上的位置，这个jar包就是先声明的。先声明的jar包坐标下的依赖包，可以优先进入项目中。  </li>
+<li>路径近者优先原则：直接依赖路径比传递依赖路径近，那么最终项目进入的jar包会是路径近的jar包。  </li>
+<li>直接排除法【推荐使用】：当我们要排除某个jar包下依赖包，在配置exclusions标签的时候，内部可以不写版本号。因为此时依赖包使用的版本默认和本jar包版本一样。</li>
+</ol>
+<h2 id="二，Maven的父子工程"><a href="#二，Maven的父子工程" class="headerlink" title="二，Maven的父子工程"></a>二，Maven的父子工程</h2><ol>
+<li>工程和模块的区别：<ul>
+<li>工程不等于完整的项目，模块也不等于完整的项目，一个完整的项目看的是代码，代码完整，就可以说这是一个完整的项目，和此项目是工程还是模块没有关系。</li>
+</ul>
+</li>
+<li>工程天生只能使用自己内部资源，工程天生是独立的。后天可以和其他工程或模块建立关联关系。</li>
+<li>模块天生不是独立的，模块天生是属于父工程的，模块一旦创建，所有父工程的资源都可以使用。</li>
+<li>父子工程之间：子模块天生继承父工程，可以使用父工程所有资源，而子模块之间天生是没有任何关系的<ul>
+<li>父子工程之间不用建立关系，继承关系是先天的，不需要手动建立<ul>
+<li>平级之间的引用叫依赖，依赖不是先天的，依赖是需要后天建立的。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="三，创建maven工程时，报错：Cannot-resolve-plugin-org-apache-maven-plugins-maven-clean-plugin-2-5"><a href="#三，创建maven工程时，报错：Cannot-resolve-plugin-org-apache-maven-plugins-maven-clean-plugin-2-5" class="headerlink" title="三，创建maven工程时，报错：Cannot resolve plugin org.apache.maven.plugins:maven-clean-plugin:2.5"></a>三，创建maven工程时，报错：<em>Cannot resolve plugin org.apache.maven.plugins:maven-clean-plugin:2.5</em></h2><ul>
+<li>原因：        本地maven的配置文件和仓库地址不一致。</li>
+<li>解决方法：<img src="/2020/07/17/maven/1.png" alt></li>
+</ul>
+<h3 id="四，dependencyManagement和dependencies的区别"><a href="#四，dependencyManagement和dependencies的区别" class="headerlink" title="四，dependencyManagement和dependencies的区别"></a><strong>四，dependencyManagement和dependencies的区别</strong></h3><ul>
+<li><p>Maven使用dependencyManagement元素来提供了一种管理依赖版本号的方式。通常会在一个组织或者项目的最顶层的父POM中看到dependencyManagement元素。使用pom.xml中的dependencyManagement元素能让所有再子项目中引用一个依赖而不用显式的列出版本号。Maven会沿着父子层次向上走，直到找到一个拥有dependencyManagement元素的项目然后他就会使用这个dependencyMabagement元素中指定的版本号</p>
+</li>
+<li><ul>
+<li>这样做的好处是：如果有多个子项目都引用同一样依赖，则可以避免在每个使用的子项目里都声明一个版本号，这样当想升级或切换到另一个版本时，只需要在顶层父容器里更新，而不需要一个一个子项目的修改；另外如果某个子项目需要另外的一个版本，只需要声明version就可。</li>
+<li><strong>dependencyManagement里只是声明依赖，并不实现引入，因此子项目需要显示的声明需要用的依赖。</strong></li>
+<li><strong>如果不在子项目中声明依赖，是不会从父项目中继承夏利的，只有在子项目中写了该依赖项，并且没有指定具体版本，才会从父项目中继承该项，并且version和scope都读取自父pom</strong></li>
+<li><strong>如果子项目中指定了版本号，那么会使用子项目中指定jar版本。</strong></li>
+</ul>
+</li>
+</ul>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/01/20/SpringCloud/" class="archive-article-date">
-  <time datetime="2021-01-20T02:52:27.000Z" itemprop="datePublished">Jan 20</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/20/SpringCloud/">SpringCloud</a>
-    </h1>
-  
-
-    </header>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/17/maven/" data-id="ckkpoz0hx000apgua5nba5qec" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
+  
 </article>
-  
-  
-    </div></section>
+
+
   
 
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 </section>
         
