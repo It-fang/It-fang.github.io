@@ -69,6 +69,170 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mybatis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/17/mybatis/" class="article-date">
+  <time datetime="2020-07-17T02:44:21.000Z" itemprop="datePublished">2020-07-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/17/mybatis/">mybatis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一，mybatis的环境搭建"><a href="#一，mybatis的环境搭建" class="headerlink" title="一，mybatis的环境搭建"></a>一，mybatis的环境搭建</h3><ol>
+<li>mybatis的映射配置文件位置必须和dao接口的包结构相同   </li>
+<li>映射配置文件的mapper标签namespace属性的取值必须是dao接口的全限定类名   </li>
+<li>映射配置文件的操作配置（select等），id属性的取值必须是dao接口的方法名</li>
+</ol>
+<h3 id="二，读取配置文件的方法"><a href="#二，读取配置文件的方法" class="headerlink" title="二，读取配置文件的方法"></a>二，读取配置文件的方法</h3><ol>
+<li>使用类加载器，它只能读取类路径的配置文件   </li>
+<li>使用ServletContext对象的getRealPath（）获得当前项目的绝对路径</li>
+</ol>
+<h3 id="三，QueryVo"><a href="#三，QueryVo" class="headerlink" title="三，QueryVo"></a>三，QueryVo</h3><ul>
+<li><p>mybatis可以通过QueryVo来封装查询条件对象，并使用通过形如user.username的方式来获得查询条件值。  </p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findByVo"</span> <span class="attr">parameterType</span>=<span class="string">"com.itfang.www.po.QueryVo"</span> <span class="attr">resultType</span>=<span class="string">"com.itfang.www.po.User"</span>&gt;</span></span><br><span class="line">    select * from user where username like #&#123;user.username&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="四，建立实体类属性和表字段的映射关系"><a href="#四，建立实体类属性和表字段的映射关系" class="headerlink" title="四，建立实体类属性和表字段的映射关系"></a>四，建立实体类属性和表字段的映射关系</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--配置查询结果的列名和实体类的属性名的对应关系--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"userMap"</span> <span class="attr">type</span>=<span class="string">"com.itfang.www.po.User"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--配置主键的映射关系--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"userId"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--配置非主键字段的映射关系--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userName"</span> <span class="attr">column</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/		<span class="attr">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userBirthday"</span> 	<span class="attr">column</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userSex"</span> <span class="attr">column</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userAddress"</span> 	<span class="attr">column</span>=<span class="string">"address"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="五，properties标签：可以在标签内部配置连接数据库的信息，也可以通过属性引用外部配置文件信息，并且在配置property引用是使用-xxx-表达式获取值"><a href="#五，properties标签：可以在标签内部配置连接数据库的信息，也可以通过属性引用外部配置文件信息，并且在配置property引用是使用-xxx-表达式获取值" class="headerlink" title="五，properties标签：可以在标签内部配置连接数据库的信息，也可以通过属性引用外部配置文件信息，并且在配置property引用是使用${xxx}表达式获取值"></a>五，properties标签：可以在标签内部配置连接数据库的信息，也可以通过属性引用外部配置文件信息，并且在配置property引用是使用${xxx}表达式获取值</h3><ul>
+<li>resource属性【常用】：用于指定配置文件的位置，是按照类路径的写法来写，并且必须存在于类路径下  </li>
+<li>url属性：是要求按照url的写法来写地址</li>
+</ul>
+<h3 id="六，typeAliases标签："><a href="#六，typeAliases标签：" class="headerlink" title="六，typeAliases标签："></a>六，typeAliases标签：</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--       typeAlias用于配置别名.type属性指定的是实体类全限定类名.alias属性指定别名,当指定了别名就不在区分大小写 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        &lt;typeAlias type="com.itfang.www.po.User" alias="user"&gt;&lt;/typeAlias&gt;--&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--       package用于指定要配置别名的包,当指定之后,该包下的实体类都会注册别名,并且类名就是别名,不在区分大小写 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"com.itfang.www.po"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="七，mybatis的连接池"><a href="#七，mybatis的连接池" class="headerlink" title="七，mybatis的连接池"></a>七，mybatis的连接池</h3><ul>
+<li>配置的位置：主配置文件SqlMapConfig.xml中的dataSource标签，type属性就是表示采用何    种连接池方式  </li>
+<li>type属性的取值：  <ol>
+<li>POOLED：采用传统的javax.sql.DataSource规范中的连接池  </li>
+<li>UNPOOLED：采用传统的获取连接的方式，没有使用池的思想  </li>
+<li>JNDI：采用服务器提供的JNDI技术实现，来获取DataSource对象，不同服务器所拿到的DataSource不一样。注意：不是web或者maven的war工程，是不能使用。</li>
+</ol>
+</li>
+</ul>
+<h3 id="八，mybatis中的事务"><a href="#八，mybatis中的事务" class="headerlink" title="八，mybatis中的事务"></a>八，mybatis中的事务</h3><ul>
+<li><p>事务的四大特性ACID：原子性，一致性，隔离性，持久性  </p>
+<ol>
+<li>原子性：一个事务是一个不可分割的工作单位。  </li>
+<li>一致性：事务必须是使数据库从一个一致性状态变到另一个一致性状态。  </li>
+<li>隔离性：一个事务的执行不能被其他事务干扰。  </li>
+<li>持久性：一个事务一旦提交，他对数据库中数据的改变就应该是永久性的。</li>
+</ol>
+</li>
+<li><p>不考虑隔离性会导致的三个问题  </p>
+<ol>
+<li><strong>脏读</strong>：脏读是指在一个事务处理过程里读取了另一个未提交的事务中的数据。  </li>
+<li><strong>不可重复读</strong>：一个事务两次读取同一行的数据，结果得到不同状态的结果，中间正好另一个事务更新了该数据，两次结果相异，不可被信任。通俗来讲就是：事务T1在读取某一数据，而事务T2立马修改了这个数据并且提交事务给数据库，事务T1再次读取该数据就得到了不同的结果，发送了不可重复读。  </li>
+<li><strong>幻读（虚读</strong>）：一个事务执行两次查询，第二次结果集包含第一次中没有或某些行已经被删除的数据，造成两次结果不一致，只是另一个事务在这两次查询中间插入或删除了数据造成的。通俗来讲就是：例如事务T1对一个表中所有的行的某个数据项做了从“1”修改为“2”的操作，这时事务T2又对这个表中插入了一行数据项，而这个数据项的数值还是为“1”并且提交给数据库。而操作事务T1的用户如果再查看刚刚修改的数据，会发现还有一行没有修改，其实这行是从事务T2中添加的，就好像产生幻觉一样，这就是发生了幻读。</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li>解决方法：四种隔离级别  <ol>
+<li><strong>Read Uncommited（读取未提交内容）</strong>：读未提交，顾名思义，就是一个事务可以读取另一个未提交事务的数据。但是，读未提交产生了脏读，采用读提交可以解决脏读问题。  </li>
+<li><strong>Read Commited（读取提交内容）</strong>：读提交，顾名思义，就是一个事务要等另一个事务提交后才能读取数据。读提交，若有事务对数据进行更新（UPDATE）操作时，读操作事务要等待这个更新操作事务提交后才能读取数据，可以解决脏读问题。但在这个事例中，出现了一个事务范围内两个相同的查询却返回了不同数据，这就是不可重复读。但是，读提交两次查询会产生不同的查询结果，就会造成不可重复读问题，采用重复读可以解决此问题。  </li>
+<li><strong>Repeatable Read（重复读）</strong>：重复读，就是在开始读取数据（事务开启）时，不再允许修改操作。重复读可以解决不可重复读问题。应该明白的一点就是，不可重复读对应的是修改，即UPDATE操作。但是可能还会有幻读问题。因为幻读问题对应的是插入INSERT操作，而不是UPDATE操作。采用Serializable可以解决幻读问题  </li>
+<li><strong>Serializable（可串行化）</strong>：Serializable 是最高的事务隔离级别，在该级别下，事务串行化顺序执行，可以避免脏读、不可重复读与幻读。但是这种事务隔离级别效率低下，比较耗数据库性能，一般不使用。  </li>
+</ol>
+</li>
+</ul>
+<h3 id="九，mybatis的xml中的if标签："><a href="#九，mybatis的xml中的if标签：" class="headerlink" title="九，mybatis的xml中的if标签："></a>九，mybatis的xml中的if标签：</h3><ul>
+<li>&lt; if test=”这里面的取值不需要使用#｛｝，直接user.xxx ！= null”&gt;&lt; /if&gt;     </li>
+</ul>
+<h3 id="十，mybatis中一对一查询时，根据外键来获取连接表的方式"><a href="#十，mybatis中一对一查询时，根据外键来获取连接表的方式" class="headerlink" title="十，mybatis中一对一查询时，根据外键来获取连接表的方式"></a>十，mybatis中一对一查询时，根据外键来获取连接表的方式</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--配置从表的实体类属性与表字段的映射关系--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"accountMap"</span> <span class="attr">type</span>=<span class="string">"Account"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"uid"</span> <span class="attr">column</span>=<span class="string">"uid"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"money"</span> <span class="attr">column</span>=<span class="string">"money"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        通过从表中user属性以及外键uid属性来关联实体类User--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">association</span> <span class="attr">property</span>=<span class="string">"user"</span> <span class="attr">column</span>=<span class="string">"uid"</span> <span class="attr">javaType</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--            配置主表的实体类属性与表字段的映射关系--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"username"</span> <span class="attr">column</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"sex"</span> <span class="attr">column</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"birthday"</span> <span class="attr">column</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"address"</span> <span class="attr">column</span>=<span class="string">"address"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">association</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="十一，mybatis中一对多查询时：在配置一（多）对多时，需要在SQL语句中将主表或者从表的其中一个id取别名，以区分出来哪个id属于哪个表"><a href="#十一，mybatis中一对多查询时：在配置一（多）对多时，需要在SQL语句中将主表或者从表的其中一个id取别名，以区分出来哪个id属于哪个表" class="headerlink" title="十一，mybatis中一对多查询时：在配置一（多）对多时，需要在SQL语句中将主表或者从表的其中一个id取别名，以区分出来哪个id属于哪个表"></a>十一，mybatis中一对多查询时：在配置一（多）对多时，需要在SQL语句中将主表或者从表的其中一个id取别名，以区分出来哪个id属于哪个表</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--    配置主表的实体类属性和表字段的映射关系--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"findAccountUser"</span> <span class="attr">type</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"username"</span> <span class="attr">column</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"sex"</span> <span class="attr">column</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"birthday"</span> <span class="attr">column</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"address"</span> <span class="attr">column</span>=<span class="string">"address"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        通过主表的中accounts属性来关联account--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collection</span> <span class="attr">property</span>=<span class="string">"accounts"</span> <span class="attr">ofType</span>=<span class="string">"Account"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--            配置从表的实体类属性和表字段的映射关系--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"aid"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"uid"</span> <span class="attr">column</span>=<span class="string">"uid"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"money"</span> <span class="attr">column</span>=<span class="string">"money"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collection</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="十二，mybatis中的延迟加载"><a href="#十二，mybatis中的延迟加载" class="headerlink" title="十二，mybatis中的延迟加载"></a>十二，mybatis中的延迟加载</h3><ul>
+<li><p>延迟加载：在真正需要数据时，才执行数据加载的操作。（按需加载又叫懒加载）  </p>
+</li>
+<li><p>立即加载：一调用方法立即执行数据加载操作。  </p>
+</li>
+<li><p>在对应的四种表关系中：一对一，多对一一般使用立即加载；一对多，多对多一般使用延迟加载<br>开启延迟加载的配置： </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--    配置mybatis的全局懒加载--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"lazyLoadingEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"aggressiveLazyLoading"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+</li>
+</ul>
+<h3 id="十三，mybatis中的缓存"><a href="#十三，mybatis中的缓存" class="headerlink" title="十三，mybatis中的缓存"></a>十三，mybatis中的缓存</h3><ul>
+<li>缓存适用的条件：  <ol>
+<li>经常查询且不经常改变的数据  </li>
+<li>数据的正确与否对最终结果影响不大  </li>
+</ol>
+</li>
+</ul>
+<ul>
+<li><strong>一级缓存</strong>：它指的是mybatis中SqlSession对象的缓存。当我们执行查询之后，查询结果会同时存入到SqlSession为我们提供一块区域中。该区域的结构是一个map。当我们再次查询同样的数据，mybatis会先去SqlSession域中查询是否有，有的话直接拿出来使用。当SqlSession对象消失时，mybatis的一级缓存也就消失了。<strong>而且当调用SqlSession的修改，添加，删除，commit（），close（）等方法时，就会清空一级缓存。</strong></li>
+</ul>
+<ul>
+<li><p>二级缓存：它指的是mybatis中SqlSessionFactory对象的缓存。由同一个SqlSessionFactory对象创建的SqlSession共享其缓存。且<strong>二级缓存中存储的是数据而不是对象</strong>  </p>
+<ol>
+<li><p>二级缓存的使用步骤:</p>
+<ol>
+<li><p>让mybatis框架支持二级缓存（在SqlMapConfig.xml中配置）</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   <span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"cacheEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>让当前的映射文件支持二级缓存（在IUserDao.xml中配置） </p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">cache</span>/&gt;</span></span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>让当前的操作支持二级缓存（在select标签中配置）        </p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAll"</span> <span class="attr">resultType</span>=<span class="string">"User"</span> <span class="attr">useCache</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">		select * from user</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure></code></pre></li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="十四，mybatis注解开发"><a href="#十四，mybatis注解开发" class="headerlink" title="十四，mybatis注解开发"></a>十四，mybatis注解开发</h3><ul>
+<li>当使用注解的同时，在配置文件的相应路径下仍有相应的xml，则会报错。</li>
+</ul>
+<h3 id="十五，PageHelper"><a href="#十五，PageHelper" class="headerlink" title="十五，PageHelper"></a><strong>十五，PageHelper</strong></h3><ol>
+<li><p>导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在applicationContext配置文件中配置PageHelper插件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--    配置SqlSessionFactory工厂--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        传入PageHelper--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"plugins"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--                传入插件对象--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.github.pagehelper.PageInterceptor"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"properties"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"helperDialect"</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"reasonable"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分页插件参数介绍</p>
+<ul>
+<li><strong>helperDialect：</strong>分页插件会自动检测当前的数据库连接，自动选择合适的分页方式</li>
+<li><strong>offsetAsPageNum:</strong>默认值为<strong>false</strong>，该参数对使用<strong>RowBounds</strong>作为分页参数时有效。当该参数设置为<strong>true</strong>时，会将<strong>RowBounds</strong>中的<strong>offset</strong>参数当成<strong>pageNum</strong>使用，可以用页码和页面大小两个参数进行分页</li>
+<li><strong>rowBoundsWithCount</strong>：默认值为<strong>false</strong>，该参数对使用<strong>RowBounts</strong>作为分页参数时有效。当该参数设置为<strong>true</strong>时，使用<strong>RowBounds</strong>分页会进行count查询。</li>
+<li><strong>pageSizeZero</strong>：默认值为<strong>false</strong>，当该参数设置为<strong>true</strong>时，如果<strong>pageSize=0</strong>或者<strong>RowBounds.limit=0</strong>就会查询出全部的结果（相当于没有执行分页查询，但返回结果仍然是<strong>Page</strong>类型）</li>
+<li><strong>reasonable</strong>：分页合理化参数，默认值为<strong>false</strong>。当该参数设置为<strong>true</strong>时，<strong>pageNum&lt;=0</strong>时会查询第一页,<strong>pageNum</strong>&gt;<strong>pages</strong>（超过总数时），会查询最后一页。默认<strong>false</strong>时，直接根据参数进行查询。</li>
+<li><strong>params</strong>：为了支持<strong>startPage（Object params）</strong>方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值，可以配置<strong>pageNum，pageSize，count，pageSizeZero，reasonable，</strong>不配置映射的用默认值，默认值为<strong>pageNum=pageNum:pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero</strong></li>
+<li><strong>supprotMethodsArguments：</strong>支持通过<strong>Mapper</strong>接口参数来传递分页参数，默认值为<strong>false</strong>，分页插件会从查询方法的参数中，自动根据上面<strong>params</strong>配置的字段中取值，查找到合适的值时就会自动分页。</li>
+<li><strong>autoRuntimeDialect</strong>：默认值为<strong>false</strong>，设置为<strong>true</strong>时，允许在运行时根据多数据源自动识别对应方言的分页（不支持自动选择sqlserver2012,只能使用sqlserver）</li>
+<li><strong>closeConn</strong>；默认值而为<strong>true</strong>，当使用运行时动态数据源或没有设置<strong>helperDialect</strong>属性自动获取数据库类型时，会自动获取一个数据库连接，通过该属性来设置是否关闭获取的这个来连接，默认<strong>true</strong>关闭，设置为<strong>false</strong>后，不会关系获取的连接，这个参数的设置要根据自己选择的数据源来决定</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/17/mybatis/" data-id="ckn4dbnhj000gdkuah6qb76uo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-maven" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/17/maven/" class="article-date">
@@ -137,7 +301,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/17/maven/" data-id="cklg57v12000db8ua5kcs4wd7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/17/maven/" data-id="ckn4dbnha000cdkuaaqjmhtpc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -197,6 +361,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/22/dubbo/">dubbo</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/03/java%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/">java异常处理机制</a>
           </li>
         
@@ -210,10 +378,6 @@
         
           <li>
             <a href="/2021/01/20/SpringCloud/">SpringCloud</a>
-          </li>
-        
-          <li>
-            <a href="/2020/10/11/%E8%BF%9C%E7%A8%8B%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/">远程部署项目</a>
           </li>
         
       </ul>

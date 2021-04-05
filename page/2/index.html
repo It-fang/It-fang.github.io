@@ -69,6 +69,144 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Nginx" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/07/Nginx/" class="article-date">
+  <time datetime="2020-09-07T14:02:09.629Z" itemprop="datePublished">2020-09-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/07/Nginx/">Nginx</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><h2 id="一，概述："><a href="#一，概述：" class="headerlink" title="一，概述："></a>一，概述：</h2><p>Nginx是一款高性能的http服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器。由俄罗斯的程序设计师伊戈尔.西索夫所开发，官方测试nginx能够支撑5万并发链接，并且CPU，内存等资源消耗却非常低，运行非常稳定。</p>
+<h2 id="二，Nginx应用场景"><a href="#二，Nginx应用场景" class="headerlink" title="二，Nginx应用场景"></a>二，Nginx应用场景</h2><ul>
+<li><strong>http服务器</strong>：Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。</li>
+<li><strong>虚拟主机</strong>：可以实现在一台服务器虚拟出多个网站。例如个人网站使用的虚拟主机</li>
+<li><strong>反向代理，负载均衡</strong>：当网站的访问量达到一定程度后，单台服务器不能满足用户的请求时，需要用多台服务器集群可以使用nginx做反向代理。并且多台服务器可以平均分担负载，不会因为某台服务器负载高宕机而某台服务器闲置的情况。</li>
+</ul>
+<h2 id="三，nginx的配置文件组成"><a href="#三，nginx的配置文件组成" class="headerlink" title="三，nginx的配置文件组成"></a>三，nginx的配置文件组成</h2><ol>
+<li><strong>第一部分：全局块</strong>：</li>
+</ol>
+<ul>
+<li>从配置文件开始到events块之间的内容，主要会设置一些影响nginx服务器整体运行的配置指令，主要包括配置运行nginx服务器的用户（组），允许生成的worker process数，进程PID存放路径，日志存放路径和类型以及配置文件的引入等：比如：          worker_processes 1;worker_processes 的值越大，可以支持的并发处理量也越多，但是会受到硬件，软件等设备的制约。</li>
+</ul>
+<ol start="2">
+<li><strong>第二部分：events块</strong>：</li>
+</ol>
+<ul>
+<li>events块涉及的指令主要影响nginx服务器与用户的网络连接，常用的设置包括是否开启对多work process下的网络连接进行序列化，是否允许同时接收多个网络连接，选取哪种事件驱动模型来处理连接请求，每个word process可以同时支持的最大连接数等。比如：worker_connections  1024;就表示每个work process支持的最大连接数为1024。</li>
+</ul>
+<ol start="3">
+<li><p><strong>第三部分：http块</strong>：代理，缓存和日志定义等绝大多数功能和第三方模块的配置都在这里，其包括http全局块，server块；每个http块可以包括多个server块，而每个server块就相当于一个虚拟主机。</p>
+<ol>
+<li><p><strong>http全局块</strong>：</p>
+<ul>
+<li>http全局块配置的指令包括文件引入，MIME-TYPE定义，日志自定义，连接超时时间，单链接请求数上限等。</li>
+</ul>
+</li>
+<li><p><strong>server块</strong>：每个server块也分为全局server块，以及可以同时包含多个location块。</p>
+<ul>
+<li>这块和虚拟主机有密切关系，虚拟主机从用户角度看，和一台独立的硬件主机是完全一样的，该技术的产生是为了节省互联网服务器硬件成本。</li>
+</ul>
+<ol>
+<li><strong>全局server块：</strong><ul>
+<li>最常见的配置是本虚拟机主机的监听配置和本虚拟主机的名称或IP配置。    </li>
+</ul>
+</li>
+<li><strong>location块</strong>：<ul>
+<li>这块的主要作用是基于nginx服务器接收到的请求字符串（例如server_name/uri-string），对虚拟主机名称（也可以是IP别名）之外的字符串（例如前面的/uri-string）进行匹配，对特定的请求进行处理，地址定向，数据缓存和应答控制等功能，还有许多第三方模块的配置也在这里进行。</li>
+<li><strong>location指令说明</strong>：该指令用于匹配URL<ul>
+<li><strong>=</strong> ：用于不含正则表达式的uri前，要求请求字符串与uri严格匹配，如果匹配成功，就停止继续向下搜索并立即处理该请求。</li>
+<li><strong>~</strong>：用于表示uri包含正则表达式，并且区分大小写</li>
+<li><strong>~*</strong>：用于表示uri包含正则表达式，并且不区分大小写</li>
+<li><strong>^~</strong>：用于不含正则表达式的uri前，要求nginx服务器找到标识uri和请求字符串匹配度最高的location后，立即使用此location处理请求，而不再使用location块中的正则uri和请求字符串做匹配。</li>
+<li>注意：如果uri包含正则表达式，则必须要有 <strong>~</strong> 或者 <strong>~*</strong> 标识。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location [&#x3D; | ~ | ~* | ^~] uri&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四，Nginx的常用命令-需要在-usr-local-nginx-sbin目录下使用"><a href="#四，Nginx的常用命令-需要在-usr-local-nginx-sbin目录下使用" class="headerlink" title="四，Nginx的常用命令:需要在/usr/local/nginx/sbin目录下使用"></a>四，Nginx的常用命令:需要在/usr/local/nginx/sbin目录下使用</h2><ul>
+<li>开启：./nginx</li>
+<li>关闭：</li>
+<li>./nginx -s stop（杀死进程，非正常退出）</li>
+<li>./nginx -s quit（保存配置后在退出，正常退出）</li>
+<li>重新加载：./nginx -s reload</li>
+<li>查看版本号：./nginx -v</li>
+</ul>
+<h2 id="五，静态资源的部署"><a href="#五，静态资源的部署" class="headerlink" title="五，静态资源的部署"></a>五，静态资源的部署</h2><ul>
+<li>修改/usr/local/nginx/conf目录下的nginx.conf配置文件<ul>
+<li>listen：为访问的端口</li>
+<li>server_name：为访问nginx的域名或IP地址</li>
+<li>root：为nginx访问静态资源的目录。</li>
+<li>index：为访问的资源名称</li>
+</ul>
+</li>
+</ul>
+<h2 id="六，nginx的反向代理和负载均衡"><a href="#六，nginx的反向代理和负载均衡" class="headerlink" title="六，nginx的反向代理和负载均衡"></a>六，nginx的反向代理和负载均衡</h2><ol>
+<li><strong>反向代理的概念</strong>：反向代理方式是指以代理服务器来接受Internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给Internet上请求连接给的客户端，此时代理服务器对外就表现为一个反向代理服务器。正向代理是针对你的客户端，而反向代理是针对服务器的</li>
+<li><strong>反向代理的配置</strong>：在nginx.conf中配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat-travel&#123;</span><br><span class="line">	server 47.92.139.26:8080;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">	listen 80; #默认端口号</span><br><span class="line">	server_name 47.92.139.26; #访问nginx的域名或端口号</span><br><span class="line">	location&#x2F;&#123;</span><br><span class="line">		#root index; #默认访问资源的目录</span><br><span class="line">		proxy_pass http:&#x2F;&#x2F;tomcat-travel;</span><br><span class="line">		index index.html index.html; #默认访问资源名称</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>负载均衡</strong>：nginx提供了几种分配方式（策略）</li>
+</ol>
+<ul>
+<li><strong>轮询（默认）</strong>：每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器dwon掉，能自动剔除。</li>
+<li><strong>weight</strong>：weight代表权重，默认为1，权重越高被分配的客户端越多，指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat-travel&#123;</span><br><span class="line">	server 47.92.139.26:8080 weight&#x3D;2;</span><br><span class="line">	server 192.168.177.129:8080;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">	listen 80; #默认端口号</span><br><span class="line">	server_name 47.92.139.26; #访问nginx的域名或端口号</span><br><span class="line">	location&#x2F;&#123;</span><br><span class="line">		#root index; #默认访问资源的目录</span><br><span class="line">		proxy_pass http:&#x2F;&#x2F;tomcat-travel;</span><br><span class="line">		index index.html index.html; #默认访问资源名称</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>ip_hash</strong>：每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat-travel&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line"> 	server 47.92.139.26:8080;</span><br><span class="line">	server 192.168.177.129:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>fair（第三方）</strong>：按后端服务器的响应时间分配，响应时间短的优先分配。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat-travel&#123;</span><br><span class="line">    server 47.92.139.26:8080;</span><br><span class="line">    server 192.168.177.129:8080;</span><br><span class="line">    fair;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="七，nginx的动静分离"><a href="#七，nginx的动静分离" class="headerlink" title="七，nginx的动静分离"></a>七，nginx的动静分离</h2><ol>
+<li>动静分离的概念理解：严格意义上说应该是动态请求和静态请求分开，可以理解成使用nginx来处理静态页面，Tomcat来处理动态页面；</li>
+<li>动静分离从目前实现角度来讲大致可以分为两种：<ol>
+<li>一种是纯粹把静态文件独立成单独的域名，放在独立的服务器上，也是目前主流推崇的方案；</li>
+<li>另一种方法就是动态跟静态文件混合在一起发布，通过nginx来分开。</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/09/07/Nginx/" data-id="ckn4dbngr0005dkuadalzfrzn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-RabbitMQ" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/09/07/RabbitMQ/" class="article-date">
@@ -552,7 +690,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/07/RabbitMQ/" data-id="cklg57uzt0007b8ua6ws9c1sk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/09/07/RabbitMQ/" data-id="ckn4dbngt0007dkuagugff6ze" class="article-share-link">Share</a>
       
       
     </footer>
@@ -926,7 +1064,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/09/Linux/" data-id="cklg57uz80003b8uaambh5a5m" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/09/Linux/" data-id="ckn4dbnev0003dkua8fm75p0i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1375,7 +1513,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/06/MybatisPlus/" data-id="cklg57uzc0004b8uaagxl8o34" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/06/MybatisPlus/" data-id="ckn4dbnex0004dkuafhx7d4m4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1489,7 +1627,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/" data-id="cklg57uz00001b8uabo7wew3q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/31/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/" data-id="ckn4dbnes0001dkua30nkcb2a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1853,7 +1991,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/SpringBoot/" data-id="cklg57v0a0009b8uafdp9glkz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/SpringBoot/" data-id="ckn4dbnh6000adkua4e3m6otk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2095,7 +2233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/Redis/" data-id="cklg57uzn0006b8ua9g4k5g1l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/Redis/" data-id="ckn4dbngs0006dkua5u0sgx8z" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2481,7 +2619,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="cklg57v020008b8ua86dp0hoy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/SSM%E6%95%B4%E5%90%88/" data-id="ckn4dbngy0008dkuahp1xdtie" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2822,7 +2960,7 @@ public void getParam(String username, Map&lt;String,User&gt; map){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/SpringMVC/" data-id="cklg57v0s000bb8ua2kegce4r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/SpringMVC/" data-id="ckn4dbnh30009dkuafo7c9ew7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -3263,171 +3401,7 @@ public void getParam(String username, Map&lt;String,User&gt; map){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/21/spring/" data-id="cklg57v1e000ib8uaenh42i3l" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-mybatis" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/07/17/mybatis/" class="article-date">
-  <time datetime="2020-07-17T02:44:21.000Z" itemprop="datePublished">2020-07-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/17/mybatis/">mybatis</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="一，mybatis的环境搭建"><a href="#一，mybatis的环境搭建" class="headerlink" title="一，mybatis的环境搭建"></a>一，mybatis的环境搭建</h3><ol>
-<li>mybatis的映射配置文件位置必须和dao接口的包结构相同   </li>
-<li>映射配置文件的mapper标签namespace属性的取值必须是dao接口的全限定类名   </li>
-<li>映射配置文件的操作配置（select等），id属性的取值必须是dao接口的方法名</li>
-</ol>
-<h3 id="二，读取配置文件的方法"><a href="#二，读取配置文件的方法" class="headerlink" title="二，读取配置文件的方法"></a>二，读取配置文件的方法</h3><ol>
-<li>使用类加载器，它只能读取类路径的配置文件   </li>
-<li>使用ServletContext对象的getRealPath（）获得当前项目的绝对路径</li>
-</ol>
-<h3 id="三，QueryVo"><a href="#三，QueryVo" class="headerlink" title="三，QueryVo"></a>三，QueryVo</h3><ul>
-<li><p>mybatis可以通过QueryVo来封装查询条件对象，并使用通过形如user.username的方式来获得查询条件值。  </p>
-  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findByVo"</span> <span class="attr">parameterType</span>=<span class="string">"com.itfang.www.po.QueryVo"</span> <span class="attr">resultType</span>=<span class="string">"com.itfang.www.po.User"</span>&gt;</span></span><br><span class="line">    select * from user where username like #&#123;user.username&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="四，建立实体类属性和表字段的映射关系"><a href="#四，建立实体类属性和表字段的映射关系" class="headerlink" title="四，建立实体类属性和表字段的映射关系"></a>四，建立实体类属性和表字段的映射关系</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--配置查询结果的列名和实体类的属性名的对应关系--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"userMap"</span> <span class="attr">type</span>=<span class="string">"com.itfang.www.po.User"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--配置主键的映射关系--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"userId"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--配置非主键字段的映射关系--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userName"</span> <span class="attr">column</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/		<span class="attr">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userBirthday"</span> 	<span class="attr">column</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userSex"</span> <span class="attr">column</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userAddress"</span> 	<span class="attr">column</span>=<span class="string">"address"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="五，properties标签：可以在标签内部配置连接数据库的信息，也可以通过属性引用外部配置文件信息，并且在配置property引用是使用-xxx-表达式获取值"><a href="#五，properties标签：可以在标签内部配置连接数据库的信息，也可以通过属性引用外部配置文件信息，并且在配置property引用是使用-xxx-表达式获取值" class="headerlink" title="五，properties标签：可以在标签内部配置连接数据库的信息，也可以通过属性引用外部配置文件信息，并且在配置property引用是使用${xxx}表达式获取值"></a>五，properties标签：可以在标签内部配置连接数据库的信息，也可以通过属性引用外部配置文件信息，并且在配置property引用是使用${xxx}表达式获取值</h3><ul>
-<li>resource属性【常用】：用于指定配置文件的位置，是按照类路径的写法来写，并且必须存在于类路径下  </li>
-<li>url属性：是要求按照url的写法来写地址</li>
-</ul>
-<h3 id="六，typeAliases标签："><a href="#六，typeAliases标签：" class="headerlink" title="六，typeAliases标签："></a>六，typeAliases标签：</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--       typeAlias用于配置别名.type属性指定的是实体类全限定类名.alias属性指定别名,当指定了别名就不在区分大小写 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        &lt;typeAlias type="com.itfang.www.po.User" alias="user"&gt;&lt;/typeAlias&gt;--&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--       package用于指定要配置别名的包,当指定之后,该包下的实体类都会注册别名,并且类名就是别名,不在区分大小写 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"com.itfang.www.po"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="七，mybatis的连接池"><a href="#七，mybatis的连接池" class="headerlink" title="七，mybatis的连接池"></a>七，mybatis的连接池</h3><ul>
-<li>配置的位置：主配置文件SqlMapConfig.xml中的dataSource标签，type属性就是表示采用何    种连接池方式  </li>
-<li>type属性的取值：  <ol>
-<li>POOLED：采用传统的javax.sql.DataSource规范中的连接池  </li>
-<li>UNPOOLED：采用传统的获取连接的方式，没有使用池的思想  </li>
-<li>JNDI：采用服务器提供的JNDI技术实现，来获取DataSource对象，不同服务器所拿到的DataSource不一样。注意：不是web或者maven的war工程，是不能使用。</li>
-</ol>
-</li>
-</ul>
-<h3 id="八，mybatis中的事务"><a href="#八，mybatis中的事务" class="headerlink" title="八，mybatis中的事务"></a>八，mybatis中的事务</h3><ul>
-<li><p>事务的四大特性ACID：原子性，一致性，隔离性，持久性  </p>
-<ol>
-<li>原子性：一个事务是一个不可分割的工作单位。  </li>
-<li>一致性：事务必须是使数据库从一个一致性状态变到另一个一致性状态。  </li>
-<li>隔离性：一个事务的执行不能被其他事务干扰。  </li>
-<li>持久性：一个事务一旦提交，他对数据库中数据的改变就应该是永久性的。</li>
-</ol>
-</li>
-<li><p>不考虑隔离性会导致的三个问题  </p>
-<ol>
-<li><strong>脏读</strong>：脏读是指在一个事务处理过程里读取了另一个未提交的事务中的数据。  </li>
-<li><strong>不可重复读</strong>：一个事务两次读取同一行的数据，结果得到不同状态的结果，中间正好另一个事务更新了该数据，两次结果相异，不可被信任。通俗来讲就是：事务T1在读取某一数据，而事务T2立马修改了这个数据并且提交事务给数据库，事务T1再次读取该数据就得到了不同的结果，发送了不可重复读。  </li>
-<li><strong>幻读（虚读</strong>）：一个事务执行两次查询，第二次结果集包含第一次中没有或某些行已经被删除的数据，造成两次结果不一致，只是另一个事务在这两次查询中间插入或删除了数据造成的。通俗来讲就是：例如事务T1对一个表中所有的行的某个数据项做了从“1”修改为“2”的操作，这时事务T2又对这个表中插入了一行数据项，而这个数据项的数值还是为“1”并且提交给数据库。而操作事务T1的用户如果再查看刚刚修改的数据，会发现还有一行没有修改，其实这行是从事务T2中添加的，就好像产生幻觉一样，这就是发生了幻读。</li>
-</ol>
-</li>
-</ul>
-<ul>
-<li>解决方法：四种隔离级别  <ol>
-<li><strong>Read Uncommited（读取未提交内容）</strong>：读未提交，顾名思义，就是一个事务可以读取另一个未提交事务的数据。但是，读未提交产生了脏读，采用读提交可以解决脏读问题。  </li>
-<li><strong>Read Commited（读取提交内容）</strong>：读提交，顾名思义，就是一个事务要等另一个事务提交后才能读取数据。读提交，若有事务对数据进行更新（UPDATE）操作时，读操作事务要等待这个更新操作事务提交后才能读取数据，可以解决脏读问题。但在这个事例中，出现了一个事务范围内两个相同的查询却返回了不同数据，这就是不可重复读。但是，读提交两次查询会产生不同的查询结果，就会造成不可重复读问题，采用重复读可以解决此问题。  </li>
-<li><strong>Repeatable Read（重复读）</strong>：重复读，就是在开始读取数据（事务开启）时，不再允许修改操作。重复读可以解决不可重复读问题。应该明白的一点就是，不可重复读对应的是修改，即UPDATE操作。但是可能还会有幻读问题。因为幻读问题对应的是插入INSERT操作，而不是UPDATE操作。采用Serializable可以解决幻读问题  </li>
-<li><strong>Serializable（可串行化）</strong>：Serializable 是最高的事务隔离级别，在该级别下，事务串行化顺序执行，可以避免脏读、不可重复读与幻读。但是这种事务隔离级别效率低下，比较耗数据库性能，一般不使用。  </li>
-</ol>
-</li>
-</ul>
-<h3 id="九，mybatis的xml中的if标签："><a href="#九，mybatis的xml中的if标签：" class="headerlink" title="九，mybatis的xml中的if标签："></a>九，mybatis的xml中的if标签：</h3><ul>
-<li>&lt; if test=”这里面的取值不需要使用#｛｝，直接user.xxx ！= null”&gt;&lt; /if&gt;     </li>
-</ul>
-<h3 id="十，mybatis中一对一查询时，根据外键来获取连接表的方式"><a href="#十，mybatis中一对一查询时，根据外键来获取连接表的方式" class="headerlink" title="十，mybatis中一对一查询时，根据外键来获取连接表的方式"></a>十，mybatis中一对一查询时，根据外键来获取连接表的方式</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--配置从表的实体类属性与表字段的映射关系--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"accountMap"</span> <span class="attr">type</span>=<span class="string">"Account"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"uid"</span> <span class="attr">column</span>=<span class="string">"uid"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"money"</span> <span class="attr">column</span>=<span class="string">"money"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        通过从表中user属性以及外键uid属性来关联实体类User--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">association</span> <span class="attr">property</span>=<span class="string">"user"</span> <span class="attr">column</span>=<span class="string">"uid"</span> <span class="attr">javaType</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--            配置主表的实体类属性与表字段的映射关系--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"username"</span> <span class="attr">column</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"sex"</span> <span class="attr">column</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"birthday"</span> <span class="attr">column</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"address"</span> <span class="attr">column</span>=<span class="string">"address"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">association</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="十一，mybatis中一对多查询时：在配置一（多）对多时，需要在SQL语句中将主表或者从表的其中一个id取别名，以区分出来哪个id属于哪个表"><a href="#十一，mybatis中一对多查询时：在配置一（多）对多时，需要在SQL语句中将主表或者从表的其中一个id取别名，以区分出来哪个id属于哪个表" class="headerlink" title="十一，mybatis中一对多查询时：在配置一（多）对多时，需要在SQL语句中将主表或者从表的其中一个id取别名，以区分出来哪个id属于哪个表"></a>十一，mybatis中一对多查询时：在配置一（多）对多时，需要在SQL语句中将主表或者从表的其中一个id取别名，以区分出来哪个id属于哪个表</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--    配置主表的实体类属性和表字段的映射关系--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"findAccountUser"</span> <span class="attr">type</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"username"</span> <span class="attr">column</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"sex"</span> <span class="attr">column</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"birthday"</span> <span class="attr">column</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"address"</span> <span class="attr">column</span>=<span class="string">"address"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        通过主表的中accounts属性来关联account--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collection</span> <span class="attr">property</span>=<span class="string">"accounts"</span> <span class="attr">ofType</span>=<span class="string">"Account"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--            配置从表的实体类属性和表字段的映射关系--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"aid"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"uid"</span> <span class="attr">column</span>=<span class="string">"uid"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"money"</span> <span class="attr">column</span>=<span class="string">"money"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collection</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="十二，mybatis中的延迟加载"><a href="#十二，mybatis中的延迟加载" class="headerlink" title="十二，mybatis中的延迟加载"></a>十二，mybatis中的延迟加载</h3><ul>
-<li><p>延迟加载：在真正需要数据时，才执行数据加载的操作。（按需加载又叫懒加载）  </p>
-</li>
-<li><p>立即加载：一调用方法立即执行数据加载操作。  </p>
-</li>
-<li><p>在对应的四种表关系中：一对一，多对一一般使用立即加载；一对多，多对多一般使用延迟加载<br>开启延迟加载的配置： </p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--    配置mybatis的全局懒加载--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"lazyLoadingEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"aggressiveLazyLoading"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-</li>
-</ul>
-<h3 id="十三，mybatis中的缓存"><a href="#十三，mybatis中的缓存" class="headerlink" title="十三，mybatis中的缓存"></a>十三，mybatis中的缓存</h3><ul>
-<li>缓存适用的条件：  <ol>
-<li>经常查询且不经常改变的数据  </li>
-<li>数据的正确与否对最终结果影响不大  </li>
-</ol>
-</li>
-</ul>
-<ul>
-<li><strong>一级缓存</strong>：它指的是mybatis中SqlSession对象的缓存。当我们执行查询之后，查询结果会同时存入到SqlSession为我们提供一块区域中。该区域的结构是一个map。当我们再次查询同样的数据，mybatis会先去SqlSession域中查询是否有，有的话直接拿出来使用。当SqlSession对象消失时，mybatis的一级缓存也就消失了。<strong>而且当调用SqlSession的修改，添加，删除，commit（），close（）等方法时，就会清空一级缓存。</strong></li>
-</ul>
-<ul>
-<li><p>二级缓存：它指的是mybatis中SqlSessionFactory对象的缓存。由同一个SqlSessionFactory对象创建的SqlSession共享其缓存。且<strong>二级缓存中存储的是数据而不是对象</strong>  </p>
-<ol>
-<li><p>二级缓存的使用步骤:</p>
-<ol>
-<li><p>让mybatis框架支持二级缓存（在SqlMapConfig.xml中配置）</p>
-<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   <span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"cacheEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure></code></pre></li>
-<li><p>让当前的映射文件支持二级缓存（在IUserDao.xml中配置） </p>
-<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">cache</span>/&gt;</span></span><br></pre></td></tr></table></figure></code></pre></li>
-<li><p>让当前的操作支持二级缓存（在select标签中配置）        </p>
-<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAll"</span> <span class="attr">resultType</span>=<span class="string">"User"</span> <span class="attr">useCache</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">		select * from user</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure></code></pre></li>
-</ol>
-</li>
-</ol>
-</li>
-</ul>
-<h3 id="十四，mybatis注解开发"><a href="#十四，mybatis注解开发" class="headerlink" title="十四，mybatis注解开发"></a>十四，mybatis注解开发</h3><ul>
-<li>当使用注解的同时，在配置文件的相应路径下仍有相应的xml，则会报错。</li>
-</ul>
-<h3 id="十五，PageHelper"><a href="#十五，PageHelper" class="headerlink" title="十五，PageHelper"></a><strong>十五，PageHelper</strong></h3><ol>
-<li><p>导入依赖</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在applicationContext配置文件中配置PageHelper插件</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--    配置SqlSessionFactory工厂--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        传入PageHelper--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"plugins"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--                传入插件对象--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.github.pagehelper.PageInterceptor"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"properties"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"helperDialect"</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"reasonable"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>分页插件参数介绍</p>
-<ul>
-<li><strong>helperDialect：</strong>分页插件会自动检测当前的数据库连接，自动选择合适的分页方式</li>
-<li><strong>offsetAsPageNum:</strong>默认值为<strong>false</strong>，该参数对使用<strong>RowBounds</strong>作为分页参数时有效。当该参数设置为<strong>true</strong>时，会将<strong>RowBounds</strong>中的<strong>offset</strong>参数当成<strong>pageNum</strong>使用，可以用页码和页面大小两个参数进行分页</li>
-<li><strong>rowBoundsWithCount</strong>：默认值为<strong>false</strong>，该参数对使用<strong>RowBounts</strong>作为分页参数时有效。当该参数设置为<strong>true</strong>时，使用<strong>RowBounds</strong>分页会进行count查询。</li>
-<li><strong>pageSizeZero</strong>：默认值为<strong>false</strong>，当该参数设置为<strong>true</strong>时，如果<strong>pageSize=0</strong>或者<strong>RowBounds.limit=0</strong>就会查询出全部的结果（相当于没有执行分页查询，但返回结果仍然是<strong>Page</strong>类型）</li>
-<li><strong>reasonable</strong>：分页合理化参数，默认值为<strong>false</strong>。当该参数设置为<strong>true</strong>时，<strong>pageNum&lt;=0</strong>时会查询第一页,<strong>pageNum</strong>&gt;<strong>pages</strong>（超过总数时），会查询最后一页。默认<strong>false</strong>时，直接根据参数进行查询。</li>
-<li><strong>params</strong>：为了支持<strong>startPage（Object params）</strong>方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值，可以配置<strong>pageNum，pageSize，count，pageSizeZero，reasonable，</strong>不配置映射的用默认值，默认值为<strong>pageNum=pageNum:pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero</strong></li>
-<li><strong>supprotMethodsArguments：</strong>支持通过<strong>Mapper</strong>接口参数来传递分页参数，默认值为<strong>false</strong>，分页插件会从查询方法的参数中，自动根据上面<strong>params</strong>配置的字段中取值，查找到合适的值时就会自动分页。</li>
-<li><strong>autoRuntimeDialect</strong>：默认值为<strong>false</strong>，设置为<strong>true</strong>时，允许在运行时根据多数据源自动识别对应方言的分页（不支持自动选择sqlserver2012,只能使用sqlserver）</li>
-<li><strong>closeConn</strong>；默认值而为<strong>true</strong>，当使用运行时动态数据源或没有设置<strong>helperDialect</strong>属性自动获取数据库类型时，会自动获取一个数据库连接，通过该属性来设置是否关闭获取的这个来连接，默认<strong>true</strong>关闭，设置为<strong>false</strong>后，不会关系获取的连接，这个参数的设置要根据自己选择的数据源来决定</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/17/mybatis/" data-id="cklg57v16000eb8uaa0nk933t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/21/spring/" data-id="ckn4dbnhn000idkua7uajf1i9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -3487,6 +3461,10 @@ public void getParam(String username, Map&lt;String,User&gt; map){
       <ul>
         
           <li>
+            <a href="/2021/02/22/dubbo/">dubbo</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/03/java%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/">java异常处理机制</a>
           </li>
         
@@ -3500,10 +3478,6 @@ public void getParam(String username, Map&lt;String,User&gt; map){
         
           <li>
             <a href="/2021/01/20/SpringCloud/">SpringCloud</a>
-          </li>
-        
-          <li>
-            <a href="/2020/10/11/%E8%BF%9C%E7%A8%8B%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/">远程部署项目</a>
           </li>
         
       </ul>
